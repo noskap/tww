@@ -119,17 +119,17 @@ void dMagma_ballPath_c::update() {
 
 /* 800758B4-80075A6C       .text setup__17dMagma_ballPath_cFfUci */
 void dMagma_ballPath_c::setup(f32 offsY, u8 pathNo, int roomNo) {
-    /* Nonmatching */
     dPath* path = dPath_GetRoomPath(pathNo, roomNo);
-    s32 ptNo = (s32)cM_rndF(path->m_num - 1);
-    dPnt* pt = &path->m_points[ptNo];
-    mPos.x = pt->m_position.x + cM_rndFX(pt->mArg3 * 100.0f);
-    mPos.z = pt->m_position.z + cM_rndFX(pt->mArg3 * 100.0f);
-    mScale = cM_rndF(1.0f) + 1.0f;
+
+    dPnt* pt = &path->m_points[(s32)cM_rndF(path->m_num - 1)];
+    mPos.x = pt->m_position.x + cM_rndFX(100.0f * pt->mArg3);
+    mPos.z = pt->m_position.z + cM_rndFX(100.0f * pt->mArg3);
+    mScale = 1.0f + cM_rndF(1.0f);
     mBaseY = offsY - cM_rndF(20.0f);
-    mWave = cM_rndF(8.0f) * 4096.0f;
-    mPos.y = mBaseY + (cM_ssin(mWave) - 1.0f) * 100.0f;
+    mWave = (s16)(4096.0f * cM_rndF(8.0f));
+    mPos.y = mBaseY + 100.0f * (cM_ssin(mWave) - 1.0f);
     mPathTimer = 0;
+
     mDoMtx_stack_c::transS(mPos);
     mDoMtx_stack_c::scaleM(mScale, 1.0f, mScale);
     mDoMtx_copy(mDoMtx_stack_c::get(), mTexProjMtx);
