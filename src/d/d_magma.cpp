@@ -397,6 +397,7 @@ inline BOOL dMagma_floor_c::chkZ(cXyz& pos) {
 
 /* 800767E4-80076924       .text checkYpos__15dMagma_packet_cFR4cXyz */
 f32 dMagma_packet_c::checkYpos(cXyz& pos) {
+    f32 f1;
     f32 ret = -1e8f;
     dMagma_floor_c* floor = mFloor;
 
@@ -404,20 +405,22 @@ f32 dMagma_packet_c::checkYpos(cXyz& pos) {
         if (floor->mpBalls == NULL)
             continue;
 
-        f32 dy = pos.y - floor->getPos().y;
-        if (std::fabsf(dy) <= 236.803879f &&
-            floor->chkX(pos) &&
-            floor->chkZ(pos)) {
+        if (std::fabsf(pos.y - floor->getPos().y) <= 236.803879f) {
+            f1 = pos.x - floor->getPos().x;
+            if (std::fabsf(f1) <= 500.0f * floor->getScaleX()) {
+                f1 = pos.z - floor->getPos().z;
+                if (std::fabsf(f1) <= 500.0f * floor->getScaleZ()) {
+                    dMagma_ball_c** ball = floor->getBall();
+                    for (s32 j = 0; j < floor->getBallNum(); ball++, j++) {
+                        f32 y;
+                        if ((*ball)->rangeCheck(pos, &y)) {
+                            if (y < floor->getPos().y)
+                                y = floor->getPos().y;
 
-            dMagma_ball_c** ball = floor->getBall();
-            for (s32 j = 0; j < floor->getBallNum(); ball++, j++) {
-                f32 y;
-                if ((*ball)->rangeCheck(pos, &y)) {
-                    if (y < floor->getPos().y)
-                        y = floor->getPos().y;
-
-                    if (y > ret)
-                        ret = y;
+                            if (y > ret)
+                                ret = y;
+                        }
+                    }
                 }
             }
         }
