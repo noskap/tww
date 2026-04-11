@@ -383,17 +383,6 @@ void dMagma_packet_c::update() {
     j3dSys.getDrawBuffer(0)->entryImm(this, 0);
 }
 
-inline BOOL dMagma_floor_c::chkX(cXyz& pos) {
-    f32 dx = pos.x - getPos().x;
-    f32 scale = getScaleX();
-    return std::abs(dx) <= 500.0f * scale;
-}
-
-inline BOOL dMagma_floor_c::chkZ(cXyz& pos) {
-    f32 dz = pos.z - getPos().z;
-    f32 scale = getScaleZ();
-    return std::abs(dz) <= 500.0f * scale;
-}
 
 /* 800767E4-80076924       .text checkYpos__15dMagma_packet_cFR4cXyz */
 f32 dMagma_packet_c::checkYpos(cXyz& pos) {
