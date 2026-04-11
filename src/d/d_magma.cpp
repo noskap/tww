@@ -105,7 +105,7 @@ void dMagma_ballPath_c::calc(f32 offsY, u8 pathNo, int roomNo) {
         mWave = 0;
     }
 
-    if (cLib_calcTimer(&mPathTimer) == 0) {
+    if (cLib_calcTimer(&mWave) == 0) {
         mWave += 200;
         mPos.y = mBaseY + (cM_ssin(mWave) - 1.0f) * 100.0f;
     }
@@ -383,16 +383,32 @@ void dMagma_packet_c::update() {
     j3dSys.getDrawBuffer(0)->entryImm(this, 0);
 }
 
+inline BOOL dMagma_floor_c::chkX(cXyz& pos) {
+    f32 dx = pos.x - getPos().x;
+    f32 scale = getScaleX();
+    return std::abs(dx) <= 500.0f * scale;
+}
+
+inline BOOL dMagma_floor_c::chkZ(cXyz& pos) {
+    f32 dz = pos.z - getPos().z;
+    f32 scale = getScaleZ();
+    return std::abs(dz) <= 500.0f * scale;
+}
+
 /* 800767E4-80076924       .text checkYpos__15dMagma_packet_cFR4cXyz */
 f32 dMagma_packet_c::checkYpos(cXyz& pos) {
-    /* Nonmatching */
-    f32 ret = -1e8;
+    f32 ret = -1e8f;
     dMagma_floor_c* floor = mFloor;
+
     for (s32 i = 0; i < (s32)ARRAY_SIZE(mFloor); floor++, i++) {
         if (floor->mpBalls == NULL)
             continue;
 
-        if (std::fabsf(pos.y - floor->getPos().y) <= 236.803879f && std::fabsf(pos.x - floor->getPos().x) <= floor->getScaleX() * 500.0f && std::fabsf(pos.z - floor->getPos().z) <= floor->getScaleZ() * 500.0f) {
+        f32 dy = pos.y - floor->getPos().y;
+        if (std::fabsf(dy) <= 236.803879f &&
+            floor->chkX(pos) &&
+            floor->chkZ(pos)) {
+
             dMagma_ball_c** ball = floor->getBall();
             for (s32 j = 0; j < floor->getBallNum(); ball++, j++) {
                 f32 y;
