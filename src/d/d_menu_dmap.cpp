@@ -158,15 +158,15 @@ void dMenu_Dmap_c::bossEyeAnime() {
     s16 halfMax = field_0x1e2c / 2;  
     field_0xd62++;
 
-    f32 alpha;  
-    if (field_0x1e36 == 0) {
-        alpha = 0.0f;
-    } else {
+    f32 alpha;
+    if (field_0x1e36 != 0) {
         if (field_0xd62 < halfMax) {
             alpha = fopMsgM_valueIncrease(halfMax, field_0xd62, 2);
         } else {
             alpha = fopMsgM_valueIncrease(halfMax, field_0x1e2c - field_0xd62, 2);
         }
+    } else {
+        alpha = 0.0f;
     }
 
     if (field_0xd62 == field_0x1e2c) {
@@ -174,10 +174,10 @@ void dMenu_Dmap_c::bossEyeAnime() {
 
         field_0x1e2c = (s16)((int)(cM_rndF(18.0f) + 40.0f) << 1);
 
-        if (field_0x1e36 == 0) {
-            field_0x1e36 = 1;
-        } else {
+        if (field_0x1e36 != 0) {
             field_0x1e36 = 0;
+        } else {
+            field_0x1e36 = 1;
         }
     }
 
