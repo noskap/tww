@@ -125,20 +125,24 @@ void dMenu_Dmap_c::screenSet() {
     fopMsgM_setPaneData(&mNo11Pane, mpScreen2, 'no11');
     fopMsgM_setPaneData(&mMsk0Pane, mpScreen2, 'msk0');
 
+    J2DPane* no11Pane = mNo11Pane.pane;
+    mNo11Pane.mUserArea = (s16)(int)no11Pane->getRotate();
 
     J2DTextBox* stroPane = (J2DTextBox*)mStroPane.pane;
-    stroPane->setFont(mRFont);
-    stroPane->setWhite(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF));
-    stroPane->setBlack(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF)); // 0xf8
-    stroPane->setCharColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
-    stroPane->setGradColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
-
     J2DTextBox* st00Pane = (J2DTextBox*)mSt00Pane.pane;
+
+    stroPane->setFont(mRFont);
     st00Pane->setFont(mFont);
-    st00Pane->setWhite(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF));
-    st00Pane->setBlack(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF));
-    st00Pane->setCharColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
-    st00Pane->setGradColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
+
+    stroPane->setWhite(0xFFFFFFFF);
+    stroPane->setBlack(0xFFFFFFFF); // Note: 0xf8
+    stroPane->setCharColor(0x000000FF);
+    stroPane->setGradColor(0x000000FF);
+
+    st00Pane->setWhite(0xFFFFFFFF);
+    st00Pane->setBlack(0xFFFFFFFF);
+    st00Pane->setCharColor(0x000000FF);
+    st00Pane->setGradColor(0x000000FF);
 
     fopMsgM_setPaneData(&mDtlePane, mpScreen2, 'dtle');
     J2DTextBox* dtlePane = (J2DTextBox*)mDtlePane.pane;
