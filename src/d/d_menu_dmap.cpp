@@ -310,7 +310,7 @@ void dMenu_Dmap_c::noteInit() {
 
 /* 801AC2D8-801AC2EC       .text noteCheck__12dMenu_Dmap_cFv */
 bool dMenu_Dmap_c::noteCheck() {
-    return field_0x0972 == 1 ? TRUE : FALSE;
+    return mNk00Pane.mUserArea == 1 ? TRUE : FALSE;
 }
 
 /* 801AC2EC-801AC390       .text noteAppear__12dMenu_Dmap_cFv */
@@ -391,21 +391,21 @@ void dMenu_Dmap_c::bossAnime() {
 /* 801AE550-801AE65C       .text bossEyeAnime__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::bossEyeAnime() {
     s16 halfMax = field_0x1e2c / 2;
-    field_0xd62++;
+    mBey1Pane.mUserArea++;
 
     f32 alpha;
     if (field_0x1e36 != 0) {
-        if (field_0xd62 < halfMax) {
-            alpha = fopMsgM_valueIncrease(halfMax, field_0xd62, 2);
+        if (mBey1Pane.mUserArea < halfMax) {
+            alpha = fopMsgM_valueIncrease(halfMax, mBey1Pane.mUserArea, 2);
         } else {
-            alpha = fopMsgM_valueIncrease(halfMax, field_0x1e2c - field_0xd62, 2);
+            alpha = fopMsgM_valueIncrease(halfMax, field_0x1e2c - mBey1Pane.mUserArea, 2);
         }
     } else {
         alpha = 0.0f;
     }
 
-    if (field_0xd62 == field_0x1e2c) {
-        field_0xd62 = 0;
+    if (mBey1Pane.mUserArea == field_0x1e2c) {
+        mBey1Pane.mUserArea = 0;
         field_0x1e2c = (s16)((int)(cM_rndF(18.0f) + 40.0f) << 1);
 
         if (field_0x1e36 != 0) {
@@ -415,8 +415,8 @@ void dMenu_Dmap_c::bossEyeAnime() {
         }
     }
 
-    fopMsgM_setNowAlpha((fopMsgM_pane_class*)((u8*)this + 0xd2c), alpha);
-    fopMsgM_setNowAlpha((fopMsgM_pane_class*)((u8*)this + 0xd64), alpha);
+    fopMsgM_setNowAlpha(&mBey1Pane, alpha);
+    fopMsgM_setNowAlpha(&mBey2Pane, alpha);
 }
 
 /* 801AE65C-801AEB88       .text _create__12dMenu_Dmap_cFv */
