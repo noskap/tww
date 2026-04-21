@@ -155,10 +155,10 @@ void dMenu_Dmap_c::bossAnime() {
 
 /* 801AE550-801AE65C       .text bossEyeAnime__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::bossEyeAnime() {
-    int halfMax = field_0x1e2c / 2;
+    s16 halfMax = field_0x1e2c / 2;  
     field_0xd62++;
 
-    f32 alpha = 0.0f;
+    f32 alpha;  
     if (field_0x1e36 == 0) {
         alpha = 0.0f;
     } else {
@@ -172,6 +172,7 @@ void dMenu_Dmap_c::bossEyeAnime() {
     if (field_0xd62 == field_0x1e2c) {
         field_0xd62 = 0;
 
+        field_0x1e2c = (s16)((int)(cM_rndF(18.0f) + 40.0f) << 1);
 
         if (field_0x1e36 == 0) {
             field_0x1e36 = 1;
