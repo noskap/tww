@@ -2,6 +2,7 @@
 #define D_MENU_DMAP_H
 
 #include "dolphin/types.h"
+#include "JSystem/JUtility/TColor.h"
 #include "d/d_menu_base.h"
 
 class J2DPane;
@@ -97,6 +98,35 @@ STATIC_ASSERT(sizeof(dMenu_Dmap_c) == 0x1E38);
 class dMd_HIO_c {
 public:
     dMd_HIO_c();
-};
+    virtual ~dMd_HIO_c() {}
+
+    /* 0x04 */ u8 _pad_0x04[2];
+    /* 0x06 */ s16 field_0x06;
+    /* 0x08 */ s16 field_0x08;
+    /* 0x0a */ s16 field_0x0a;
+    /* 0x0c */ s16 field_0x0c;
+    /* 0x0e */ u8 _pad_0x0e[2];
+    /* 0x10 */ JUtility::TColor mColor0;
+    /* 0x14 */ JUtility::TColor mColor1;
+    /* 0x18 */ s16 field_0x18;
+    /* 0x1a */ s16 field_0x1a;
+    /* 0x1c */ JUtility::TColor mColor2;
+    /* 0x20 */ JUtility::TColor mColor3;
+    /* 0x24 */ s16 field_0x24;
+    /* 0x26 */ s16 field_0x26;
+    /* 0x28 */ JUtility::TColor mColor4;
+    /* 0x2c */ JUtility::TColor mColor5;
+    /* 0x30 */ s16 field_0x30;
+    /* 0x32 */ s16 field_0x32;
+    /* 0x34 */ JUtility::TColor mColor6;
+    /* 0x38 */ JUtility::TColor mColor7;
+    /* 0x3c */ s16 field_0x3c;
+    /* 0x3e */ s16 field_0x3e;
+    /* 0x40 */ s16 field_0x40;
+    /* 0x42 */ s16 field_0x42;
+    /* 0x44 */ s16 field_0x44;
+    /* 0x46 */ s16 field_0x46;
+    /* 0x48 */ s16 field_0x48;
+}; // Size: 0x4c
 
 #endif /* D_MENU_DMAP_H */

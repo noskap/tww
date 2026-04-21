@@ -11,6 +11,31 @@
 /* 801A86A4-801A87CC       .text __ct__9dMd_HIO_cFv */
 dMd_HIO_c::dMd_HIO_c() {
     /* Nonmatching */
+    field_0x06 = 0;
+    field_0x08 = 0;
+    field_0x0a = 0xe;
+    field_0x0c = 0xe;
+    mColor0.r = 0xff; mColor0.g = 0xc4; mColor0.b = 0x00; mColor0.a = 0xff;
+    mColor1.r = 0x20; mColor1.g = 0x20; mColor1.b = 0x00; mColor1.a = 0x00;
+    field_0x18 = 0x20;
+    field_0x1a = 0x20;
+    mColor2.r = 0xff; mColor2.g = 0xff; mColor2.b = 0xff; mColor2.a = 0xff;
+    mColor3.r = 0x00; mColor3.g = 0x00; mColor3.b = 0x00; mColor3.a = 0x00;
+    field_0x24 = 0x10;
+    field_0x26 = 0x8;
+    mColor4.r = 0xa8; mColor4.g = 0xa8; mColor4.b = 0xa8; mColor4.a = 0xff;
+    mColor5.r = 0x40; mColor5.g = 0x20; mColor5.b = 0x00; mColor5.a = 0x00;
+    field_0x30 = 0x10;
+    field_0x32 = 0x10;
+    mColor6.r = 0xff; mColor6.g = 0x00; mColor6.b = 0xff; mColor6.a = 0xff;
+    mColor7.r = 0x00; mColor7.g = 0x00; mColor7.b = 0x00; mColor7.a = 0x00;
+    field_0x3c = 0x4;
+    field_0x3e = 0xa;
+    field_0x40 = 0x2;
+    field_0x42 = 0x2;
+    field_0x44 = 0x2;
+    field_0x46 = 0x2;
+    field_0x48 = 0x2;
 }
 
 /* 801A87CC-801A8818       .text changeFloorTexture__12dMenu_Dmap_cFP7J2DPanei */
@@ -155,7 +180,7 @@ void dMenu_Dmap_c::bossAnime() {
 
 /* 801AE550-801AE65C       .text bossEyeAnime__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::bossEyeAnime() {
-    s16 halfMax = field_0x1e2c / 2;  
+    s16 halfMax = field_0x1e2c / 2;
     field_0xd62++;
 
     f32 alpha;
@@ -171,7 +196,6 @@ void dMenu_Dmap_c::bossEyeAnime() {
 
     if (field_0xd62 == field_0x1e2c) {
         field_0xd62 = 0;
-
         field_0x1e2c = (s16)((int)(cM_rndF(18.0f) + 40.0f) << 1);
 
         if (field_0x1e36 != 0) {
