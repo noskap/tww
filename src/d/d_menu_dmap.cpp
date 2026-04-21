@@ -7,6 +7,8 @@
 #include "d/d_menu_dmap.h"
 #include "d/d_stage.h"
 #include "f_op/f_op_msg_mng.h"
+#include "JSystem/J2DGraph/J2DTextBox.h"
+#include "JSystem/J2DGraph/J2DWindow.h"
 
 /* 801A86A4-801A87CC       .text __ct__9dMd_HIO_cFv */
 dMd_HIO_c::dMd_HIO_c() {
@@ -14,30 +16,42 @@ dMd_HIO_c::dMd_HIO_c() {
     field_0x08 = 0;
     field_0x0a = 0xe;
     field_0x0c = 0xe;
-    // Pair 0+1: rgb first for both, then alpha for both
-    mColor0.r = 0xff; mColor0.g = 0xc4; mColor0.b = 0x00;
-    mColor1.r = 0x20; mColor1.g = 0x20; mColor1.b = 0x00;
+    mColor0.r = 0xff;
+    mColor0.g = 0xc4;
+    mColor0.b = 0x00;
+    mColor1.r = 0x20;
+    mColor1.g = 0x20;
+    mColor1.b = 0x00;
     mColor0.a = 0xff;
     mColor1.a = 0x00;
     field_0x24 = 0x10;
     field_0x26 = 0x8;
-    // Pair 4+5
-    mColor4.r = 0xa8; mColor4.g = 0xa8; mColor4.b = 0xa8;
-    mColor5.r = 0x40; mColor5.g = 0x20; mColor5.b = 0x00;
+    mColor4.r = 0xa8;
+    mColor4.g = 0xa8;
+    mColor4.b = 0xa8;
+    mColor5.r = 0x40;
+    mColor5.g = 0x20;
+    mColor5.b = 0x00;
     mColor4.a = 0xff;
     mColor5.a = 0x00;
     field_0x18 = 0x20;
     field_0x1a = 0x20;
-    // Pair 2+3
-    mColor2.r = 0xff; mColor2.g = 0xff; mColor2.b = 0xff;
-    mColor3.r = 0x00; mColor3.g = 0x00; mColor3.b = 0x00;
+    mColor2.r = 0xff;
+    mColor2.g = 0xff;
+    mColor2.b = 0xff;
+    mColor3.r = 0x00;
+    mColor3.g = 0x00;
+    mColor3.b = 0x00;
     mColor2.a = 0xff;
     mColor3.a = 0x00;
     field_0x30 = 0x10;
     field_0x32 = 0x10;
-    // Pair 6+7
-    mColor6.r = 0xff; mColor6.g = 0x00; mColor6.b = 0xff;
-    mColor7.r = 0x00; mColor7.g = 0x00; mColor7.b = 0x00;
+    mColor6.r = 0xff;
+    mColor6.g = 0x00;
+    mColor6.b = 0xff;
+    mColor7.r = 0x00;
+    mColor7.g = 0x00;
+    mColor7.b = 0x00;
     mColor6.a = 0xff;
     mColor7.a = 0x00;
     field_0x3c = 0x4;
@@ -50,13 +64,194 @@ dMd_HIO_c::dMd_HIO_c() {
 }
 
 /* 801A87CC-801A8818       .text changeFloorTexture__12dMenu_Dmap_cFP7J2DPanei */
-void dMenu_Dmap_c::changeFloorTexture(J2DPane*, int) {
-    /* Nonmatching */
+void dMenu_Dmap_c::changeFloorTexture(J2DPane* pane, int idx) {
+    static const char* floor_name[] = {
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+    };
+
+    if (idx < 0 || idx >= 0x14) {
+        idx = 0;
+    }
+
+    ((J2DPicture*)pane)->changeTexture(floor_name[idx], 0);
 }
 
 /* 801A8818-801A92D4       .text screenSet__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::screenSet() {
-    /* Nonmatching */
+    static const u32 l_ft[] = { 0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0 };
+    static const u32 l_fd[] = { 0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0 };
+    static const u32 l_car[] = { 0x0,0x0,0x0,0x0 };
+    static const u32 l_it[] = { 0x0,0x0,0x0 };
+    static const u32 l_ik[] = { 0x0,0x0,0x0 };
+    static const u32 l_ip[] = { 0x0,0x0,0x0 };
+    static const u32 l_lnk[] = { 0x0,0x0,0x0 };
+    static const u32 l_fl[] = { 0x0,0x0,0x0,0x0,0x0,0x0 };
+    static const u32 l_fb[] = { 0x0,0x0,0x0,0x0,0x0,0x0 };
+    static const u32 l_fbk[] = { 0x0,0x0,0x0,0x0,0x0,0x0 };
+    static const char* itmTex[] = { 0,0,0 };
+    
+    for (int i = 0; i < 15; i++) {
+        fopMsgM_setPaneData(&mFtPanes[i], mpScreen2, l_ft[i]);
+        fopMsgM_setPaneData(&mFdPanes[i], mpScreen2, l_fd[i]);
+    }
+
+    for (int i = 0; i < 4; i++) {
+        fopMsgM_setPaneData(&mCarPanes[i], mpScreen, l_car[i]);
+    }
+
+    fopMsgM_setPaneData(&mNm00Pane, mpScreen2, 'nm00');
+    J2DTextBox* nm00Pane = (J2DTextBox*)mNm00Pane.pane;
+    nm00Pane->setFont(mFont);
+
+    fopMsgM_setPaneData(&mNm01Pane, mpScreen2, 'nm01');
+    J2DTextBox* nm01Pane = (J2DTextBox*)mNm01Pane.pane;
+    nm01Pane->setFont(mFont);
+
+    fopMsgM_setPaneData(&mItnmPane, mpScreen2, 'itnm');
+    fopMsgM_setPaneData(&mItnkPane, mpScreen2, 'itnk');
+
+    fopMsgM_setPaneData(&mStroPane, mpScreen2, 'str0');
+    fopMsgM_setPaneData(&mSt00Pane, mpScreen2, 'st00');
+
+    if (g_dComIfG_gameInfo.save.getPlayer().getConfig().getRuby() == 0) {
+        fopMsgM_paneTrans(&mSt00Pane, 0.0f, 15.0f);
+    }
+
+    fopMsgM_setPaneData(&mNt00Pane, mpScreen2, 'nt00');
+    fopMsgM_setPaneData(&mNk00Pane, mpScreen2, 'nk00');
+    fopMsgM_setPaneData(&mNo11Pane, mpScreen2, 'no11');
+    fopMsgM_setPaneData(&mMsk0Pane, mpScreen2, 'msk0');
+
+
+    J2DTextBox* stroPane = (J2DTextBox*)mStroPane.pane;
+    stroPane->setFont(mRFont);
+    stroPane->setWhite(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF));
+    stroPane->setBlack(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF)); // 0xf8
+    stroPane->setCharColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
+    stroPane->setGradColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
+
+    J2DTextBox* st00Pane = (J2DTextBox*)mSt00Pane.pane;
+    st00Pane->setFont(mFont);
+    st00Pane->setWhite(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF));
+    st00Pane->setBlack(JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF));
+    st00Pane->setCharColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
+    st00Pane->setGradColor(JUtility::TColor(0x00, 0x00, 0x00, 0xFF));
+
+    fopMsgM_setPaneData(&mDtlePane, mpScreen2, 'dtle');
+    J2DTextBox* dtlePane = (J2DTextBox*)mDtlePane.pane;
+    dtlePane->setFont(mFont);
+
+    dnameSet();
+
+    fopMsgM_setPaneData(&mDt00Pane, mpScreen2, 'dt00');
+    fopMsgM_setPaneData(&mDk00Pane, mpScreen2, 'dk00');
+
+    for (int i = 0; i < 3; i++) {
+        fopMsgM_setPaneData(&mItPanes[i], mpScreen, l_it[i]);
+        fopMsgM_setPaneData(&mIkPanes[i], mpScreen, l_ik[i]);
+
+        JKRArchive::readTypeResource(arr_0x1AFC[i], 0xc00, 'TIMG', itmTex[i], g_dComIfG_gameInfo.play.mpItemIconArchive);
+        
+        ((J2DPicture*)mItPanes[i].pane)->changeTexture((ResTIMG*)arr_0x1AFC[i], 0);
+        ((J2DPicture*)mIkPanes[i].pane)->changeTexture((ResTIMG*)arr_0x1AFC[i], 0);
+        
+        fopMsgM_setPaneData(&mIpPanes[i], mpScreen, l_ip[i]);
+    }
+
+    fopMsgM_setPaneData(&mIp01Pane, mpScreen, 'ip01');
+
+    for (int i = 0; i < 3; i++) {
+        fopMsgM_setPaneData(&mLnkPanes[i], mpScreen, l_lnk[i]);
+    }
+
+    fopMsgM_setPaneData(&mBey1Pane, mpScreen, 'bey1');
+    fopMsgM_setPaneData(&mBey2Pane, mpScreen, 'bey2');
+    fopMsgM_setPaneData(&mBossPane, mpScreen, 'boss');
+    fopMsgM_setPaneData(&mBos2Pane, mpScreen, 'bos2');
+
+    for (int i = 0; i < 6; i++) {
+        fopMsgM_setPaneData(&mFlPanes[i], mpScreen, l_fl[i]);
+        fopMsgM_setPaneData(&mFbPanes[i], mpScreen, l_fb[i]);
+        fopMsgM_setPaneData(&mFbkPanes[i], mpScreen, l_fbk[i]);
+    }
+
+    J2DWindow* baseWindow = (J2DWindow*)mFbPanes[0].pane;
+    color_0x14B8 = baseWindow->mColorTL;
+    color_0x14C0 = baseWindow->mWhite;
+    color_0x14C8 = baseWindow->mBlack;
+
+    J2DWindow* baseWindow5 = (J2DWindow*)mFbPanes[5].pane;
+    color_0x14B4 = baseWindow5->mColorTL;
+    color_0x14BC = baseWindow5->mWhite;
+    color_0x14C4 = baseWindow5->mBlack;
+
+    for (int i = 4; i < 6; i++) {
+        mFlPanes[i].mSize.x = mFlPanes[0].mSizeOrig.x;
+        mFlPanes[i].mSizeOrig.x = mFlPanes[0].mSizeOrig.x;
+        mFlPanes[i].mSize.y = mFlPanes[0].mSizeOrig.y;
+        mFlPanes[i].mSizeOrig.y = mFlPanes[0].mSizeOrig.y;
+        fopMsgM_cposMove(&mFlPanes[i]);
+
+        J2DWindow* win = (J2DWindow*)mFbPanes[i].pane;
+        win->setContentsColor(color_0x14B8, color_0x14B8, color_0x14B8, color_0x14B8);
+        win->mWhite = color_0x14C0;
+        win->mBlack = color_0x14C8;
+
+        mFbPanes[i].mSize.x = mFbPanes[0].mSizeOrig.x;
+        mFbPanes[i].mSizeOrig.x = mFbPanes[0].mSizeOrig.x;
+        mFbPanes[i].mSize.y = mFbPanes[0].mSizeOrig.y;
+        mFbPanes[i].mSizeOrig.y = mFbPanes[0].mSizeOrig.y;
+        fopMsgM_cposMove(&mFbPanes[i]);
+
+        mFbkPanes[i].mSize.x = mFbkPanes[0].mSizeOrig.x;
+        mFbkPanes[i].mSizeOrig.x = mFbkPanes[0].mSizeOrig.x;
+        mFbkPanes[i].mSize.y = mFbkPanes[0].mSizeOrig.y;
+        mFbkPanes[i].mSizeOrig.y = mFbkPanes[0].mSizeOrig.y;
+        fopMsgM_cposMove(&mFbkPanes[i]);
+    }
+
+    fopMsgM_setPaneData(&mFw00Pane, mpScreen, 'fw00');
+    fopMsgM_setPaneData(&mFw01Pane, mpScreen, 'fw01');
+
+    mpScreen->search('mpmk')->hide();
+    mpScreen->search('mpp2')->hide();
+    mpScreen->search('mpp1')->hide();
+    mpScreen->search('mpp0')->hide();
+
+    fopMsgM_setPaneData(&mCc38Pane, mpScreen, 'cc38');
+    fopMsgM_setPaneData(&mCc31Pane, mpScreen, 'cc31');
+    fopMsgM_setPaneData(&mCc24Pane, mpScreen, 'cc24');
+    fopMsgM_setPaneData(&mCc17Pane, mpScreen, 'cc17');
+    fopMsgM_setPaneData(&mCc10Pane, mpScreen, 'cc10');
+    fopMsgM_setPaneData(&mCc05Pane, mpScreen, 'cc05');
+    fopMsgM_setPaneData(&mCc00Pane, mpScreen, 'cc00');
+    fopMsgM_setPaneData(&mMskPane, mpScreen, 'msk');
+
+    fopMsgM_pane_class mpmkPane;
+    fopMsgM_pane_class mpp1Pane;
+
+    fopMsgM_setPaneData(&mpmkPane, mpScreen, 'mpmk');
+    fopMsgM_setPaneData(&mpp1Pane, mpScreen, 'mpp1');
+
+    mMskPane.mInitAlpha = 0x82;
+    mMsk0Pane.mInitAlpha = 0x82;
+
+    field_0x1e16 = (s16)(int)mpmkPane.mPosCenterOrig.x;
+    field_0x1e18 = (s16)(int)mpmkPane.mPosCenterOrig.y;
+    field_0x1e1a = (s16)(int)mpmkPane.mSizeOrig.x;
+    field_0x1e1c = (s16)(int)mpmkPane.mSizeOrig.y;
+
+    field_0x1e1e = (s16)(int)mpp1Pane.mPosCenterOrig.x;
+    field_0x1e20 = (s16)(int)mpp1Pane.mPosCenterOrig.y;
+    field_0x1e22 = (s16)(int)mpp1Pane.mSizeOrig.x;
+    field_0x1e24 = (s16)(int)mpp1Pane.mSizeOrig.y;
+
+    J2DPane* mpp2 = mpScreen->search('mpp2');
+    J2DPane* mpp1 = mpScreen->search('mpp1');
+    field_0x1e26 = (s16)(int)(mpp1->mBounds.i.x - (mpp2->mBounds.i.x + mpp2->mBounds.f.x - mpp2->mBounds.i.x)); // this is wrong but needs testing
 }
 
 /* 801A92D4-801A9364       .text dMap_isBossDoor__FP21stage_tgsc_data_class */
