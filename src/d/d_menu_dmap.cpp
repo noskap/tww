@@ -6,6 +6,7 @@
 #include "d/dolzel.h" // IWYU pragma: keep
 #include "d/d_menu_dmap.h"
 #include "d/d_stage.h"
+#include "f_op/f_op_msg_mng.h"
 
 /* 801A86A4-801A87CC       .text __ct__9dMd_HIO_cFv */
 dMd_HIO_c::dMd_HIO_c() {
@@ -154,7 +155,33 @@ void dMenu_Dmap_c::bossAnime() {
 
 /* 801AE550-801AE65C       .text bossEyeAnime__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::bossEyeAnime() {
-    /* Nonmatching */
+    int halfMax = field_0x1e2c / 2;
+    field_0xd62++;
+
+    f32 alpha = 0.0f;
+    if (field_0x1e36 == 0) {
+        alpha = 0.0f;
+    } else {
+        if (field_0xd62 < halfMax) {
+            alpha = fopMsgM_valueIncrease(halfMax, field_0xd62, 2);
+        } else {
+            alpha = fopMsgM_valueIncrease(halfMax, field_0x1e2c - field_0xd62, 2);
+        }
+    }
+
+    if (field_0xd62 == field_0x1e2c) {
+        field_0xd62 = 0;
+
+
+        if (field_0x1e36 == 0) {
+            field_0x1e36 = 1;
+        } else {
+            field_0x1e36 = 0;
+        }
+    }
+
+    fopMsgM_setNowAlpha((fopMsgM_pane_class*)((u8*)this + 0xd2c), alpha);
+    fopMsgM_setNowAlpha((fopMsgM_pane_class*)((u8*)this + 0xd64), alpha);
 }
 
 /* 801AE65C-801AEB88       .text _create__12dMenu_Dmap_cFv */
