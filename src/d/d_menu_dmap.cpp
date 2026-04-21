@@ -10,25 +10,36 @@
 
 /* 801A86A4-801A87CC       .text __ct__9dMd_HIO_cFv */
 dMd_HIO_c::dMd_HIO_c() {
-    /* Nonmatching */
     field_0x06 = 0;
     field_0x08 = 0;
     field_0x0a = 0xe;
     field_0x0c = 0xe;
-    mColor0.r = 0xff; mColor0.g = 0xc4; mColor0.b = 0x00; mColor0.a = 0xff;
-    mColor1.r = 0x20; mColor1.g = 0x20; mColor1.b = 0x00; mColor1.a = 0x00;
-    field_0x18 = 0x20;
-    field_0x1a = 0x20;
-    mColor2.r = 0xff; mColor2.g = 0xff; mColor2.b = 0xff; mColor2.a = 0xff;
-    mColor3.r = 0x00; mColor3.g = 0x00; mColor3.b = 0x00; mColor3.a = 0x00;
+    // Pair 0+1: rgb first for both, then alpha for both
+    mColor0.r = 0xff; mColor0.g = 0xc4; mColor0.b = 0x00;
+    mColor1.r = 0x20; mColor1.g = 0x20; mColor1.b = 0x00;
+    mColor0.a = 0xff;
+    mColor1.a = 0x00;
     field_0x24 = 0x10;
     field_0x26 = 0x8;
-    mColor4.r = 0xa8; mColor4.g = 0xa8; mColor4.b = 0xa8; mColor4.a = 0xff;
-    mColor5.r = 0x40; mColor5.g = 0x20; mColor5.b = 0x00; mColor5.a = 0x00;
+    // Pair 4+5
+    mColor4.r = 0xa8; mColor4.g = 0xa8; mColor4.b = 0xa8;
+    mColor5.r = 0x40; mColor5.g = 0x20; mColor5.b = 0x00;
+    mColor4.a = 0xff;
+    mColor5.a = 0x00;
+    field_0x18 = 0x20;
+    field_0x1a = 0x20;
+    // Pair 2+3
+    mColor2.r = 0xff; mColor2.g = 0xff; mColor2.b = 0xff;
+    mColor3.r = 0x00; mColor3.g = 0x00; mColor3.b = 0x00;
+    mColor2.a = 0xff;
+    mColor3.a = 0x00;
     field_0x30 = 0x10;
     field_0x32 = 0x10;
-    mColor6.r = 0xff; mColor6.g = 0x00; mColor6.b = 0xff; mColor6.a = 0xff;
-    mColor7.r = 0x00; mColor7.g = 0x00; mColor7.b = 0x00; mColor7.a = 0x00;
+    // Pair 6+7
+    mColor6.r = 0xff; mColor6.g = 0x00; mColor6.b = 0xff;
+    mColor7.r = 0x00; mColor7.g = 0x00; mColor7.b = 0x00;
+    mColor6.a = 0xff;
+    mColor7.a = 0x00;
     field_0x3c = 0x4;
     field_0x3e = 0xa;
     field_0x40 = 0x2;
