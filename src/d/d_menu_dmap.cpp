@@ -134,15 +134,15 @@ void dMenu_Dmap_c::screenSet() {
     stroPane->setFont(mRFont);
     st00Pane->setFont(mFont);
 
-    stroPane->setWhite(0xFFFFFFFF);
-    stroPane->setBlack(0xFFFFFFFF); // Note: 0xf8
-    stroPane->setCharColor(0x000000FF);
-    stroPane->setGradColor(0x000000FF);
+    stroPane->setWhite(JUtility::TColor((u32)0xFFFFFFFF));
+    stroPane->setBlack(JUtility::TColor((u32)0xFFFFFFFF)); // Note: 0xf8
+    stroPane->setCharColor(JUtility::TColor((u32)0xFF));
+    stroPane->setGradColor(JUtility::TColor((u32)0xFF));
 
-    st00Pane->setWhite(0xFFFFFFFF);
-    st00Pane->setBlack(0xFFFFFFFF);
-    st00Pane->setCharColor(0x000000FF);
-    st00Pane->setGradColor(0x000000FF);
+    st00Pane->setWhite(JUtility::TColor((u32)0xFFFFFFFF));
+    st00Pane->setBlack(JUtility::TColor((u32)0xFFFFFFFF));
+    st00Pane->setCharColor(JUtility::TColor((u32)0xFF));
+    st00Pane->setGradColor(JUtility::TColor((u32)0xFF));
 
     fopMsgM_setPaneData(&mDtlePane, mpScreen2, 'dtle');
     J2DTextBox* dtlePane = (J2DTextBox*)mDtlePane.pane;
@@ -188,9 +188,31 @@ void dMenu_Dmap_c::screenSet() {
     color_0x14C8 = baseWindow->mBlack;
 
     J2DWindow* baseWindow5 = (J2DWindow*)mFbPanes[5].pane;
-    color_0x14B4 = baseWindow5->mColorTL;
-    color_0x14BC = baseWindow5->mWhite;
-    color_0x14C4 = baseWindow5->mBlack;
+    J2DWindow::TContentsColor contentsColor;
+    contentsColor.mTL = baseWindow5->mColorTL;
+    contentsColor.mTR = baseWindow5->mColorTR;
+    contentsColor.mBL = baseWindow5->mColorBL;
+    contentsColor.mBR = baseWindow5->mColorBR;
+    
+    color_0x14B8 = contentsColor.mTL;
+
+    JUtility::TColor fbWhite = baseWindow5->mWhite;
+    color_0x14C0 = fbWhite;
+    JUtility::TColor fbBlack = baseWindow5->mBlack;
+    color_0x14C8 = fbBlack;
+
+    J2DWindow* baseWindow5K = (J2DWindow*)mFbkPanes[5].pane;
+    contentsColor.mTL = baseWindow5K->mColorTL;
+    contentsColor.mTR = baseWindow5K->mColorTR;
+    contentsColor.mBL = baseWindow5K->mColorBL;
+    contentsColor.mBR = baseWindow5K->mColorBR;
+
+    color_0x14B4 = contentsColor.mTL;
+
+    JUtility::TColor fbkWhite = baseWindow5K->mWhite;
+    color_0x14BC = fbkWhite;
+    JUtility::TColor fbkBlack = baseWindow5K->mBlack;
+    color_0x14C4 = fbkBlack;
 
     for (int i = 4; i < 6; i++) {
         mFlPanes[i].mSize.x = mFlPanes[0].mSizeOrig.x;
@@ -253,9 +275,10 @@ void dMenu_Dmap_c::screenSet() {
     field_0x1e22 = (s16)(int)mpp1Pane.mSizeOrig.x;
     field_0x1e24 = (s16)(int)mpp1Pane.mSizeOrig.y;
 
+    f32 mpp2_width = mpScreen->search('mpp2')->getWidth();
     J2DPane* mpp2 = mpScreen->search('mpp2');
     J2DPane* mpp1 = mpScreen->search('mpp1');
-    field_0x1e26 = (s16)(int)(mpp1->mBounds.i.x - (mpp2->mBounds.i.x + mpp2->mBounds.f.x - mpp2->mBounds.i.x)); // this is wrong but needs testing
+    field_0x1e26 = (s16)(int)(mpp1->mBounds.i.x - (mpp2->mBounds.i.x + mpp2_width));
 }
 
 /* 801A92D4-801A9364       .text dMap_isBossDoor__FP21stage_tgsc_data_class */
