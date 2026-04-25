@@ -280,7 +280,13 @@ void dMap_isBossDoor(stage_tgsc_data_class*) {
 
 /* 801A9364-801A98EC       .text initialize__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::initialize() {
-    /* Nonmatching */
+    f32 playerPosY = dComIfGp_getPlayer(0)->current.pos.y;
+       mNm00Pane.mUserArea  = 0;
+
+    f32 offsetY = mapOffsetY();
+    dStage_dt_c* stage = &dComIfGp_getStage();
+    field_0x1e2f = dMap_GetFloorNo(stage, playerPosY + offsetY);
+    field_0x1e30 = 0xFF;
 }
 
 /* 801A98EC-801AAE10       .text treasureSet__12dMenu_Dmap_cFv */

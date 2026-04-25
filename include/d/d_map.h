@@ -1,6 +1,7 @@
 #ifndef D_MAP_H
 #define D_MAP_H
 
+#include "d/d_stage.h"
 #include "d/d_drawlist.h"
 #include "JSystem/JUtility/JUTAssert.h"
 
@@ -540,5 +541,8 @@ inline void dMap_isSaveArriveGridUseGridPos(int, int) {}
 inline void dMap_isSaveArriveGrid_UseWorldPos(f32, f32) {}
 inline void dMap_onSaveArriveGridUseGridNo(int) {}
 inline void dMap_point2Grid(f32, f32, s8*, s8*) {}
+u8 dMap_GetFloorNo(dStage_dt_c* stag, f32 param_2);
+u8 dMap_GetFloorNoForDmap(dStage_dt_c* stag, int stayNo, f32 param_3);
+void dMap_GetTopBottomFloorNo(dStage_dt_c* stag, u8* topFloor, u8* bottomFloor);
 
 #endif /* D_MAP_H */
