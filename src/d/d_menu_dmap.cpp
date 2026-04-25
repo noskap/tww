@@ -66,6 +66,7 @@ dMd_HIO_c::dMd_HIO_c() {
 /* 801A87CC-801A8818       .text changeFloorTexture__12dMenu_Dmap_cFP7J2DPanei */
 void dMenu_Dmap_c::changeFloorTexture(J2DPane* pane, int idx) {
     static const char* floor_name[] = {
+        // 0x14 (20) entries - TODO: actual texture name strings
         0, 0, 0, 0, 0,
         0, 0, 0, 0, 0,
         0, 0, 0, 0, 0,
@@ -116,7 +117,7 @@ void dMenu_Dmap_c::screenSet() {
     fopMsgM_setPaneData(&mStroPane, mpScreen2, 'str0');
     fopMsgM_setPaneData(&mSt00Pane, mpScreen2, 'st00');
 
-    if (g_dComIfG_gameInfo.save.getPlayer().getConfig().getRuby() == 0) {
+    if (g_dComIfG_gameInfo.save.getPlayer().getConfig().getRuby() != 0) {
         fopMsgM_paneTrans(&mSt00Pane, 0.0f, 15.0f);
     }
 
@@ -183,36 +184,17 @@ void dMenu_Dmap_c::screenSet() {
     }
 
     J2DWindow* baseWindow = (J2DWindow*)mFbPanes[0].pane;
-    color_0x14B8 = baseWindow->mColorTL;
+    J2DWindow::TContentsColor contentsColor;
+    baseWindow->getContentsColor(contentsColor);
+    color_0x14B8 = contentsColor.mTL;
     color_0x14C0 = baseWindow->mWhite;
     color_0x14C8 = baseWindow->mBlack;
 
     J2DWindow* baseWindow5 = (J2DWindow*)mFbPanes[5].pane;
-    J2DWindow::TContentsColor contentsColor;
-    contentsColor.mTL = baseWindow5->mColorTL;
-    contentsColor.mTR = baseWindow5->mColorTR;
-    contentsColor.mBL = baseWindow5->mColorBL;
-    contentsColor.mBR = baseWindow5->mColorBR;
-    
-    color_0x14B8 = contentsColor.mTL;
-
-    JUtility::TColor fbWhite = baseWindow5->mWhite;
-    color_0x14C0 = fbWhite;
-    JUtility::TColor fbBlack = baseWindow5->mBlack;
-    color_0x14C8 = fbBlack;
-
-    J2DWindow* baseWindow5K = (J2DWindow*)mFbkPanes[5].pane;
-    contentsColor.mTL = baseWindow5K->mColorTL;
-    contentsColor.mTR = baseWindow5K->mColorTR;
-    contentsColor.mBL = baseWindow5K->mColorBL;
-    contentsColor.mBR = baseWindow5K->mColorBR;
-
+    baseWindow5->getContentsColor(contentsColor);
     color_0x14B4 = contentsColor.mTL;
-
-    JUtility::TColor fbkWhite = baseWindow5K->mWhite;
-    color_0x14BC = fbkWhite;
-    JUtility::TColor fbkBlack = baseWindow5K->mBlack;
-    color_0x14C4 = fbkBlack;
+    color_0x14BC = baseWindow5->mWhite;
+    color_0x14C4 = baseWindow5->mBlack;
 
     for (int i = 4; i < 6; i++) {
         mFlPanes[i].mSize.x = mFlPanes[0].mSizeOrig.x;
@@ -221,15 +203,16 @@ void dMenu_Dmap_c::screenSet() {
         mFlPanes[i].mSizeOrig.y = mFlPanes[0].mSizeOrig.y;
         fopMsgM_cposMove(&mFlPanes[i]);
 
+        mFbPanes[i].mSize.x = mFbPanes[0].mSizeOrig.x;
+        mFbPanes[i].mSizeOrig.x = mFbPanes[0].mSizeOrig.x;
+        mFbPanes[i].mSize.y = mFbPanes[0].mSizeOrig.y;
+        mFbPanes[i].mSizeOrig.y = mFbPanes[0].mSizeOrig.y;
+
         J2DWindow* win = (J2DWindow*)mFbPanes[i].pane;
         win->setContentsColor(color_0x14B8, color_0x14B8, color_0x14B8, color_0x14B8);
         win->mWhite = color_0x14C0;
         win->mBlack = color_0x14C8;
 
-        mFbPanes[i].mSize.x = mFbPanes[0].mSizeOrig.x;
-        mFbPanes[i].mSizeOrig.x = mFbPanes[0].mSizeOrig.x;
-        mFbPanes[i].mSize.y = mFbPanes[0].mSizeOrig.y;
-        mFbPanes[i].mSizeOrig.y = mFbPanes[0].mSizeOrig.y;
         fopMsgM_cposMove(&mFbPanes[i]);
 
         mFbkPanes[i].mSize.x = mFbkPanes[0].mSizeOrig.x;
@@ -275,10 +258,10 @@ void dMenu_Dmap_c::screenSet() {
     field_0x1e22 = (s16)(int)mpp1Pane.mSizeOrig.x;
     field_0x1e24 = (s16)(int)mpp1Pane.mSizeOrig.y;
 
-    f32 mpp2_width = mpScreen->search('mpp2')->getWidth();
+    f32 mpp2_height = mpScreen->search('mpp2')->getHeight();
     J2DPane* mpp2 = mpScreen->search('mpp2');
     J2DPane* mpp1 = mpScreen->search('mpp1');
-    field_0x1e26 = (s16)(int)(mpp1->mBounds.i.x - (mpp2->mBounds.i.x + mpp2_width));
+    field_0x1e26 = (s16)(int)(mpp1->mBounds.i.y - (mpp2->mBounds.i.y + mpp2_height));
 }
 
 /* 801A92D4-801A9364       .text dMap_isBossDoor__FP21stage_tgsc_data_class */
