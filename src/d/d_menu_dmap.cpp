@@ -274,8 +274,20 @@ void dMenu_Dmap_c::screenSet() {
 }
 
 /* 801A92D4-801A9364       .text dMap_isBossDoor__FP21stage_tgsc_data_class */
-BOOL dMap_isBossDoor(stage_tgsc_data_class*) {
-    return FALSE;
+int dMap_isBossDoor(stage_tgsc_data_class* doorData) {
+    if (strcmp(doorData->name, "door20") == 0) {
+        return 1;
+    }
+
+    if (strcmp(doorData->name, "door12") == 0) {
+        int type = (doorData->field_0x1c >> 8) & 0xFF;
+
+        if (type == 12 || type == 9) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 /* 801A9364-801A98EC       .text initialize__12dMenu_Dmap_cFv */
@@ -284,9 +296,12 @@ void dMenu_Dmap_c::initialize() {
     mNm00Pane.mUserArea = 0;
 
     f32 offsetY = mapOffsetY();
+
     dStage_dt_c* stage = &dComIfGp_getStage();
+
     field_0x1e2f = dMap_GetFloorNo(stage, playerPosY + offsetY);
     field_0x1e30 = 0xFF;
+
     dStage_KeepDoorInfo* keepDoorInfo = dStage_GetKeepDoorInfo();
     if (keepDoorInfo != NULL) {
         stage_tgsc_data_class* doorData = keepDoorInfo->mDrTgData;

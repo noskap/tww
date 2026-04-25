@@ -204,6 +204,7 @@ struct stage_actor_class {
 struct stage_tgsc_data_class {
     /* 0x00 */ char name[8];
     /* 0x08 */ fopAcM_prmBase_class base;
+    /* 0x1C */ s16 field_0x1c;
     /* 0x20 */ fopAcM_prmScale_class scale;
 };  // Size: 0x24
 
