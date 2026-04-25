@@ -48,7 +48,7 @@ public:
     void itemScale();
     void floorInit();
     void mapMove();
-    void mapOffsetY();
+    f32 mapOffsetY();
     void itemnameMove();
     void dnameSet();
     void itemnameSet();

@@ -364,31 +364,28 @@ void dMenu_Dmap_c::mapMove() {
 }
 
 /* 801AD000-801AD130       .text mapOffsetY__12dMenu_Dmap_cFv */
-void dMenu_Dmap_c::mapOffsetY() {
+f32 dMenu_Dmap_c::mapOffsetY() {
     f32 offsetY = 0.0f;
 
-    stage_stag_info_class* stag_info = dComIfGp_getStageStagInfo();
-
-    // Use the inline to extract the bitfield instead of Ghidra's raw bitmath
-    u32 stType = dStage_stagInfo_GetSTType(stag_info);
-
-    if ((stType == 3 || stType == 6) && dComIfGp_getStage().getDMap() != NULL) {
-
-        // The JUT_ASSERT gave us the variable name!
-        // (You may need to find the exact struct name for this in the codebase)
+    if ((dStage_stagInfo_GetSTType(dComIfGp_getStageStagInfo()) == 3 ||
+         dStage_stagInfo_GetSTType(dComIfGp_getStageStagInfo()) == 6) &&
+        dComIfGp_getStage().getDMap() != NULL)
+    {
         dMapInfo_c* pinf = (dMapInfo_c*)dComIfGp_getStage().getDMap();
 
-        // Pass the line number (0x65b) and the exact condition
+        dMapInfo_data* data = pinf->data;
+
         JUT_ASSERT(0x65b, pinf->num == 1);
 
         if (pinf->num > 0) {
-            dMapInfo_data* data = pinf->data;
-            for (int i = 0; i < pinf->num; i++, data++) {
-                // Offset 0xC in the data array is the float
+            for (int i = 0; i < pinf->num; i++) {
                 offsetY = data->offsetY;
+                data++;
             }
         }
     }
+
+    return offsetY;
 }
 
 /* 801AD130-801AD1A8       .text itemnameMove__12dMenu_Dmap_cFv */
