@@ -385,7 +385,15 @@ f32 dMenu_Dmap_c::mapOffsetY() {
 
 /* 801AD130-801AD1A8       .text itemnameMove__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::itemnameMove() {
-    /* Nonmatching */
+    double dVar1;
+
+    mNm00Pane.mUserArea = mNm00Pane.mUserArea + 1;
+    if (mNm00Pane.mUserArea < 0xb) {
+        dVar1 = fopMsgM_valueIncrease(10, (int)*(short*)&mNm00Pane.mUserArea, 0);
+        // fopMsgM_setNowAlpha((fopMsgM_pane_class *)&this->field_0x77c, (float)dVar1);
+        // fopMsgM_setNowAlpha
+        //           ((fopMsgM_pane_class *)&this->field_0x7b4, (float)(1.0 - dVar1));
+    }
 }
 
 /* 801AD1A8-801AD54C       .text dnameSet__12dMenu_Dmap_cFv */
