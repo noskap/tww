@@ -311,6 +311,39 @@ void dMenu_Dmap_c::initialize() {
             }
         }
     }
+
+    dMap_GetTopBottomFloorNo(stage, &field_0x1e31, &field_0x1e32);
+
+    int stayNo = dStage_roomControl_c::mStayNo;
+    offsetY = mapOffsetY();
+
+    int floorNoForDmap = dMap_GetFloorNoForDmap(stage, stayNo, playerPosY + offsetY);
+    dMap_Dmap_c* mpDmap = (dMap_Dmap_c*)field_0x14a0;
+    mpDmap->init(
+        field_0x1e16, field_0x1e18, field_0x1e1a, field_0x1e1c,
+        field_0x1e1e, field_0x1e20, field_0x1e22, field_0x1e24,
+        field_0x1e26, field_0x1e31, field_0x1e32,
+        stayNo, floorNoForDmap, 0xFF
+    );
+
+    f32 pane0_y = mFbPanes->mPosCenterOrig.y;
+    f32 pane1_y = mFbPanes[2].mPosCenterOrig.y;
+
+    field_0x1e12 = (s16)((pane0_y - pane1_y) * (f32)(field_0x1e32 - field_0x1e2f));
+
+    if (field_0x1e30 == 0xFF) {
+        field_0x1e14 = 0;
+    } else {
+        field_0x1e14 = (s16)((pane0_y - pane1_y) * (f32)(field_0x1e32 - field_0x1e30));
+    }
+    mpDmap->field_0x35c = field_0x1e16;
+    mpDmap->field_0x35e = field_0x1e18 + field_0x1e0e;
+    mpDmap->field_0x364 = field_0x1e1e;
+    mpDmap->field_0x366 = field_0x1e10 + field_0x1e0e;
+
+    for (int i = 0; i < (field_0x1e31 - field_0x1e32) + 1; i++) {
+        changeFloorTexture(mFlPanes[i].pane, field_0x1e32 + i - 118);
+    }
 }
 
 /* 801A98EC-801AAE10       .text treasureSet__12dMenu_Dmap_cFv */

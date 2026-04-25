@@ -106,7 +106,8 @@ public:
     /* 0x13F4 */ fopMsgM_pane_class mCc05Pane;
     /* 0x142C */ fopMsgM_pane_class mCc00Pane;
     /* 0x1464 */ fopMsgM_pane_class mMskPane;
-    /* 0x149C */ u8 padding_149C[0x14A4 - 0x149C];
+    /* 0x149C */ u8 padding_149C[0x14A0 - 0x149C];
+    /* 0x14A0 */ dMap_Dmap_c* field_0x14a0;
     /* 0x14A4 */ JKRArchive* mpArc;
     /* 0x14A8 */ JUTFont* mFont;
     /* 0x14AC */ JUTFont* mRFont;
@@ -123,7 +124,16 @@ public:
     /* 0x1DA8 */ char* name[2];
     /* 0x1DB0 */ char* note[2];
     /* 0x1DB8 */ char* dummy[2];
-    /* 0x1DC0 */ u8 padding_0x1DC0[0x1E16 - 0x1DC0];
+    /* 0x1DC0 */ u8 padding_0x1DC0[0x1DCC - 0x1DC0];
+    /* 0x1DCC */ f32 field_0x1dcc;
+    /* 0x1DD0 */ f32 field_0x1dd0;
+    /* 0x1DD4 */ u8 padding_0x1DD4[0x1DDC - 0x1DD4];
+    /* 0x1DDC */ f32 field_0x1ddc;
+    /* 0x1DE0 */ u8 padding_0x1DE0[0x1E0E - 0x1DE0];
+    /* 0x1E0E */ s16 field_0x1e0e;
+    /* 0x1E10 */ s16 field_0x1e10;
+    /* 0x1E12 */ s16 field_0x1e12;
+    /* 0x1E14 */ s16 field_0x1e14;
     /* 0x1E16 */ s16 field_0x1e16;
     /* 0x1E18 */ s16 field_0x1e18;
     /* 0x1E1A */ s16 field_0x1e1a;

@@ -330,6 +330,12 @@ public:
     void setFloorTextureOne(u8);
     void init(s16, s16, s16, s16, s16, s16, s16, s16, s16, u8, u8, u8, u8, u8);
     virtual void draw();
+    /* 0x0004 */ u8 padding_0x0004[0x035C - 0x0004];
+    /* 0x035C */ s16 field_0x35c;
+    /* 0x035E */ s16 field_0x35e;
+    /* 0x0360 */ u8 padding_0x0360[0x0364 - 0x0360];
+    /* 0x0364 */ s16 field_0x364;
+    /* 0x0366 */ u16 field_0x366;
 };
 
 class dMap_c {
