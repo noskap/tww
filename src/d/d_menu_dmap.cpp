@@ -168,10 +168,10 @@ void dMenu_Dmap_c::screenSet() {
         fopMsgM_setPaneData(&mIkPanes[i], mpScreen, l_ik[i]);
 
         JKRArchive::readTypeResource(arr_0x1AFC[i], 0xc00, 'TIMG', itmTex[i], g_dComIfG_gameInfo.play.mpItemIconArchive);
-        
+
         ((J2DPicture*)mItPanes[i].pane)->changeTexture((ResTIMG*)arr_0x1AFC[i], 0);
         ((J2DPicture*)mIkPanes[i].pane)->changeTexture((ResTIMG*)arr_0x1AFC[i], 0);
-        
+
         fopMsgM_setPaneData(&mIpPanes[i], mpScreen, l_ip[i]);
     }
 
@@ -367,21 +367,16 @@ void dMenu_Dmap_c::mapMove() {
 f32 dMenu_Dmap_c::mapOffsetY() {
     f32 offsetY = 0.0f;
 
-    if ((dStage_stagInfo_GetSTType(dComIfGp_getStageStagInfo()) == 3 ||
-         dStage_stagInfo_GetSTType(dComIfGp_getStageStagInfo()) == 6) &&
-        dComIfGp_getStage().getDMap() != NULL)
-    {
-        dMapInfo_c* pinf = (dMapInfo_c*)dComIfGp_getStage().getDMap();
+    dStage_dt_c* stage = &dComIfGp_getStage();
 
+    if ((dStage_stagInfo_GetSTType(stage->getStagInfo()) == 3 || dStage_stagInfo_GetSTType(stage->getStagInfo()) == 6) && stage->getDMap() != NULL) {
+        dMapInfo_c* pinf = (dMapInfo_c*)stage->getDMap();
         dMapInfo_data* data = pinf->data;
 
         JUT_ASSERT(0x65b, pinf->num == 1);
 
-        if (pinf->num > 0) {
-            for (int i = 0; i < pinf->num; i++) {
-                offsetY = data->offsetY;
-                data++;
-            }
+        for (int i = 0; i < pinf->num; i++, data++) {
+            offsetY = data->offsetY;
         }
     }
 
