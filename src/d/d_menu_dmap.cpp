@@ -344,6 +344,22 @@ void dMenu_Dmap_c::initialize() {
     for (int i = 0; i < (field_0x1e31 - field_0x1e32) + 1; i++) {
         changeFloorTexture(mFlPanes[i].pane, field_0x1e32 + i - 118);
     }
+
+    field_0x1e28 = (s16)(cM_rndF(100.0f) + 100.0f);
+    field_0x1e2a = (s16)(cM_rndF(50.0f) + 100.0f);
+    field_0x1e33 = 0;
+    field_0x1e34 = 0;
+
+    mLnkPanes[2].mUserArea = 0;
+    mLnkPanes[3].mUserArea = 0;
+    mBossPane.mUserArea = 100;
+
+    mBos2Pane.mUserArea = (s16)(cM_rndF(200.0f) + 300.0f);    field_0x1e36 = 0;
+    field_0x1e2c = (s16)((int)(cM_rndF(18.0f) + 40.0f) * 2);
+
+    field_0x1dcc = -mItPanes->mSizeOrig.x * 0.5f;
+    field_0x1ddc = mItPanes->mSizeOrig.y * 0.5f;
+    field_0x1dd0 = mItPanes->mSizeOrig.x * 0.5f;
 }
 
 /* 801A98EC-801AAE10       .text treasureSet__12dMenu_Dmap_cFv */
