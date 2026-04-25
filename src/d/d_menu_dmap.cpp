@@ -10,6 +10,15 @@
 #include "JSystem/J2DGraph/J2DTextBox.h"
 #include "JSystem/J2DGraph/J2DWindow.h"
 
+struct dMapInfo_data {
+    /* 0x00 */ u8 padding[0x0C];
+    /* 0x0C */ f32 offsetY;
+}; // Size: 0x10
+
+struct dMapInfo_c {
+    /* 0x00 */ s32 num;
+    /* 0x04 */ dMapInfo_data* data;
+};
 /* 801A86A4-801A87CC       .text __ct__9dMd_HIO_cFv */
 dMd_HIO_c::dMd_HIO_c() {
     field_0x06 = 0;
@@ -356,7 +365,30 @@ void dMenu_Dmap_c::mapMove() {
 
 /* 801AD000-801AD130       .text mapOffsetY__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::mapOffsetY() {
-    /* Nonmatching */
+    f32 offsetY = 0.0f;
+
+    stage_stag_info_class* stag_info = dComIfGp_getStageStagInfo();
+
+    // Use the inline to extract the bitfield instead of Ghidra's raw bitmath
+    u32 stType = dStage_stagInfo_GetSTType(stag_info);
+
+    if ((stType == 3 || stType == 6) && dComIfGp_getStage().getDMap() != NULL) {
+
+        // The JUT_ASSERT gave us the variable name!
+        // (You may need to find the exact struct name for this in the codebase)
+        dMapInfo_c* pinf = (dMapInfo_c*)dComIfGp_getStage().getDMap();
+
+        // Pass the line number (0x65b) and the exact condition
+        JUT_ASSERT(0x65b, pinf->num == 1);
+
+        if (pinf->num > 0) {
+            dMapInfo_data* data = pinf->data;
+            for (int i = 0; i < pinf->num; i++, data++) {
+                // Offset 0xC in the data array is the float
+                offsetY = data->offsetY;
+            }
+        }
+    }
 }
 
 /* 801AD130-801AD1A8       .text itemnameMove__12dMenu_Dmap_cFv */
