@@ -1150,5 +1150,5 @@ static inline u8 IkadaGetIkadaIdArg2(fopAc_ac_c* i_actor) {
 inline int IkadaGetIkadaIdArgPrm(u32 param) {
     return (param >> 0x12) & 0xFF;
 }
-
+dStage_KeepDoorInfo * dStage_GetKeepDoorInfo();
 #endif /* D_D_STAGE_H */

@@ -274,19 +274,28 @@ void dMenu_Dmap_c::screenSet() {
 }
 
 /* 801A92D4-801A9364       .text dMap_isBossDoor__FP21stage_tgsc_data_class */
-void dMap_isBossDoor(stage_tgsc_data_class*) {
-    /* Nonmatching */
+BOOL dMap_isBossDoor(stage_tgsc_data_class*) {
+    return FALSE;
 }
 
 /* 801A9364-801A98EC       .text initialize__12dMenu_Dmap_cFv */
 void dMenu_Dmap_c::initialize() {
     f32 playerPosY = dComIfGp_getPlayer(0)->current.pos.y;
-       mNm00Pane.mUserArea  = 0;
+    mNm00Pane.mUserArea = 0;
 
     f32 offsetY = mapOffsetY();
     dStage_dt_c* stage = &dComIfGp_getStage();
     field_0x1e2f = dMap_GetFloorNo(stage, playerPosY + offsetY);
     field_0x1e30 = 0xFF;
+    dStage_KeepDoorInfo* keepDoorInfo = dStage_GetKeepDoorInfo();
+    if (keepDoorInfo != NULL) {
+        stage_tgsc_data_class* doorData = keepDoorInfo->mDrTgData;
+        for (int i = 0; i < keepDoorInfo->num; i++, doorData++) {
+            if (dMap_isBossDoor(doorData)) {
+                field_0x1e30 = dMap_GetFloorNo(stage, doorData->base.position.y);
+            }
+        }
+    }
 }
 
 /* 801A98EC-801AAE10       .text treasureSet__12dMenu_Dmap_cFv */
