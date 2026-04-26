@@ -318,7 +318,7 @@ void dMenu_Dmap_c::initialize() {
     offsetY = mapOffsetY();
 
     int floorNoForDmap = dMap_GetFloorNoForDmap(stage, stayNo, playerPosY + offsetY);
-    dMap_Dmap_c* mpDmap = (dMap_Dmap_c*)field_0x14a0;
+    dMap_Dmap_c* mpDmap = field_0x14a0;
     mpDmap->init(
         field_0x1e16, field_0x1e18, field_0x1e1a, field_0x1e1c,
         field_0x1e1e, field_0x1e20, field_0x1e22, field_0x1e24,
@@ -343,6 +343,7 @@ void dMenu_Dmap_c::initialize() {
 
     for (int i = 0; i < (field_0x1e31 - field_0x1e32) + 1; i++) {
         changeFloorTexture(mFlPanes[i].pane, field_0x1e32 + i - 118);
+        //ivar8 missing here
     }
 
     field_0x1e28 = (s16)(cM_rndF(100.0f) + 100.0f);
@@ -350,16 +351,57 @@ void dMenu_Dmap_c::initialize() {
     field_0x1e33 = 0;
     field_0x1e34 = 0;
 
+    mLnkPanes[1].mUserArea = 0;
     mLnkPanes[2].mUserArea = 0;
-    mLnkPanes[3].mUserArea = 0;
     mBossPane.mUserArea = 100;
 
-    mBos2Pane.mUserArea = (s16)(cM_rndF(200.0f) + 300.0f);    field_0x1e36 = 0;
-    field_0x1e2c = (s16)((int)(cM_rndF(18.0f) + 40.0f) * 2);
+    mBos2Pane.mUserArea = cM_rndF(200.0f) + 300.0f;
+    field_0x1e36 = 0;
+    field_0x1e2c = (int)(cM_rndF(18.0f) + 40.0f) << 1;
 
-    field_0x1dcc = -mItPanes->mSizeOrig.x * 0.5f;
-    field_0x1ddc = mItPanes->mSizeOrig.y * 0.5f;
-    field_0x1dd0 = mItPanes->mSizeOrig.x * 0.5f;
+    // Quad calculation for mItPanes
+    f32 it_x = mItPanes->mSizeOrig.x * 0.5f;
+    f32 it_y = mItPanes->mSizeOrig.y * 0.5f;
+
+    field_0x1dcc = -it_x;
+    field_0x1ddc = it_y;
+    // field_0x1dcc[2] = it_x;
+    // field_0x1ddc[2] = it_y;
+    // field_0x1dcc[3] = -it_x;
+    // field_0x1ddc[3] = -it_y;
+    // field_0x1dcc[4] = it_x;
+    // field_0x1ddc[4] = -it_y;
+    f32 fb_x = mFbPanes->mSizeOrig.x * 0.5f;
+    f32 fb_y = mFbPanes->mSizeOrig.y * 0.5f;
+    // field_0x1dec = -fb_x;
+    // field_0x1dfc = fb_y;
+    // field_0x1dec[2] = fb_x;
+    // field_0x1dfc[2] = fb_y;
+    // field_0x1dec[3] = -fb_x;
+    // field_0x1dfc[3] = -fb_y;
+    // field_0x1dec[4] = fb_x;
+    // field_0x1dfc[4] = -fb_y;
+
+    // floorInit(this);
+    // itemScale(this);
+    if (!dComIfGs_isDungeonItemMap()) {
+        mItPanes->pane->hide();
+        mIkPanes->pane->hide();
+        mIpPanes->pane->hide();
+    }
+    if (!dComIfGs_isDungeonItemBossKey()) {
+        mItPanes[2].pane->hide();
+        mIkPanes[2].pane->hide();
+        mIpPanes[2].pane->hide();
+    }
+    if (!dComIfGs_isDungeonItemCompass()) {
+        mItPanes[3].pane->hide();
+        mIkPanes[3].pane->hide();
+        mIpPanes[3].pane->hide();
+    }
+    if (!dComIfGs_isDungeonItemCompass() || field_0x1e30 == 0xFF) {
+        mBossPane.pane->hide();
+    }
 }
 
 /* 801A98EC-801AAE10       .text treasureSet__12dMenu_Dmap_cFv */
