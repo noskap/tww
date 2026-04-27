@@ -40,8 +40,13 @@ namespace daObjMagmarock {
         void calc_ground_quat();
     
     public:
-        /* Place member variables here */
-    };
+        /* 0x290 */ void* vtbl;
+        /* 0x294 */ u8 field_0x294[0x2B0 - 0x294];
+        /* 0x2B0 */ Quaternion field_0x2B0;
+        /* 0x2B4 */ u8 field_0x2B4[0x2D0 - 0x2B4];
+        /* 0x2D0 */ Quaternion field_0x2D0;
+        /* 0x2D4 */ u8 field_0x2D4[0x460 - 0x2D4];
+    };  // Size: 0x460
     
     namespace Method {
         cPhs_State Create(void*);
