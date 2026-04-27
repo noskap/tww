@@ -14,9 +14,11 @@ void daObjMagmarock::Act_c::set_mtx() {
     mDoMtx_stack_c::transS(current.pos);
     mDoMtx_stack_c::ZXYrotM(shape_angle);
     Quaternion quat;
-    PSQUATMultiply(&field_0x2B0, &field_0x2D0, &quat);
+    mDoMtx_quatMultiply(&field_0x2B0, &field_0x2D0, &quat);
     mDoMtx_stack_c::quatM(&quat);
-    mDoMtx_stack_c::copy(model->getBaseTRMtx());    mDoMtx_stack_c::copy(*calc_mtx);
+
+    model->setBaseTRMtx(mDoMtx_stack_c::get());
+    PSMTXCopy(mDoMtx_stack_c::get(), field_0x328);
 }
 
 /* 00000128-00000258       .text demo_move__Q214daObjMagmarock5Act_cFv */
