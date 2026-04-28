@@ -7,6 +7,7 @@
 #include "d/actor/d_a_obj_magmarock.h"
 #include "d/d_procname.h"
 #include "d/d_priority.h"
+#include "d/d_s_play.h"
 
 /* 00000078-00000128       .text set_mtx__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::set_mtx() {
@@ -99,7 +100,13 @@ void daObjMagmarock::Act_c::quake_proc_init() {
 
 /* 000007B8-0000084C       .text quake_proc__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::quake_proc() {
-    /* Nonmatching */
+    field_0x454 += field_0x456;
+    cLib_addCalcAngleS2(&field_0x456, 0x1000, 2, 0x100);
+
+    cLib_addCalc2(&field_0x430, g_regHIO.mChild[10].mFloatRegs[10] + 750.0f, 0.25f, 50.0f);
+    if (field_0x448 == 0) {
+        vanish_proc_init();
+    }
 }
 
 /* 0000084C-00000878       .text vanish_proc_init__Q214daObjMagmarock5Act_cFv */
