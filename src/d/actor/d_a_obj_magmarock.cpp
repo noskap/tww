@@ -61,12 +61,25 @@ void daObjMagmarock::Act_c::wait_proc_init() {
 
 /* 00000618-00000644       .text wait_proc__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::wait_proc() {
-    /* Nonmatching */
+    if (field_0x448 == 0) {
+        quake_proc_init();
+    }
 }
 
 /* 00000644-000006E0       .text stay_proc_init__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::stay_proc_init() {
-    /* Nonmatching */
+    u8 prm = fopAcM_GetParam(this) & 0xFF;
+    if (prm == 0xFF) {
+        prm = 0;
+    }
+
+    field_0x438 = 30.0f;
+    field_0x434 = 30.0f;
+    field_0x448 = prm * 15 + 30;
+    field_0x44C = 330;
+
+    dComIfG_Bgsp()->Regist(field_0x358, this);
+    setProcess(&daObjMagmarock::Act_c::stay_proc);
 }
 
 /* 000006E0-00000720       .text stay_proc__Q214daObjMagmarock5Act_cFv */
