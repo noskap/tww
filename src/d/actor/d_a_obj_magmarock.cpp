@@ -8,6 +8,8 @@
 #include "d/d_procname.h"
 #include "d/d_priority.h"
 #include "d/d_s_play.h"
+#include "d/d_bg_s_movebg_actor.h"
+#include "d/res/res_kyjim.h"
 
 /* 00000078-00000128       .text set_mtx__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::set_mtx() {
@@ -139,7 +141,40 @@ BOOL daObjMagmarock::CheckCreateHeap(fopAc_ac_c* i_this) {
 
 /* 00000B0C-00000DA0       .text CreateHeap__Q214daObjMagmarock5Act_cFv */
 int daObjMagmarock::Act_c::CreateHeap() {
-    /* Nonmatching */
+    int brk_res;
+    int bck_res;
+    J3DModelData* modelData = (J3DModelData*)dComIfG_getObjectRes(M_arcname, KYJIM_BDL_KYJIM_00);
+    JUT_ASSERT(0x14D, modelData != 0);
+    model = mDoExt_J3DModel__create(modelData, 0, 0x11020203);
+    J3DAnmTevRegKey* M_brk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(M_arcname, KYJIM_BRK_KYJIM_00);
+    field_0x2F8 = M_brk;
+
+    J3DAnmTransform* M_bck = (J3DAnmTransform*)dComIfG_getObjectRes(M_arcname, KYJIM_BCK_KYJIM_00);
+    field_0x314 = M_bck;
+
+    JUT_ASSERT(0x155, M_brk != 0);
+    JUT_ASSERT(0x156, M_bck != 0);
+
+    brk_res = field_0x2FC.init(modelData, M_brk, FALSE, 2, 1.0f, 0, -1, FALSE, 0);
+    bck_res = field_0x318.init(modelData, M_bck, FALSE, 2, 1.0f, 0, -1, FALSE);
+
+    mDoMtx_stack_c::transS(current.pos);
+    mDoMtx_stack_c::YrotM(current.angle.y);
+    mDoMtx_stack_c::scaleM(scale);
+    cMtx_copy(mDoMtx_stack_c::get(), field_0x328);
+
+    cBgD_t* bgd = (cBgD_t*)dComIfG_getObjectRes(M_arcname, KYJIM_DZB_KYJIM_00);
+    field_0x358 = dBgW_NewSet(bgd, cBgW::MOVE_BG_e, &field_0x328);
+
+    field_0x358->SetCrrFunc(dBgS_MoveBGProc_Typical);
+    if (field_0x358 == NULL) {
+        return 0;
+    }
+    if (model != NULL && brk_res != 0 && bck_res != 0) {
+        return 1;
+    }
+
+    return 0;
 }
 
 /* 00000DA0-000013B4       .text CreateInit__Q214daObjMagmarock5Act_cFv */

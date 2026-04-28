@@ -8,6 +8,7 @@ class dBgW;
 namespace daObjMagmarock {
     static void ride_call_back(dBgW*, fopAc_ac_c*, fopAc_ac_c*);
     static BOOL CheckCreateHeap(fopAc_ac_c* i_this);
+
     class Act_c : public fopAc_ac_c {
     public:
         typedef void (Act_c::*ProcFunc)();
@@ -39,7 +40,7 @@ namespace daObjMagmarock {
         void LiftUpRequest(cXyz&);
         void BeforeLiftRequest(cXyz&);
         void calc_ground_quat();
-
+        static const char M_arcname[]; //Kyjim
     public:
         /* 0x290 */ void* vtbl;
         /* 0x294 */ u8 field_0x294[0x29E - 0x294];
@@ -51,7 +52,10 @@ namespace daObjMagmarock {
         /* 0x2E0 */ ProcFunc field_0x2E0;
         /* 0x2EC */ u8 field_0x2EC[0x2F4 - 0x2EC];
         /* 0x2F4 */ J3DModel* model;
-        /* 0x2F8 */ u8 field_0x2F8[0x328 - 0x2F8];
+        /* 0x2F8 */ J3DAnmTevRegKey* field_0x2F8;
+        /* 0x2FC */ mDoExt_brkAnm field_0x2FC;
+        /* 0x314 */ J3DAnmTransform* field_0x314;
+        /* 0x318 */ mDoExt_bckAnm field_0x318;
         /* 0x328 */ Mtx field_0x328;
         /* 0x358 */ dBgW* field_0x358;
         /* 0x35C */ u8 field_0x35C[0x430 - 0x35C];
