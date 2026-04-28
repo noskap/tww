@@ -44,12 +44,19 @@ void daObjMagmarock::Act_c::appear_proc_init() {
 
 /* 0000058C-000005EC       .text appear_proc__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::appear_proc() {
-    /* Nonmatching */
+    if (field_0x448 == 10) {
+        dComIfG_Bgsp()->Regist(field_0x358, this);
+    }
+
+    if (field_0x448 == 0) {
+        wait_proc_init();
+    }
 }
 
 /* 000005EC-00000618       .text wait_proc_init__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::wait_proc_init() {
-    /* Nonmatching */
+    field_0x448 = 300;
+    setProcess(&daObjMagmarock::Act_c::wait_proc);
 }
 
 /* 00000618-00000644       .text wait_proc__Q214daObjMagmarock5Act_cFv */
