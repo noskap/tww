@@ -11,14 +11,16 @@ namespace daObjMagmarock {
     
     class Act_c : public fopAc_ac_c {
     public:
+        typedef void (Act_c::*ProcFunc)();
+
         void MeltDownRequest() {}
         inline cPhs_State _create();
         inline bool _delete();
         inline bool _draw();
         inline bool _execute();
-        void checkProcess(void (daObjMagmarock::Act_c::*)()) {}
-        void setProcess(void (daObjMagmarock::Act_c::*)()) {}
-    
+        void checkProcess(void (daObjMagmarock::Act_c::*func)()) {}
+        void setProcess(ProcFunc func) { field_0x2E0 = func; }
+
         void set_mtx();
         void demo_move();
         void ControlEffect();
@@ -38,19 +40,22 @@ namespace daObjMagmarock {
         void LiftUpRequest(cXyz&);
         void BeforeLiftRequest(cXyz&);
         void calc_ground_quat();
-    
+
     public:
         /* 0x290 */ void* vtbl;
         /* 0x294 */ u8 field_0x294[0x2B0 - 0x294];
         /* 0x2B0 */ Quaternion field_0x2B0;
         /* 0x2C0 */ u8 field_0x2C0[0x2D0 - 0x2C0];
         /* 0x2D0 */ Quaternion field_0x2D0;
-        /* 0x2E0 */ u8 field_0x2E0[0x2F4 - 0x2E0];
+        /* 0x2E0 */ ProcFunc field_0x2E0;
+        /* 0x2EC */ u8 field_0x2EC[0x2F4 - 0x2EC];
         /* 0x2F4 */ J3DModel* model;
         /* 0x2F8 */ u8 field_0x2F8[0x328 - 0x2F8];
         /* 0x328 */ Mtx field_0x328;
-        /* 0x358 */ u8 field_0x358[0x460 - 0x358];
-    };  // Size: 0x460
+        /* 0x358 */ u8 field_0x358[0x448 - 0x358];
+        /* 0x448 */ u32 field_0x448;
+        /* 0x44C */ u8 field_0x44C[0x460 - 0x44C];
+    }; // Size: 0x460
     
     namespace Method {
         cPhs_State Create(void*);

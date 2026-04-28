@@ -38,7 +38,8 @@ void daObjMagmarock::Act_c::play_anim() {
 
 /* 00000560-0000058C       .text appear_proc_init__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::appear_proc_init() {
-    /* Nonmatching */
+    field_0x448 = 30;
+    setProcess(&daObjMagmarock::Act_c::appear_proc);
 }
 
 /* 0000058C-000005EC       .text appear_proc__Q214daObjMagmarock5Act_cFv */
