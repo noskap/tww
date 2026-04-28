@@ -133,12 +133,12 @@ void daObjMagmarock::ride_call_back(dBgW*, fopAc_ac_c*, fopAc_ac_c*) {
 }
 
 /* 00000AEC-00000B0C       .text CheckCreateHeap__14daObjMagmarockFP10fopAc_ac_c */
-BOOL daObjMagmarock::CheckCreateHeap(fopAc_ac_c*) {
-    /* Nonmatching */
+BOOL daObjMagmarock::CheckCreateHeap(fopAc_ac_c* i_this) {
+    return static_cast<daObjMagmarock::Act_c*>(i_this)->CreateHeap();
 }
 
 /* 00000B0C-00000DA0       .text CreateHeap__Q214daObjMagmarock5Act_cFv */
-void daObjMagmarock::Act_c::CreateHeap() {
+int daObjMagmarock::Act_c::CreateHeap() {
     /* Nonmatching */
 }
 

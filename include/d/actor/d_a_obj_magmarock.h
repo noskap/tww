@@ -7,8 +7,7 @@ class dBgW;
 
 namespace daObjMagmarock {
     static void ride_call_back(dBgW*, fopAc_ac_c*, fopAc_ac_c*);
-    static BOOL CheckCreateHeap(fopAc_ac_c*);
-    
+    static BOOL CheckCreateHeap(fopAc_ac_c* i_this);
     class Act_c : public fopAc_ac_c {
     public:
         typedef void (Act_c::*ProcFunc)();
@@ -35,7 +34,7 @@ namespace daObjMagmarock {
         void quake_proc();
         void vanish_proc_init();
         void vanish_proc();
-        void CreateHeap();
+        int CreateHeap();
         void CreateInit();
         void LiftUpRequest(cXyz&);
         void BeforeLiftRequest(cXyz&);
