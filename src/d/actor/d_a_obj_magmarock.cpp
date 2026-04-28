@@ -111,12 +111,20 @@ void daObjMagmarock::Act_c::quake_proc() {
 
 /* 0000084C-00000878       .text vanish_proc_init__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::vanish_proc_init() {
-    /* Nonmatching */
+    field_0x448 = 90;
+    setProcess(&daObjMagmarock::Act_c::vanish_proc);
 }
 
 /* 00000878-000008F8       .text vanish_proc__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::vanish_proc() {
-    /* Nonmatching */
+    field_0x454 += field_0x456;
+    cLib_addCalcAngleS2(&field_0x456, 0, 4, 0x40);
+    if (field_0x448 == 80) {
+        dComIfG_Bgsp()->Release(field_0x358);
+    }
+    if (field_0x448 < 0) {
+        fopAcM_delete(this);
+    }
 }
 
 /* 000008F8-00000AEC       .text ride_call_back__14daObjMagmarockFP4dBgWP10fopAc_ac_cP10fopAc_ac_c */
