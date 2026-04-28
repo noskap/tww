@@ -28,24 +28,27 @@ void daObjMagmarock::Act_c::set_mtx() {
 
 /* 00000128-00000258       .text demo_move__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::demo_move() {
-    if (dComIfGs_isEventBit(0x380) == 0 && *((u8*)this + 0x29F) == 0) {
-        if (field_0x45A == 0) {
-            if (eventInfo.checkCommandDemoAccrpt()) {
-                field_0x45A = 1;
-            } else {
-                fopAcM_orderOtherEvent(this, "magma_cam", 0xFFFF);
-                eventInfo.onCondition(2);
-            }
+    if (dComIfGs_isEventBit(0x380) || *((u8*)this + 0x29F) != 0) {
+        return;
+    }
+    if (field_0x45A == 0) {
+        if (eventInfo.checkCommandDemoAccrpt()) {
+            field_0x45A = 1;
+        } else {
+            fopAcM_orderOtherEvent2(this, "magma_cam", 1, 0xFFFF);
+            eventInfo.onCondition(2);
         }
-        else if (field_0x45A == 1) {
-            int staffId = dComIfGp_evmng_getMyStaffId("Magrock", NULL, 0);
-            if (dComIfGp_evmng_endCheck("magma_cam")) {
-                dComIfGp_event_reset();
-                field_0x45A += 1;
-                dComIfGs_onEventBit(0x380);
-            } else {
-                dComIfGp_evmng_cutEnd(staffId);
-            }
+    }
+    else if (field_0x45A == 1)
+    {
+        int staffId = dComIfGp_evmng_getMyStaffId("Magrock", NULL, 0);
+
+        if (dComIfGp_evmng_endCheck("magma_cam")) {
+            dComIfGp_event_reset();
+            field_0x45A += 1;
+            dComIfGs_onEventBit(0x380);
+        } else {
+            dComIfGp_evmng_cutEnd(staffId);
         }
     }
 }
