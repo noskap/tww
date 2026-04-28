@@ -84,12 +84,17 @@ void daObjMagmarock::Act_c::stay_proc_init() {
 
 /* 000006E0-00000720       .text stay_proc__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::stay_proc() {
-    /* Nonmatching */
+    if (field_0x29E != 0 && field_0x448-- == 0) {
+        quake_proc_init();
+    }
 }
 
 /* 00000720-000007B8       .text quake_proc_init__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::quake_proc_init() {
-    /* Nonmatching */
+    fopAcM_seStart(this, 0x380F, 0);
+
+    field_0x448 = 45;
+    setProcess(&daObjMagmarock::Act_c::quake_proc);
 }
 
 /* 000007B8-0000084C       .text quake_proc__Q214daObjMagmarock5Act_cFv */
