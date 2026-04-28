@@ -69,6 +69,7 @@ namespace daObjMagmarock {
         /* 0x454 */ s16 field_0x454;
         /* 0x456 */ s16 field_0x456;
         /* 0x458 */ u8 field_0x458[0x460 - 0x458];
+        /* 0x45A */ s16 field_0x45A;
     }; // Size: 0x460
     
     namespace Method {
