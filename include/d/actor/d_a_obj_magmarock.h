@@ -52,9 +52,9 @@ namespace daObjMagmarock {
         /* 0x2E0 */ ProcFunc field_0x2E0;
         /* 0x2EC */ u8 field_0x2EC[0x2F4 - 0x2EC];
         /* 0x2F4 */ J3DModel* model;
-        /* 0x2F8 */ J3DAnmTevRegKey* field_0x2F8;
+        /* 0x2F8 */ J3DAnmTevRegKey* M_brk;
         /* 0x2FC */ mDoExt_brkAnm field_0x2FC;
-        /* 0x314 */ J3DAnmTransform* field_0x314;
+        /* 0x314 */ J3DAnmTransform* M_bck;
         /* 0x318 */ mDoExt_bckAnm field_0x318;
         /* 0x328 */ Mtx field_0x328;
         /* 0x358 */ dBgW* field_0x358;

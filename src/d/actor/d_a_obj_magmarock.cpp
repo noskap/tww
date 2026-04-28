@@ -11,6 +11,8 @@
 #include "d/d_bg_s_movebg_actor.h"
 #include "d/res/res_kyjim.h"
 
+const char daObjMagmarock::Act_c::M_arcname[] = "Kyjim";
+
 /* 00000078-00000128       .text set_mtx__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::set_mtx() {
     model->setBaseScale(scale);
@@ -121,9 +123,11 @@ void daObjMagmarock::Act_c::vanish_proc_init() {
 void daObjMagmarock::Act_c::vanish_proc() {
     field_0x454 += field_0x456;
     cLib_addCalcAngleS2(&field_0x456, 0, 4, 0x40);
+
     if (field_0x448 == 80) {
         dComIfG_Bgsp()->Release(field_0x358);
     }
+
     if (field_0x448 < 0) {
         fopAcM_delete(this);
     }
@@ -141,25 +145,21 @@ BOOL daObjMagmarock::CheckCreateHeap(fopAc_ac_c* i_this) {
 
 /* 00000B0C-00000DA0       .text CreateHeap__Q214daObjMagmarock5Act_cFv */
 int daObjMagmarock::Act_c::CreateHeap() {
-    int brk_res;
-    int bck_res;
     J3DModelData* modelData = (J3DModelData*)dComIfG_getObjectRes(M_arcname, KYJIM_BDL_KYJIM_00);
     JUT_ASSERT(0x14D, modelData != 0);
     model = mDoExt_J3DModel__create(modelData, 0, 0x11020203);
-    J3DAnmTevRegKey* M_brk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(M_arcname, KYJIM_BRK_KYJIM_00);
-    field_0x2F8 = M_brk;
 
-    J3DAnmTransform* M_bck = (J3DAnmTransform*)dComIfG_getObjectRes(M_arcname, KYJIM_BCK_KYJIM_00);
-    field_0x314 = M_bck;
+    M_brk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(M_arcname, KYJIM_BRK_KYJIM_00);
+    M_bck = (J3DAnmTransform*)dComIfG_getObjectRes(M_arcname, KYJIM_BCK_KYJIM_00);
 
-    JUT_ASSERT(0x155, M_brk != 0);
-    JUT_ASSERT(0x156, M_bck != 0);
+    JUT_ASSERT(0x155, M_brk != NULL);
+    JUT_ASSERT(0x156, M_bck != NULL);
 
-    brk_res = field_0x2FC.init(modelData, M_brk, FALSE, 2, 1.0f, 0, -1, FALSE, 0);
-    bck_res = field_0x318.init(modelData, M_bck, FALSE, 2, 1.0f, 0, -1, FALSE);
+    int brk_res = field_0x2FC.init(modelData, M_brk, FALSE, 2, 1.0f, 0, -1, FALSE, 0);
+    int bck_res = field_0x318.init(modelData, M_bck, FALSE, 2, 1.0f, 0, -1, FALSE);
 
     mDoMtx_stack_c::transS(current.pos);
-    mDoMtx_stack_c::YrotM(current.angle.y);
+    mDoMtx_stack_c::YrotM(shape_angle.y);
     mDoMtx_stack_c::scaleM(scale);
     cMtx_copy(mDoMtx_stack_c::get(), field_0x328);
 
@@ -170,11 +170,13 @@ int daObjMagmarock::Act_c::CreateHeap() {
     if (field_0x358 == NULL) {
         return 0;
     }
+
+    bool ret = FALSE;
     if (model != NULL && brk_res != 0 && bck_res != 0) {
-        return 1;
+        ret = TRUE;
     }
 
-    return 0;
+    return ret;
 }
 
 /* 00000DA0-000013B4       .text CreateInit__Q214daObjMagmarock5Act_cFv */
