@@ -40,12 +40,14 @@ namespace daObjMagmarock {
         void LiftUpRequest(cXyz&);
         void BeforeLiftRequest(cXyz&);
         void calc_ground_quat();
-        static const char M_arcname[]; //Kyjim
+        static const char M_arcname[];
     public:
         /* 0x290 */ void* vtbl;
         /* 0x294 */ u8 field_0x294[0x29E - 0x294];
         /* 0x29E */ u8 field_0x29E;
         /* 0x29F */ u8 field_0x29F[0x2B0 - 0x29F];
+        JPABaseEmitter* field_0x2A8;
+        JPABaseEmitter* field_0x2AC;
         /* 0x2B0 */ Quaternion field_0x2B0;
         /* 0x2C0 */ u8 field_0x2C0[0x2D0 - 0x2C0];
         /* 0x2D0 */ Quaternion field_0x2D0;
@@ -70,6 +72,8 @@ namespace daObjMagmarock {
         /* 0x456 */ s16 field_0x456;
         /* 0x458 */ u8 field_0x458[0x460 - 0x458];
         /* 0x45A */ s16 field_0x45A;
+        /* 0x45C */ s16 field_0x45C;
+        /* 0x45E */ s16 field_0x45E;
     }; // Size: 0x460
     
     namespace Method {

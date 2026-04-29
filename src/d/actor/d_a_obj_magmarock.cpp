@@ -38,9 +38,7 @@ void daObjMagmarock::Act_c::demo_move() {
             fopAcM_orderOtherEvent2(this, "magma_cam", 1, 0xFFFF);
             eventInfo.onCondition(2);
         }
-    }
-    else if (field_0x45A == 1)
-    {
+    } else if (field_0x45A == 1) {
         int staffId = dComIfGp_evmng_getMyStaffId("Magrock", NULL, 0);
 
         if (dComIfGp_evmng_endCheck("magma_cam")) {
@@ -55,7 +53,31 @@ void daObjMagmarock::Act_c::demo_move() {
 
 /* 00000258-00000410       .text ControlEffect__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::ControlEffect() {
-    /* Nonmatching */
+    if (field_0x45C == 0) {
+        if (field_0x2AC != NULL) {
+            field_0x2AC->becomeInvalidEmitter();
+            field_0x2AC = NULL;
+        }
+    } else if (field_0x45E == 0) {
+        if (field_0x2A8 != NULL) {
+            field_0x2A8->becomeInvalidEmitter();
+            field_0x2A8 = NULL;
+        }
+
+        if (field_0x2AC == NULL) {
+            cXyz shock_pos(0.0f, 1.0f, 0.0f);
+            dComIfGp_getVibration().StartShock(4, 1, shock_pos);
+            field_0x2AC = dComIfGp_particle_set(dPa_name::ID_AK_SN_MAGMAISLAND01, &current.pos);
+        } else {
+            field_0x2AC->mGlobalTranslation = current.pos;
+        }
+    } else {
+        if (field_0x2A8 == NULL) {
+            field_0x2A8 = dComIfGp_particle_set(dPa_name::ID_AK_SN_MAGMAISLAND00, &current.pos);
+        } else {
+            field_0x2A8->mGlobalTranslation = current.pos;
+        }
+    }
 }
 
 /* 0000044C-00000560       .text play_anim__Q214daObjMagmarock5Act_cFv */
