@@ -56,8 +56,7 @@ void daObjMagmarock::Act_c::ControlEffect() {
     if (field_0x45C != NULL) {
         if (field_0x45E != NULL) {
             if (field_0x2A8 == NULL) {
-                field_0x2A8 =
-                    g_dComIfG_gameInfo.play.getParticle()->set(0, dPa_name::ID_AK_SN_MAGMAISLAND00, &current.pos, NULL, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+                field_0x2A8 = dComIfGp_particle_set(dPa_name::ID_AK_SN_MAGMAISLAND00, &current.pos, NULL, NULL, 0xff, NULL, -1, NULL, NULL, NULL);
             } else {
                 field_0x2A8->setGlobalTranslation(current.pos.x, current.pos.y, current.pos.z);
             }
@@ -66,12 +65,10 @@ void daObjMagmarock::Act_c::ControlEffect() {
                 field_0x2A8->becomeInvalidEmitter();
                 field_0x2A8 = NULL;
             }
-            if (field_0x2AC == NULL) {
-                cXyz shock_pos(0.0f, 1.0f, 0.0f);
-                dComIfGp_getVibration().StartShock(4, 1, shock_pos);
 
-                field_0x2AC =
-                    g_dComIfG_gameInfo.play.getParticle()->set(2, dPa_name::ID_AK_SN_MAGMAISLAND01, &current.pos, NULL, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+            if (field_0x2AC == NULL) {
+                dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
+                field_0x2AC = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_MAGMAISLAND01, &current.pos, NULL, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
             } else {
                 field_0x2AC->setGlobalTranslation(current.pos.x, current.pos.y, current.pos.z);
             }
