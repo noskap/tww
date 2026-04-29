@@ -192,8 +192,25 @@ void daObjMagmarock::Act_c::vanish_proc() {
 }
 
 /* 000008F8-00000AEC       .text ride_call_back__14daObjMagmarockFP4dBgWP10fopAc_ac_cP10fopAc_ac_c */
-void daObjMagmarock::ride_call_back(dBgW*, fopAc_ac_c*, fopAc_ac_c*) {
-    /* Nonmatching */
+void daObjMagmarock::ride_call_back(dBgW* bgw, fopAc_ac_c* i_magmarock, fopAc_ac_c* i_rider) {
+    daObjMagmarock::Act_c* rock = (daObjMagmarock::Act_c*)i_magmarock;
+
+    cXyz diff = i_rider->current.pos - rock->current.pos;
+    cXyz cross = diff.outprod(cXyz(0.0f, 1.0f, 0.0f));
+    f32 mag = cross.abs();
+
+    if (cross.normalizeRS()) {
+        short target_angle = (-mag * ((rock->current.pos.y - rock->home.pos.y) * 0.001f * 4.0f + 2.0f));
+
+        cLib_addCalcAngleS2(&rock->field_0x454, target_angle, 8, 0x200);
+        rock->field_0x456 = 1;
+        rock->field_0x45E = 1;
+        f32 sin_val = cM_ssin(rock->field_0x454);
+        rock->field_0x430 = cross.x * sin_val;
+        rock->field_0x434 = cross.y * sin_val;
+        rock->field_0x438 = cross.z * sin_val;
+        rock->field_0x43C = cM_scos(rock->field_0x454);
+    }
 }
 
 /* 00000AEC-00000B0C       .text CheckCreateHeap__14daObjMagmarockFP10fopAc_ac_c */
