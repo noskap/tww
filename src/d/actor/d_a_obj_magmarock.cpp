@@ -195,21 +195,25 @@ void daObjMagmarock::Act_c::vanish_proc() {
 void daObjMagmarock::ride_call_back(dBgW* bgw, fopAc_ac_c* i_magmarock, fopAc_ac_c* i_rider) {
     daObjMagmarock::Act_c* rock = (daObjMagmarock::Act_c*)i_magmarock;
 
-    cXyz diff = i_rider->current.pos - rock->current.pos;
-    cXyz cross = diff.outprod(cXyz(0.0f, 1.0f, 0.0f));
-    f32 mag = cross.abs();
+    cXyz vec = i_rider->current.pos - rock->current.pos;
+    cXyz up(0.0f, 1.0f, 0.0f);
+    vec = vec.outprod(up);
+    f32 mag = vec.abs();
 
-    if (cross.normalizeRS()) {
+    if (vec.normalizeRS()) {
         short target_angle = (-mag * ((rock->current.pos.y - rock->home.pos.y) * 0.001f * 4.0f + 2.0f));
 
-        cLib_addCalcAngleS2(&rock->field_0x454, target_angle, 8, 0x200);
-        rock->field_0x456 = 1;
-        rock->field_0x45E = 1;
-        f32 sin_val = cM_ssin(rock->field_0x454);
-        rock->field_0x430 = cross.x * sin_val;
-        rock->field_0x434 = cross.y * sin_val;
-        rock->field_0x438 = cross.z * sin_val;
-        rock->field_0x43C = cM_scos(rock->field_0x454);
+        cLib_addCalcAngleS2(&rock->field_0x298, target_angle, 8, 0x200);
+
+        rock->field_0x29C = 1;
+        rock->field_0x29E = 1;
+
+        f32 sin_val = cM_ssin(rock->field_0x298);
+
+        rock->field_0x2C0 = vec.x * sin_val;
+        rock->field_0x2C4 = vec.y * sin_val;
+        rock->field_0x2C8 = vec.z * sin_val;
+        rock->field_0x2CC = cM_scos(rock->field_0x298);
     }
 }
 
