@@ -83,7 +83,20 @@ void daObjMagmarock::Act_c::ControlEffect() {
 
 /* 0000044C-00000560       .text play_anim__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::play_anim() {
-    /* Nonmatching */
+    if (field_0x44C > 375 && field_0x438 > 0.0f) {
+        field_0x438 -= 1.0f;
+    } else {
+        if ((field_0x44C < 15 || field_0x44C > 60) && field_0x438 < M_brk->getFrameMax()) {
+            field_0x438 += 1.0f;
+        }
+    }
+    if (field_0x44C < 60 && field_0x434 < M_bck->getFrameMax()) {
+        field_0x434 += 1.0f;
+        return;
+    }
+    if (field_0x44C > 375 && field_0x434 > 0.0f) {
+        field_0x434 -= 1.0f;
+    }
 }
 
 /* 00000560-0000058C       .text appear_proc_init__Q214daObjMagmarock5Act_cFv */
