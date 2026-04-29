@@ -33,7 +33,7 @@ void daObjMagmarock::Act_c::demo_move() {
     }
     if (field_0x45A == 0) {
         if (eventInfo.checkCommandDemoAccrpt()) {
-            field_0x45A = 1;
+            field_0x45A += 1;
         } else {
             fopAcM_orderOtherEvent2(this, "magma_cam", 1, 0xFFFF);
             eventInfo.onCondition(2);
