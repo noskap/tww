@@ -36,7 +36,7 @@ namespace daObjMagmarock {
         void vanish_proc_init();
         void vanish_proc();
         int CreateHeap();
-        void CreateInit();
+        BOOL CreateInit();
         void LiftUpRequest(cXyz&);
         void BeforeLiftRequest(cXyz&);
         void calc_ground_quat();
@@ -48,7 +48,9 @@ namespace daObjMagmarock {
         /* 0x29A */ u8 field_0x29A[0x29C - 0x29A];
         /* 0x29C */ s16 field_0x29C;
         /* 0x29E */ u8 field_0x29E;
-        /* 0x29F */ u8 field_0x29F[0x2A8 - 0x29F];
+        /* 0x29F */ u8 field_0x29F;
+        /* 0x2A0 */ JPABaseEmitter* field_0x2A0;
+        /* 0x2A4 */ JPABaseEmitter* field_0x2A4;
         /* 0x2A8 */ JPABaseEmitter* field_0x2A8;
         /* 0x2AC */ JPABaseEmitter* field_0x2AC;
         /* 0x2B0 */ Quaternion field_0x2B0;
@@ -66,7 +68,15 @@ namespace daObjMagmarock {
         /* 0x318 */ mDoExt_bckAnm field_0x318;
         /* 0x328 */ Mtx field_0x328;
         /* 0x358 */ dBgW* field_0x358;
-        /* 0x35C */ u8 field_0x35C[0x430 - 0x35C];
+        /* 0x3D8 */ u8 field_0x3D8[0x3DC - 0x3D8];
+        /* 0x3DC */ s16 field_0x3DC;
+        /* 0x3DE */ s16 field_0x3DE;
+        /* 0x3E0 */ s16 field_0x3E0;
+        /* 0x3E2 */ u8 field_0x3E2[0x3E4 - 0x3E2]; 
+        /* 0x3E4 */ u8 field_0x3E4;
+        /* 0x3E5 */ u8 field_0x3E5;
+        /* 0x3E6 */ u8 field_0x3E6;
+        /* 0x3E7 */ u8 field_0x3E7[0x400 - 0x3E7];
         /* 0x430 */ f32 field_0x430;
         /* 0x434 */ f32 field_0x434;
         /* 0x438 */ f32 field_0x438;

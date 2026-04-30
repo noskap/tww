@@ -10,6 +10,7 @@
 #include "d/d_s_play.h"
 #include "d/d_bg_s_movebg_actor.h"
 #include "d/res/res_kyjim.h"
+#include "d/d_lib.h"
 
 const char daObjMagmarock::Act_c::M_arcname[] = "Kyjim";
 
@@ -259,8 +260,45 @@ int daObjMagmarock::Act_c::CreateHeap() {
 }
 
 /* 00000DA0-000013B4       .text CreateInit__Q214daObjMagmarock5Act_cFv */
-void daObjMagmarock::Act_c::CreateInit() {
-    /* Nonmatching */
+BOOL daObjMagmarock::Act_c::CreateInit() {
+    cullMtx = model->getBaseTRMtx();
+    fopAcM_setCullSizeBox(this, -200.0f, -30.0f, -200.0f, 200.0f, 30.0f, 200.0f);
+    PSMTXCopy(model->getBaseTRMtx(), field_0x328);
+    // home += 15.0f;
+    gravity = -2.5f;
+    field_0x2D0 = ZeroQuat;
+    set_mtx();
+    field_0x358->SetRideCallback(ride_call_back);
+    field_0x29F = (fopAcM_GetParam(this) >> 24) & 0xFF;
+    if (field_0x29F == 0) {
+        appear_proc_init();
+
+        if (field_0x2A0 == 0) {
+            s8 reverb = dComIfGp_getReverb(fopAcM_GetRoomNo(this));
+            mDoAud_seStart(JA_SE_MAGMA_TO_ISLE, &eyePos, 0, reverb);
+
+            cXyz up(0.0f, 1.0f, 0.0f);
+            dComIfGp_getVibration().StartShock(4, 1, up);
+            field_0x3DC += (s16)((0xFF - field_0x3DC) * 0.12f);
+            field_0x3DE += (s16)((0xFF - field_0x3DE) * 0.12f);
+            field_0x3E0 += (s16)((0xFF - field_0x3E0) * 0.12f);
+
+            field_0x3E4 += (u8)((0xFF - field_0x3E4) * 0.12f);
+            field_0x3E5 += (u8)((0xFF - field_0x3E5) * 0.12f);
+            field_0x3E6 += (u8)((0xFF - field_0x3E6) * 0.12f);
+            u8 alpha1 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x19] * 102.0f + 153.0f);
+            u8 alpha2 = (u8)(g_regHIO.mChild[3].mFloatRegs[1] * 102.0f + 153.0f);
+            if (field_0x2A0 != NULL) {
+                field_0x2A0->setGlobalPrmColor(0xFF, 0xFF, 0xFF);
+            if (field_0x2A4 != NULL) {
+                field_0x2A4->setGlobalPrmColor(0xFF,0xFF,0xFF);
+            }
+        }
+    } else {
+        stay_proc_init();
+    }
+
+    return TRUE;
 }
 
 /* 000013B4-00001560       .text LiftUpRequest__Q214daObjMagmarock5Act_cFR4cXyz */
