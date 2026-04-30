@@ -67,7 +67,6 @@ namespace daObjMagmarock {
         /* 0x328 */ Mtx field_0x328;
         /* 0x358 */ dBgW* field_0x358;
         /* 0x35C */ dKy_tevstr_c field_0x35C;
-        /* 0x3D8 */ u8 field_0x3D8[0x3DC - 0x3D8];
         /* 0x3DC */ s16 field_0x3DC;
         /* 0x3DE */ s16 field_0x3DE;
         /* 0x3E0 */ s16 field_0x3E0;

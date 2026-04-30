@@ -278,8 +278,8 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
     field_0x29E = 0;
     speed.setall(0.0f);
 
-    attention_info.position = current.pos;
-    attention_info.position.y += 15.0f;
+    home.pos = current.pos;
+    home.pos.y += 15.0f;
 
     gravity = -2.5f;
     field_0x2D0 = ZeroQuat;
@@ -317,8 +317,8 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
             }
 
             if (field_0x2AC != NULL) {
-                field_0x2AC->setGlobalPrmColor(0x00, 0x00, 0x00);
-                field_0x2AC->setGlobalEnvColor(0x00, 0x00, 0x00);
+                field_0x2AC->setGlobalPrmColor(default_color.r, default_color.g, default_color.b);
+                field_0x2AC->setGlobalEnvColor(default_color.r, default_color.g, default_color.b);
             }
         }
     }
