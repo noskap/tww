@@ -41,6 +41,7 @@ namespace daObjMagmarock {
         void BeforeLiftRequest(cXyz&);
         void calc_ground_quat();
         static const char M_arcname[];
+        static GXColor default_color;
     public:
         /* 0x290 */ void* vtbl;
         /* 0x294 */ u8 field_0x294[0x298 - 0x294];
@@ -65,6 +66,7 @@ namespace daObjMagmarock {
         /* 0x318 */ mDoExt_bckAnm field_0x318;
         /* 0x328 */ Mtx field_0x328;
         /* 0x358 */ dBgW* field_0x358;
+        /* 0x35C */ dKy_tevstr_c field_0x35C;
         /* 0x3D8 */ u8 field_0x3D8[0x3DC - 0x3D8];
         /* 0x3DC */ s16 field_0x3DC;
         /* 0x3DE */ s16 field_0x3DE;

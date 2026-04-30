@@ -261,6 +261,7 @@ int daObjMagmarock::Act_c::CreateHeap() {
 
 /* 00000DA0-000013B4       .text CreateInit__Q214daObjMagmarock5Act_cFv */
 BOOL daObjMagmarock::Act_c::CreateInit() {
+    scale.setall(1.0f);
     cullMtx = model->getBaseTRMtx();
     fopAcM_setCullSizeBox(this, -200.0f, -30.0f, -200.0f, 200.0f, 30.0f, 200.0f);
     PSMTXCopy(model->getBaseTRMtx(), field_0x328);
@@ -282,20 +283,23 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
 
     gravity = -2.5f;
     field_0x2D0 = ZeroQuat;
+    field_0x2C0 = field_0x2D0;
+    field_0x2B0 = field_0x2C0;
     set_mtx();
     field_0x358->SetRideCallback(ride_call_back);
     field_0x29F = (fopAcM_GetParam(this) >> 24) & 0xFF;
     if (field_0x29F == 0) {
+        stay_proc_init();
+    } else {
         appear_proc_init();
-
         if (field_0x2A0 != 0) {
-            stay_proc_init();
         } else {
             s8 reverb = dComIfGp_getReverb(fopAcM_GetRoomNo(this));
             mDoAud_seStart(JA_SE_MAGMA_TO_ISLE, &eyePos, 0, reverb);
 
-            cXyz up(0.0f, 1.0f, 0.0f);
-            dComIfGp_getVibration().StartShock(4, 1, up);
+            dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
+            field_0x35C = tevStr;
+            g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &field_0x35C);
             field_0x3DC += (s16)((0xFF - field_0x3DC) * 0.12f);
             field_0x3DE += (s16)((0xFF - field_0x3DE) * 0.12f);
             field_0x3E0 += (s16)((0xFF - field_0x3E0) * 0.12f);
@@ -308,8 +312,8 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
             u8 alpha2 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x1A] * 102.0f + 153.0f);
             field_0x2AC = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE01, &current.pos, NULL, NULL, alpha2, NULL, -1, NULL, NULL, NULL);
             if (field_0x2A8 != NULL) {
-                field_0x2A8->setGlobalPrmColor(0x00, 0x00, 0x00);
-                field_0x2A8->setGlobalEnvColor(0x00, 0x00, 0x00);
+                field_0x2A8->setGlobalPrmColor(default_color.r, default_color.g, default_color.b);
+                field_0x2A8->setGlobalEnvColor(default_color.r, default_color.g, default_color.b);
             }
 
             if (field_0x2AC != NULL) {
