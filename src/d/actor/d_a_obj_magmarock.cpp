@@ -211,10 +211,10 @@ void daObjMagmarock::ride_call_back(dBgW* bgw, fopAc_ac_c* i_magmarock, fopAc_ac
 
         f32 sin_val = cM_ssin(rock->field_0x298);
 
-        rock->field_0x2C0 = vec.x * sin_val;
-        rock->field_0x2C4 = vec.y * sin_val;
-        rock->field_0x2C8 = vec.z * sin_val;
-        rock->field_0x2CC = cM_scos(rock->field_0x298);
+        rock->field_0x2C0.x = vec.x * sin_val;
+        rock->field_0x2C0.y = vec.y * sin_val;
+        rock->field_0x2C0.z = vec.z * sin_val;
+        rock->field_0x2C0.w = cM_scos(rock->field_0x298);
     }
 }
 
@@ -264,7 +264,22 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
     cullMtx = model->getBaseTRMtx();
     fopAcM_setCullSizeBox(this, -200.0f, -30.0f, -200.0f, 200.0f, 30.0f, 200.0f);
     PSMTXCopy(model->getBaseTRMtx(), field_0x328);
-    // home += 15.0f;
+    field_0x430 = 0;
+    field_0x298 = 0;
+    field_0x29A = 0;
+    field_0x450 = 0;
+    field_0x448 = 0x1E;
+    field_0x44C = 0;
+    field_0x438 = 0;
+    field_0x454 = 0;
+    field_0x456 = 0;
+    field_0x45A = 0;
+    field_0x29E = 0;
+    speed.setall(0.0f);
+
+    attention_info.position = current.pos;
+    attention_info.position.y += 15.0f;
+
     gravity = -2.5f;
     field_0x2D0 = ZeroQuat;
     set_mtx();
@@ -273,7 +288,9 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
     if (field_0x29F == 0) {
         appear_proc_init();
 
-        if (field_0x2A0 == 0) {
+        if (field_0x2A0 != 0) {
+            stay_proc_init();
+        } else {
             s8 reverb = dComIfGp_getReverb(fopAcM_GetRoomNo(this));
             mDoAud_seStart(JA_SE_MAGMA_TO_ISLE, &eyePos, 0, reverb);
 
@@ -287,15 +304,19 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
             field_0x3E5 += (u8)((0xFF - field_0x3E5) * 0.12f);
             field_0x3E6 += (u8)((0xFF - field_0x3E6) * 0.12f);
             u8 alpha1 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x19] * 102.0f + 153.0f);
-            u8 alpha2 = (u8)(g_regHIO.mChild[3].mFloatRegs[1] * 102.0f + 153.0f);
-            if (field_0x2A0 != NULL) {
-                field_0x2A0->setGlobalPrmColor(0xFF, 0xFF, 0xFF);
-            if (field_0x2A4 != NULL) {
-                field_0x2A4->setGlobalPrmColor(0xFF,0xFF,0xFF);
+            field_0x2A8 = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE00, &current.pos, NULL, NULL, alpha1, NULL, -1, NULL, NULL, NULL);
+            u8 alpha2 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x1A] * 102.0f + 153.0f);
+            field_0x2AC = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE01, &current.pos, NULL, NULL, alpha2, NULL, -1, NULL, NULL, NULL);
+            if (field_0x2A8 != NULL) {
+                field_0x2A8->setGlobalPrmColor(0x00, 0x00, 0x00);
+                field_0x2A8->setGlobalEnvColor(0x00, 0x00, 0x00);
+            }
+
+            if (field_0x2AC != NULL) {
+                field_0x2AC->setGlobalPrmColor(0x00, 0x00, 0x00);
+                field_0x2AC->setGlobalEnvColor(0x00, 0x00, 0x00);
             }
         }
-    } else {
-        stay_proc_init();
     }
 
     return TRUE;
