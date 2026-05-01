@@ -300,13 +300,12 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
             dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
             field_0x35C = tevStr;
             g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &field_0x35C);
-            field_0x3DC += (s16)((0xFF - field_0x3DC) * 0.12f);
-            field_0x3DE += (s16)((0xFF - field_0x3DE) * 0.12f);
-            field_0x3E0 += (s16)((0xFF - field_0x3E0) * 0.12f);
-
-            field_0x3E4 += (u8)((0xFF - field_0x3E4) * 0.12f);
-            field_0x3E5 += (u8)((0xFF - field_0x3E5) * 0.12f);
-            field_0x3E6 += (u8)((0xFF - field_0x3E6) * 0.12f);
+            field_0x35C.mColorC0.r = (field_0x35C.mColorC0.r + (int)((0xFF - field_0x35C.mColorC0.r) * 0.12f)) & 0xFF;
+            field_0x35C.mColorC0.g = (field_0x35C.mColorC0.g + (int)((0xFF - field_0x35C.mColorC0.g) * 0.12f)) & 0xFF;
+            field_0x35C.mColorC0.b = (field_0x35C.mColorC0.b + (int)((0xFF - field_0x35C.mColorC0.b) * 0.12f)) & 0xFF;
+            field_0x35C.mColorK0.r += (u8)((0xFF - field_0x35C.mColorK0.r) * 0.12f);
+            field_0x35C.mColorK0.g += (u8)((0xFF - field_0x35C.mColorK0.g) * 0.12f);
+            field_0x35C.mColorK0.b += (u8)((0xFF - field_0x35C.mColorK0.b) * 0.12f);
             u8 alpha1 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x19] * 102.0f + 153.0f);
             field_0x2A8 = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE00, &current.pos, NULL, NULL, alpha1, NULL, -1, NULL, NULL, NULL);
             u8 alpha2 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x1A] * 102.0f + 153.0f);
