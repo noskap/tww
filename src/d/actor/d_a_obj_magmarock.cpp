@@ -276,15 +276,14 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
     field_0x456 = 0;
     field_0x45A = 0;
     field_0x29E = 0;
-    speed.setall(0.0f);
 
+    speed.setall(0.0f);
     home.pos = current.pos;
     home.pos.y += 15.0f;
-
     gravity = -2.5f;
-    field_0x2D0 = ZeroQuat;
-    field_0x2C0 = field_0x2D0;
-    field_0x2B0 = field_0x2C0;
+
+    field_0x2B0 = field_0x2C0 = field_0x2D0 = ZeroQuat;
+
     set_mtx();
     field_0x358->SetRideCallback(ride_call_back);
     field_0x29F = (fopAcM_GetParam(this) >> 24) & 0xFF;
@@ -299,14 +298,13 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
             dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
             field_0x35C = tevStr;
             g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &field_0x35C);
+            field_0x35C.mColorC0.r = (u8)(field_0x35C.mColorC0.r + (int)(0.12f * (0xFF - field_0x35C.mColorC0.r)));
+            field_0x35C.mColorC0.g = (u8)(field_0x35C.mColorC0.g + (int)(0.12f * (0xFF - field_0x35C.mColorC0.g)));
+            field_0x35C.mColorC0.b = (u8)(field_0x35C.mColorC0.b + (int)(0.12f * (0xFF - field_0x35C.mColorC0.b)));
 
-            field_0x35C.mColorC0.r = (field_0x35C.mColorC0.r + (int)((0xFF - field_0x35C.mColorC0.r) * 0.12f)) & 0xFF;
-            field_0x35C.mColorC0.g = (field_0x35C.mColorC0.g + (int)((0xFF - field_0x35C.mColorC0.g) * 0.12f)) & 0xFF;
-            field_0x35C.mColorC0.b = (field_0x35C.mColorC0.b + (int)((0xFF - field_0x35C.mColorC0.b) * 0.12f)) & 0xFF;
-
-            field_0x35C.mColorK0.r += (u8)((0xFF - field_0x35C.mColorK0.r) * 0.12f);
-            field_0x35C.mColorK0.g += (u8)((0xFF - field_0x35C.mColorK0.g) * 0.12f);
-            field_0x35C.mColorK0.b += (u8)((0xFF - field_0x35C.mColorK0.b) * 0.12f);
+            field_0x35C.mColorK0.r = (u8)(field_0x35C.mColorK0.r + (int)(0.12f * (0xFF - field_0x35C.mColorK0.r)));
+            field_0x35C.mColorK0.g = (u8)(field_0x35C.mColorK0.g + (int)(0.12f * (0xFF - field_0x35C.mColorK0.g)));
+            field_0x35C.mColorK0.b = (u8)(field_0x35C.mColorK0.b + (int)(0.12f * (0xFF - field_0x35C.mColorK0.b)));
 
             u8 alpha1 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x19] * 102.0f + 153.0f);
             field_0x2A8 = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE00, &current.pos, NULL, NULL, alpha1, NULL, -1, NULL, NULL, NULL);
