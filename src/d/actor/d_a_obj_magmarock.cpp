@@ -287,7 +287,7 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
     set_mtx();
     field_0x358->SetRideCallback(ride_call_back);
     field_0x29F = (fopAcM_GetParam(this) >> 24) & 0xFF;
-    if (field_0x29F == 0) {
+    if (field_0x29F != 0) {
         stay_proc_init();
     } else {
         appear_proc_init();
@@ -307,20 +307,20 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
             field_0x35C.mColorK0.g = (u8)(field_0x35C.mColorK0.g + (int)(0.12f * (0xFF - field_0x35C.mColorK0.g)));
             field_0x35C.mColorK0.b = (u8)(field_0x35C.mColorK0.b + (int)(0.12f * (0xFF - field_0x35C.mColorK0.b)));
 
-            u8 alpha1 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x19] * 102.0f + 153.0f);
-            field_0x2A8 = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE00, &current.pos, NULL, NULL, alpha1, NULL, -1, NULL, NULL, NULL);
+            u8 alpha1 = (u8)(g_regHIO.mChild[10].mFloatRegs[0x19] * 102.0f + 153.0f);
+            field_0x2A0 = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE00, &current.pos, NULL, NULL, alpha1, NULL, -1, NULL, NULL, NULL);
 
-            u8 alpha2 = (u8)(g_regHIO.mChild[3].mFloatRegs[0x1A] * 102.0f + 153.0f);
-            field_0x2AC = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE01, &current.pos, NULL, NULL, alpha2, NULL, -1, NULL, NULL, NULL);
+            u8 alpha2 = (u8)(g_regHIO.mChild[10].mFloatRegs[0x1A] * 102.0f + 153.0f);
+            field_0x2A4 = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_YOGANYUGE01, &current.pos, NULL, NULL, alpha2, NULL, -1, NULL, NULL, NULL);
 
-            if (field_0x2A8 != NULL) {
-                field_0x2A8->setGlobalPrmColor(default_color.r, default_color.g, default_color.b);
-                field_0x2A8->setGlobalEnvColor(default_color.r, default_color.g, default_color.b);
+            if (field_0x2A0 != NULL) {
+                field_0x2A0->setGlobalPrmColor(default_color.r, default_color.g, default_color.b);
+                field_0x2A0->setGlobalEnvColor(default_color.r, default_color.g, default_color.b);
             }
 
-            if (field_0x2AC != NULL) {
-                field_0x2AC->setGlobalPrmColor(default_color.r, default_color.g, default_color.b);
-                field_0x2AC->setGlobalEnvColor(default_color.r, default_color.g, default_color.b);
+            if (field_0x2A4 != NULL) {
+                field_0x2A4->setGlobalPrmColor(default_color.r, default_color.g, default_color.b);
+                field_0x2A4->setGlobalEnvColor(default_color.r, default_color.g, default_color.b);
             }
         }
     }
