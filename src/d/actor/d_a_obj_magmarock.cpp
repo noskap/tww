@@ -298,6 +298,7 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
             dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
             field_0x35C = tevStr;
             g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &field_0x35C);
+
             field_0x35C.mColorC0.r = (u8)(field_0x35C.mColorC0.r + (int)(0.12f * (0xFF - field_0x35C.mColorC0.r)));
             field_0x35C.mColorC0.g = (u8)(field_0x35C.mColorC0.g + (int)(0.12f * (0xFF - field_0x35C.mColorC0.g)));
             field_0x35C.mColorC0.b = (u8)(field_0x35C.mColorC0.b + (int)(0.12f * (0xFF - field_0x35C.mColorC0.b)));
