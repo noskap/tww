@@ -225,9 +225,10 @@ BOOL daObjMagmarock::CheckCreateHeap(fopAc_ac_c* i_this) {
 
 /* 00000B0C-00000DA0       .text CreateHeap__Q214daObjMagmarock5Act_cFv */
 int daObjMagmarock::Act_c::CreateHeap() {
-    J3DModelData* modelData = (J3DModelData*)dComIfG_getObjectRes(M_arcname, KYJIM_BDL_KYJIM_00);
+    void* modelData = dComIfG_getObjectRes(M_arcname, KYJIM_BDL_KYJIM_00);
+
     JUT_ASSERT(0x14D, modelData != 0);
-    model = mDoExt_J3DModel__create(modelData, 0, 0x11020203);
+    model = mDoExt_J3DModel__create((J3DModelData*)modelData,  0, 0x11020203);
 
     M_brk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(M_arcname, KYJIM_BRK_KYJIM_00);
     M_bck = (J3DAnmTransform*)dComIfG_getObjectRes(M_arcname, KYJIM_BCK_KYJIM_00);
@@ -235,8 +236,8 @@ int daObjMagmarock::Act_c::CreateHeap() {
     JUT_ASSERT(0x155, M_brk != NULL);
     JUT_ASSERT(0x156, M_bck != NULL);
 
-    int brk_res = field_0x2FC.init(modelData, M_brk, FALSE, 2, 1.0f, 0, -1, FALSE, 0);
-    int bck_res = field_0x318.init(modelData, M_bck, FALSE, 2, 1.0f, 0, -1, FALSE);
+    int brk_res = field_0x2FC.init((J3DModelData*)modelData, M_brk, FALSE, 2, 1.0f, 0, -1, FALSE, 0);
+    int bck_res = field_0x318.init((J3DModelData*)modelData, M_bck, FALSE, 2, 1.0f, 0, -1, FALSE);
 
     mDoMtx_stack_c::transS(current.pos);
     mDoMtx_stack_c::YrotM(shape_angle.y);
