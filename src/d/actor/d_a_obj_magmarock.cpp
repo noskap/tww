@@ -328,21 +328,22 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
 
     return TRUE;
 }
-
+inline BOOL daObjMagmarock::Act_c::checkProcess(ProcFunc proc) {
+    return field_0x2E0 == proc;
+}
 /* 000013B4-00001560       .text LiftUpRequest__Q214daObjMagmarock5Act_cFR4cXyz */
 BOOL daObjMagmarock::Act_c::LiftUpRequest(cXyz& param_1) {
     field_0x43C.set(param_1);
-    ProcFunc wait = &Act_c::wait_proc;
-    if (field_0x2E0 != wait) {
 
-        ProcFunc appear = &Act_c::appear_proc;
 
-        if (field_0x2E0 == appear) {
+    BOOL thing = checkProcess(&Act_c::wait_proc);
+    if (!thing) {
+
+        BOOL thing2 = checkProcess(&Act_c::appear_proc);
+        if (thing2) {
             cXyz diff = current.pos - field_0x43C;
             cXyz dir;
 
-            dir.x = diff.x;
-            dir.z = diff.z;
             dir.y = 0.0f;
 
             if (!dir.normalizeRS()) {

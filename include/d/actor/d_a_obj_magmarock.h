@@ -18,7 +18,7 @@ namespace daObjMagmarock {
         inline bool _delete();
         inline bool _draw();
         inline bool _execute();
-        void checkProcess(void (daObjMagmarock::Act_c::*func)()) {}
+        BOOL checkProcess(ProcFunc proc);
         void setProcess(ProcFunc func) { field_0x2E0 = func; }
 
         void set_mtx();
