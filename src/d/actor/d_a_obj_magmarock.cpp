@@ -335,11 +335,11 @@ inline BOOL daObjMagmarock::Act_c::checkProcess(ProcFunc proc) {
 BOOL daObjMagmarock::Act_c::LiftUpRequest(cXyz& param_1) {
     field_0x43C.set(param_1);
 
-    BOOL thing = checkProcess(&Act_c::wait_proc);
-    if (!thing) {
+    BOOL is_wait = checkProcess(&Act_c::wait_proc);
+    if (!is_wait) {
 
-        BOOL thing2 = checkProcess(&Act_c::appear_proc);
-        if (thing2) {
+        BOOL is_appear = checkProcess(&Act_c::appear_proc);
+        if (is_appear) {
 
             cXyz dir = current.pos - field_0x43C;
             dir.y = 0.0f;
@@ -369,8 +369,28 @@ BOOL daObjMagmarock::Act_c::LiftUpRequest(cXyz& param_1) {
 }
 
 /* 00001560-0000167C       .text BeforeLiftRequest__Q214daObjMagmarock5Act_cFR4cXyz */
-void daObjMagmarock::Act_c::BeforeLiftRequest(cXyz&) {
-    /* Nonmatching */
+BOOL daObjMagmarock::Act_c::BeforeLiftRequest(cXyz& param_1) {
+    field_0x43C.set(param_1);
+    if (field_0x43C.y < home.pos.y + 25.0f) {
+        field_0x43C.y = home.pos.y + 25.0f;
+    }
+
+    BOOL is_wait = checkProcess(&Act_c::wait_proc);
+    if (!is_wait) {
+
+        return FALSE;
+    }
+    cLib_addCalcPos2(&current.pos, field_0x43C, 0.05f, 5.0f);
+    cLib_addCalc2(&field_0x430, 500.0f, 0.25f, 20.0f);
+    cLib_addCalcAngleS2(&field_0x456, 0x0A00, 8, 0x100);
+
+    field_0x454 += field_0x456;
+
+    cLib_addCalc2(&current.pos.y, field_0x43C.y, 0.25f, 150.0f);
+    field_0x45C = 1;
+    field_0x45E = 1;
+
+    return TRUE;
 }
 
 /* 0000167C-000017DC       .text calc_ground_quat__Q214daObjMagmarock5Act_cFv */

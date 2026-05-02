@@ -38,7 +38,7 @@ namespace daObjMagmarock {
         int CreateHeap();
         BOOL CreateInit();
         BOOL LiftUpRequest(cXyz&);
-        void BeforeLiftRequest(cXyz&);
+        BOOL BeforeLiftRequest(cXyz&);
         void calc_ground_quat();
         static const char M_arcname[];
         static GXColor default_color;
