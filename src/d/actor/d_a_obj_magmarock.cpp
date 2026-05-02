@@ -385,8 +385,17 @@ cPhs_State daObjMagmarock::Method::Create(void*) {
 }
 
 /* 00001A90-00001B14       .text Delete__Q214daObjMagmarock6MethodFPv */
-BOOL daObjMagmarock::Method::Delete(void*) {
-    /* Nonmatching */
+BOOL daObjMagmarock::Method::Delete(void* param_1) {
+    daObjMagmarock::Act_c* i_this = (daObjMagmarock::Act_c*)param_1;
+    dComIfG_resDelete(&i_this->field_0x2EC, daObjMagmarock::Act_c::M_arcname);
+
+    if (i_this->heap != NULL) {
+        if (i_this->field_0x358->ChkUsed()) {
+            dComIfG_Bgsp()->Release((cBgW*)i_this->field_0x358);
+        }
+    }
+
+    return TRUE;
 }
 
 /* 00001B14-00001B38       .text Execute__Q214daObjMagmarock6MethodFPv */
