@@ -335,7 +335,6 @@ inline BOOL daObjMagmarock::Act_c::checkProcess(ProcFunc proc) {
 BOOL daObjMagmarock::Act_c::LiftUpRequest(cXyz& param_1) {
     field_0x43C.set(param_1);
 
-
     BOOL thing = checkProcess(&Act_c::wait_proc);
     if (!thing) {
 
@@ -399,13 +398,15 @@ BOOL daObjMagmarock::Method::Delete(void* param_1) {
 }
 
 /* 00001B14-00001B38       .text Execute__Q214daObjMagmarock6MethodFPv */
-BOOL daObjMagmarock::Method::Execute(void*) {
-    /* Nonmatching */
+BOOL daObjMagmarock::Method::Execute(void* param_1) {
+    daObjMagmarock::Act_c* i_this = (daObjMagmarock::Act_c*)param_1;
+    return (i_this)->_execute();
 }
 
 /* 00001B38-00001EC0       .text _execute__Q214daObjMagmarock5Act_cFv */
 bool daObjMagmarock::Act_c::_execute() {
     /* Nonmatching */
+    return TRUE;
 }
 
 /* 00001EC0-00002128       .text Draw__Q214daObjMagmarock6MethodFPv */
