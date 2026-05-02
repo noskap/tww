@@ -13,6 +13,7 @@
 #include "d/d_lib.h"
 
 const char daObjMagmarock::Act_c::M_arcname[] = "Kyjim";
+GXColor daObjMagmarock::Act_c::default_color = { 0xFF, 0xFF, 0xFF, 0xFF };
 
 /* 00000078-00000128       .text set_mtx__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::set_mtx() {
