@@ -341,9 +341,8 @@ BOOL daObjMagmarock::Act_c::LiftUpRequest(cXyz& param_1) {
 
         BOOL thing2 = checkProcess(&Act_c::appear_proc);
         if (thing2) {
-            cXyz diff = current.pos - field_0x43C;
-            cXyz dir;
 
+            cXyz dir = current.pos - field_0x43C;
             dir.y = 0.0f;
 
             if (!dir.normalizeRS()) {
