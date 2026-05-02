@@ -228,7 +228,7 @@ int daObjMagmarock::Act_c::CreateHeap() {
     void* modelData = dComIfG_getObjectRes(M_arcname, KYJIM_BDL_KYJIM_00);
 
     JUT_ASSERT(0x14D, modelData != 0);
-    model = mDoExt_J3DModel__create((J3DModelData*)modelData,  0, 0x11020203);
+    model = mDoExt_J3DModel__create((J3DModelData*)modelData, 0, 0x11020203);
 
     M_brk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(M_arcname, KYJIM_BRK_KYJIM_00);
     M_bck = (J3DAnmTransform*)dComIfG_getObjectRes(M_arcname, KYJIM_BCK_KYJIM_00);
@@ -330,8 +330,43 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
 }
 
 /* 000013B4-00001560       .text LiftUpRequest__Q214daObjMagmarock5Act_cFR4cXyz */
-void daObjMagmarock::Act_c::LiftUpRequest(cXyz&) {
-    /* Nonmatching */
+BOOL daObjMagmarock::Act_c::LiftUpRequest(cXyz& param_1) {
+    field_0x43C.set(param_1);
+    ProcFunc wait = &Act_c::wait_proc;
+    if (field_0x2E0 != wait) {
+
+        ProcFunc appear = &Act_c::appear_proc;
+
+        if (field_0x2E0 == appear) {
+            cXyz diff = current.pos - field_0x43C;
+            cXyz dir;
+
+            dir.x = diff.x;
+            dir.z = diff.z;
+            dir.y = 0.0f;
+
+            if (!dir.normalizeRS()) {
+                dir.x = 0.0f;
+                dir.y = 0.0f;
+                dir.z = 1.0f;
+            }
+
+            PSVECScale(&dir, &dir, 10.0f);
+            PSVECAdd(&current.pos, &dir, &current.pos);
+        }
+
+        return FALSE;
+    } else {
+        cLib_addCalcPos2(&current.pos, param_1, 0.05f, 5.0f);
+        cLib_addCalc2(&field_0x430, 750.0f, 0.5f, 40.0f);
+        cLib_addCalcAngleS2(&field_0x456, 0x1200, 4, 0x100);
+
+        field_0x454 += field_0x456;
+        cLib_addCalc2(&current.pos.y, param_1.y, 0.25f, 150.0f);
+
+        field_0x45C = 1;
+        return TRUE;
+    }
 }
 
 /* 00001560-0000167C       .text BeforeLiftRequest__Q214daObjMagmarock5Act_cFR4cXyz */
