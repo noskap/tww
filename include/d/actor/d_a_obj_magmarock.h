@@ -19,6 +19,7 @@ namespace daObjMagmarock {
         inline bool _draw();
         inline bool _execute();
         BOOL checkProcess(ProcFunc proc);
+        f32 getMagmaY(cXyz* pos);
         void setProcess(ProcFunc func) { field_0x2E0 = func; }
 
         void set_mtx();
@@ -67,7 +68,7 @@ namespace daObjMagmarock {
         /* 0x328 */ Mtx field_0x328;
         /* 0x358 */ dBgW* field_0x358;
         /* 0x35C */ dKy_tevstr_c field_0x35C;
-        /* 0x40C */ u8 field_0x40C[0x430 - 0x40C];
+        /* 0x40C */ cXyz field_0x40C[2];
         /* 0x430 */ f32 field_0x430;
         /* 0x434 */ f32 field_0x434;
         /* 0x438 */ f32 field_0x438;

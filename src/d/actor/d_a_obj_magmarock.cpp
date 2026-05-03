@@ -13,7 +13,18 @@
 #include "d/d_lib.h"
 
 const char daObjMagmarock::Act_c::M_arcname[] = "Kyjim";
-GXColor daObjMagmarock::Act_c::default_color = { 0xFF, 0xFF, 0xFF, 0xFF };
+GXColor daObjMagmarock::Act_c::default_color = {0xFF, 0xFF, 0xFF, 0xFF};
+
+inline f32 daObjMagmarock::Act_c::getMagmaY(cXyz* pos) {
+    if (g_dComIfG_gameInfo.play.mpMagmaPacket != NULL) {
+        return g_dComIfG_gameInfo.play.mpMagmaPacket->checkYpos(*pos);
+    }
+    return current.pos.y - 10.0f;
+}
+
+inline BOOL daObjMagmarock::Act_c::checkProcess(ProcFunc proc) {
+    return field_0x2E0 == proc;
+}
 
 /* 00000078-00000128       .text set_mtx__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::set_mtx() {
@@ -329,9 +340,7 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
 
     return TRUE;
 }
-inline BOOL daObjMagmarock::Act_c::checkProcess(ProcFunc proc) {
-    return field_0x2E0 == proc;
-}
+
 /* 000013B4-00001560       .text LiftUpRequest__Q214daObjMagmarock5Act_cFR4cXyz */
 BOOL daObjMagmarock::Act_c::LiftUpRequest(cXyz& param_1) {
     field_0x43C.set(param_1);
@@ -396,7 +405,32 @@ BOOL daObjMagmarock::Act_c::BeforeLiftRequest(cXyz& param_1) {
 
 /* 0000167C-000017DC       .text calc_ground_quat__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::calc_ground_quat() {
-    /* Nonmatching */
+    f32 magma_y;
+    if (dComIfGp_getMagma() != NULL) {
+        magma_y = dComIfGp_getMagma()->checkYpos(current.pos);
+    } else {
+        magma_y = current.pos.y - 10.0f;
+    }
+
+    if (magma_y > -1e8f) {
+        home.pos.y = magma_y + 10.0f + 15.0f;
+    }
+
+    home.pos.x = current.pos.x;
+    home.pos.z = current.pos.z;
+
+    field_0x40C[1].set(103.9f, 0.0f, -60.0f);
+    field_0x40C[3].set(-103.9f, 0.0f, -60.0f);
+
+    for (int i = 0; i < 3; i++) {
+        PSVECAdd(&field_0x40C[i], &home.pos, &field_0x40C[i]);
+
+        f32 pt_y = getMagmaY(&field_0x40C[i]);
+
+        if (pt_y > -1e8f) {
+            field_0x40C[i].y = pt_y + 15.0f;
+        }
+    }
 }
 
 /* 000017DC-0000198C       .text Create__Q214daObjMagmarock6MethodFPv */
