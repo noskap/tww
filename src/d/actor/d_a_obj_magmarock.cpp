@@ -419,8 +419,15 @@ void daObjMagmarock::Act_c::calc_ground_quat() {
     home.pos.x = current.pos.x;
     home.pos.z = current.pos.z;
 
-    field_0x40C[1].set(103.9f, 0.0f, -60.0f);
-    field_0x40C[3].set(-103.9f, 0.0f, -60.0f);
+    field_0x40C[0].x = 0.0f;
+    field_0x40C[0].y = 0.0f;
+    field_0x40C[0].z = 120.0f;
+    field_0x40C[1].x = 103.9f;
+    field_0x40C[1].y = 0.0f;
+    field_0x40C[1].z = -60.0f;
+    field_0x40C[2].x = -103.9f;
+    field_0x40C[2].y = 0.0f;
+    field_0x40C[2].z = -60.0f;
 
     for (int i = 0; i < 3; i++) {
         PSVECAdd(&field_0x40C[i], &home.pos, &field_0x40C[i]);
@@ -431,6 +438,8 @@ void daObjMagmarock::Act_c::calc_ground_quat() {
             field_0x40C[i].y = pt_y + 15.0f;
         }
     }
+
+    dLib_calc_QuatFromTriangle(&field_0x2D0, 0.25f, &field_0x40C[0], &field_0x40C[1], &field_0x40C[2]);
 }
 
 /* 000017DC-0000198C       .text Create__Q214daObjMagmarock6MethodFPv */
