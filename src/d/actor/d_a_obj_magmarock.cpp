@@ -412,7 +412,7 @@ void daObjMagmarock::Act_c::calc_ground_quat() {
         magma_y = current.pos.y - 10.0f;
     }
 
-    if (magma_y > -1e8f) {
+    if (magma_y > -99999990.0f) {
         home.pos.y = magma_y + 10.0f + 15.0f;
     }
 
@@ -434,7 +434,7 @@ void daObjMagmarock::Act_c::calc_ground_quat() {
 
         f32 pt_y = getMagmaY(&field_0x40C[i]);
 
-        if (pt_y > -1e8f) {
+        if (pt_y > -99999990.0f) {
             field_0x40C[i].y = pt_y + 15.0f;
         }
     }
