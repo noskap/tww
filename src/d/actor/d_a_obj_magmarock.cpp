@@ -443,8 +443,24 @@ void daObjMagmarock::Act_c::calc_ground_quat() {
 }
 
 /* 000017DC-0000198C       .text Create__Q214daObjMagmarock6MethodFPv */
-cPhs_State daObjMagmarock::Method::Create(void*) {
-    /* Nonmatching */
+cPhs_State daObjMagmarock::Method::Create(void* param_1) {
+    daObjMagmarock::Act_c* i_this = (daObjMagmarock::Act_c*)param_1;
+    fopAcM_SetupActor(i_this, daObjMagmarock::Act_c);
+    int phase = dComIfG_resLoad(&i_this->field_0x2EC, daObjMagmarock::Act_c::M_arcname);
+
+    if (phase == cPhs_COMPLEATE_e) {
+        if (dComIfGp_getMagma() == NULL) {
+            phase = cPhs_INIT_e;
+        } else {
+            if (!fopAcM_entrySolidHeap(i_this, CheckCreateHeap, 0x5D40)) {
+                phase = cPhs_ERROR_e;
+            } else {
+                i_this->CreateInit();
+            }
+        }
+    }
+
+    return phase;
 }
 
 /* 00001A90-00001B14       .text Delete__Q214daObjMagmarock6MethodFPv */
