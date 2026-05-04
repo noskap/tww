@@ -7,7 +7,7 @@ class dBgW;
 
 namespace daObjMagmarock {
     static void ride_call_back(dBgW*, fopAc_ac_c*, fopAc_ac_c*);
-    static BOOL CheckCreateHeap(fopAc_ac_c* i_this);
+    static BOOL CheckCreateHeap(fopAc_ac_c*);
 
     class Act_c : public fopAc_ac_c {
     public:
@@ -19,8 +19,8 @@ namespace daObjMagmarock {
         inline bool _delete();
         inline bool _draw();
         inline bool _execute();
-        inline BOOL checkProcess(ProcFunc proc);
-        inline f32 getMagmaY(cXyz* pos);
+        inline BOOL checkProcess(ProcFunc);
+        inline f32 getMagmaY(cXyz*);
         void setProcess(ProcFunc func) { field_0x2E0 = func; }
 
         void set_mtx();
