@@ -27,9 +27,13 @@ inline BOOL daObjMagmarock::Act_c::checkProcess(ProcFunc proc) {
 }
 
 cPhs_State daObjMagmarock::Act_c::_create() {
-    fopAcM_SetupActor(this, daObjMagmarock::Act_c);
-
+#if VERSION == VERSION_DEMO
     cPhs_State phase = dComIfG_resLoad(&field_0x2EC, daObjMagmarock::Act_c::M_arcname);
+#endif
+    fopAcM_SetupActor(this, daObjMagmarock::Act_c);
+#if VERSION > VERSION_DEMO
+    cPhs_State phase = dComIfG_resLoad(&field_0x2EC, daObjMagmarock::Act_c::M_arcname);
+#endif
 
     if (phase == cPhs_COMPLEATE_e) {
         if (dComIfGp_getMagma() == NULL) {
@@ -288,14 +292,14 @@ BOOL daObjMagmarock::CheckCreateHeap(fopAc_ac_c* i_this) {
 int daObjMagmarock::Act_c::CreateHeap() {
     void* modelData = dComIfG_getObjectRes(M_arcname, KYJIM_BDL_KYJIM_00);
 
-    JUT_ASSERT(0x14D, modelData != 0);
+    JUT_ASSERT(DEMO_SELECT(0x148, 0x14D), modelData != 0);
     model = mDoExt_J3DModel__create((J3DModelData*)modelData, 0, 0x11020203);
 
     M_brk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(M_arcname, KYJIM_BRK_KYJIM_00);
     M_bck = (J3DAnmTransform*)dComIfG_getObjectRes(M_arcname, KYJIM_BCK_KYJIM_00);
 
-    JUT_ASSERT(0x155, M_brk != NULL);
-    JUT_ASSERT(0x156, M_bck != NULL);
+    JUT_ASSERT(DEMO_SELECT(0x150, 0x155), M_brk != NULL);
+    JUT_ASSERT(DEMO_SELECT(0x151, 0x156), M_bck != NULL);
 
     int brk_res = field_0x2FC.init((J3DModelData*)modelData, M_brk, FALSE, 2, 1.0f, 0, -1, FALSE, 0);
     int bck_res = field_0x318.init((J3DModelData*)modelData, M_bck, FALSE, 2, 1.0f, 0, -1, FALSE);
@@ -356,8 +360,9 @@ BOOL daObjMagmarock::Act_c::CreateInit() {
         if (field_0x2A0 == 0) {
             s8 reverb = dComIfGp_getReverb(fopAcM_GetRoomNo(this));
             mDoAud_seStart(JA_SE_MAGMA_TO_ISLE, &eyePos, 0, reverb);
-
+#if VERSION > VERSION_DEMO
             dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
+#endif
             field_0x35C = tevStr;
             g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &field_0x35C);
 
@@ -534,9 +539,11 @@ bool daObjMagmarock::Act_c::_execute() {
     }
 
     if (current.pos.y < home.pos.y + 100.0f) {
+#if VERSION < VERSION_DEMO
         if (old.pos.y >= home.pos.y + 100.0f) {
             dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
         }
+#endif
 
         if (current.pos.y < home.pos.y) {
             f32 min_y = home.pos.y - 30.0f;
