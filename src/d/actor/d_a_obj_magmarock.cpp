@@ -46,6 +46,28 @@ cPhs_State daObjMagmarock::Act_c::_create() {
     return phase;
 }
 
+bool daObjMagmarock::Act_c::_draw() {
+    g_env_light.settingTevStruct(TEV_TYPE_BG0, &current.pos, &tevStr);
+    g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &field_0x35C);
+
+    field_0x35C.mColorC0.r = (u8)(field_0x35C.mColorC0.r + (int)(0.12f * (0xFF - field_0x35C.mColorC0.r)));
+    field_0x35C.mColorC0.g = (u8)(field_0x35C.mColorC0.g + (int)(0.12f * (0xFF - field_0x35C.mColorC0.g)));
+    field_0x35C.mColorC0.b = (u8)(field_0x35C.mColorC0.b + (int)(0.12f * (0xFF - field_0x35C.mColorC0.b)));
+
+    field_0x35C.mColorK0.r = (u8)(field_0x35C.mColorK0.r + (int)(0.12f * (0xFF - field_0x35C.mColorK0.r)));
+    field_0x35C.mColorK0.g = (u8)(field_0x35C.mColorK0.g + (int)(0.12f * (0xFF - field_0x35C.mColorK0.g)));
+    field_0x35C.mColorK0.b = (u8)(field_0x35C.mColorK0.b + (int)(0.12f * (0xFF - field_0x35C.mColorK0.b)));
+
+    g_env_light.setLightTevColorType(model, &tevStr);
+
+    field_0x2FC.entry(model->getModelData(), (s16)field_0x438);
+    field_0x318.entry(model->getModelData(), (s16)field_0x434);
+
+    mDoExt_modelUpdateDL(model);
+
+    return TRUE;
+}
+
 /* 00000078-00000128       .text set_mtx__Q214daObjMagmarock5Act_cFv */
 void daObjMagmarock::Act_c::set_mtx() {
     model->setBaseScale(scale);
@@ -557,8 +579,8 @@ bool daObjMagmarock::Act_c::_execute() {
 }
 
 /* 00001EC0-00002128       .text Draw__Q214daObjMagmarock6MethodFPv */
-BOOL daObjMagmarock::Method::Draw(void*) {
-    /* Nonmatching */
+BOOL daObjMagmarock::Method::Draw(void* i_this) {
+    return static_cast<daObjMagmarock::Act_c*>(i_this)->_draw();
 }
 
 /* 00002128-00002130       .text IsDelete__Q214daObjMagmarock6MethodFPv */
