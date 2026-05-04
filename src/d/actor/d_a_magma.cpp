@@ -30,7 +30,8 @@ cPhs_State daMagma_c::create() {
 #if VERSION > VERSION_DEMO
         dComIfGp_getMagma()->newFloor(current.pos, scale, current.roomNo, getPathNo());
 #else
-        dComIfGp_getMagma()->newFloor(current.pos, scale, fopAcM_GetRoomNo(this), fopAcM_GetParam(this));
+        s16 pathNo = fopAcM_GetParam(this);
+        dComIfGp_getMagma()->newFloor(current.pos, scale, fopAcM_GetRoomNo(this), pathNo);
 #endif
     }
 
