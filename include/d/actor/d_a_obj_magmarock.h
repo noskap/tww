@@ -13,8 +13,8 @@ namespace daObjMagmarock {
     public:
         typedef void (Act_c::*ProcFunc)();
 
-        virtual ~Act_c() {}
-        void MeltDownRequest() {}
+        virtual BOOL LiftUpRequest(cXyz&);
+        virtual BOOL BeforeLiftRequest(cXyz&);
         inline cPhs_State _create();
         inline bool _delete();
         inline bool _draw();
@@ -39,13 +39,11 @@ namespace daObjMagmarock {
         void vanish_proc();
         int CreateHeap();
         BOOL CreateInit();
-        BOOL LiftUpRequest(cXyz&);
-        BOOL BeforeLiftRequest(cXyz&);
         void calc_ground_quat();
         static const char M_arcname[];
         static GXColor default_color;
     public:
-        /* 0x290 */ void* vtbl;
+        /* 0x294 */ u8 padding[0x298 - 0x294];
         /* 0x298 */ s16 field_0x298;
         /* 0x29A */ s16 field_0x29A;
         /* 0x29C */ s16 field_0x29C;
