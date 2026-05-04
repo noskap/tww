@@ -122,7 +122,9 @@ void daObjMagmarock::Act_c::ControlEffect() {
             }
 
             if (field_0x2AC == NULL) {
+#if VERSION > VERSION_DEMO
                 dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
+#endif
                 field_0x2AC = dComIfGp_particle_setToon(dPa_name::ID_AK_SN_MAGMAISLAND01, &current.pos, NULL, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
             } else {
                 field_0x2AC->setGlobalTranslation(current.pos.x, current.pos.y, current.pos.z);
@@ -256,8 +258,13 @@ void daObjMagmarock::ride_call_back(dBgW* bgw, fopAc_ac_c* i_magmarock, fopAc_ac
     f32 mag = vec.abs();
 
     if (vec.normalizeRS()) {
+#if VERSION > VERSION_DEMO
         short target_angle = (-mag * ((rock->current.pos.y - rock->home.pos.y) * 0.001f * 4.0f + 2.0f));
-
+#else
+        f32 factor = rock->current.pos.y - rock->home.pos.y;
+        factor = 0.001f * factor;
+        short target_angle = (short)(-mag * (2.0f + 4.0f * factor));
+#endif
         cLib_addCalcAngleS2(&rock->field_0x298, target_angle, 8, 0x200);
 
         rock->field_0x29C = 1;
