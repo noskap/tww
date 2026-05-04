@@ -497,6 +497,7 @@ bool daObjMagmarock::Act_c::_execute() {
             cLib_addCalc2(&field_0x430, 0.0f, 0.2f, 20.0f);
             cLib_addCalcAngleS2(&field_0x456, 0, 4, 0x100);
         }
+
         current.pos.y += speed.y;
         speed.y += gravity;
     } else {
@@ -504,7 +505,7 @@ bool daObjMagmarock::Act_c::_execute() {
     }
 
     if (current.pos.y < home.pos.y + 100.0f) {
-        if (home.pos.y + 100.0f <= old.pos.y) {
+        if (old.pos.y >= home.pos.y + 100.0f) {
             dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
         }
 
@@ -520,7 +521,7 @@ bool daObjMagmarock::Act_c::_execute() {
     }
 
     if (field_0x45C == 0) {
-        if (checkProcess(&Act_c::stay_proc)) {
+        if ((BOOL*)!checkProcess(&Act_c::stay_proc)) {
             field_0x448--;
             field_0x44C++;
         }
@@ -535,14 +536,16 @@ bool daObjMagmarock::Act_c::_execute() {
     (this->*field_0x2E0)();
 
     play_anim();
-    shape_angle.x = (s16)(int)(field_0x430 * cM_scos(field_0x454));
-    shape_angle.z = (s16)(int)(field_0x430 * cM_ssin(field_0x454));
+    shape_angle.x = field_0x430 * cM_scos(field_0x454);
+    shape_angle.z = field_0x430 * cM_ssin(field_0x454);
 
     if (field_0x29C == 0) {
         field_0x2C0 = ZeroQuat;
     }
 
-    C_QUATSlerp(&field_0x2B0, &field_0x2C0, &field_0x2B0, 0.25f);
+    Quaternion quat;
+    C_QUATSlerp(&field_0x2B0, &field_0x2C0, &quat, 0.25f);
+    field_0x2B0 = quat;
     field_0x29C = 0;
 
     if (field_0x358->ChkUsed()) {
@@ -550,7 +553,7 @@ bool daObjMagmarock::Act_c::_execute() {
         field_0x358->Move();
     }
 
-    return TRUE;
+    return FALSE;
 }
 
 /* 00001EC0-00002128       .text Draw__Q214daObjMagmarock6MethodFPv */
