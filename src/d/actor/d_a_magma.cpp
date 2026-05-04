@@ -18,20 +18,20 @@ daMagma_c::~daMagma_c() {
 #endif
 
 cPhs_State daMagma_c::create() {
+#if VERSION > VERSION_DEMO
     fopAcM_SetupActor(this, daMagma_c);
-
+#endif
     cPhs_State result = dComIfG_resLoad(&mPhs, "Magma");
     if (result != cPhs_COMPLEATE_e) {
         return result;
     }
 
     if (dComIfGp_createMagma()) {
-        dComIfGp_getMagma()->newFloor(
-            current.pos,
-            scale,
-            current.roomNo,
-            getPathNo()
-        );
+#if VERSION > VERSION_DEMO
+        dComIfGp_getMagma()->newFloor(current.pos, scale, current.roomNo, getPathNo());
+#else
+        dComIfGp_getMagma()->newFloor(current.pos, scale, fopAcM_GetRoomNo(this), fopAcM_GetParam(this));
+#endif
     }
 
     return cPhs_ERROR_e;
