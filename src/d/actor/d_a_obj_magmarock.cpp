@@ -546,7 +546,7 @@ bool daObjMagmarock::Act_c::_execute() {
     }
 
     if (current.pos.y < home.pos.y + 100.0f) {
-#if VERSION < VERSION_DEMO
+#if VERSION > VERSION_DEMO
         if (old.pos.y >= home.pos.y + 100.0f) {
             dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
         }
