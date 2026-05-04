@@ -13,13 +13,14 @@ namespace daObjMagmarock {
     public:
         typedef void (Act_c::*ProcFunc)();
 
+        virtual ~Act_c() {}
         void MeltDownRequest() {}
         inline cPhs_State _create();
         inline bool _delete();
         inline bool _draw();
         inline bool _execute();
-        BOOL checkProcess(ProcFunc proc);
-        f32 getMagmaY(cXyz* pos);
+        inline BOOL checkProcess(ProcFunc proc);
+        inline f32 getMagmaY(cXyz* pos);
         void setProcess(ProcFunc func) { field_0x2E0 = func; }
 
         void set_mtx();
@@ -45,7 +46,6 @@ namespace daObjMagmarock {
         static GXColor default_color;
     public:
         /* 0x290 */ void* vtbl;
-        /* 0x294 */ u8 field_0x294[0x298 - 0x294];
         /* 0x298 */ s16 field_0x298;
         /* 0x29A */ s16 field_0x29A;
         /* 0x29C */ s16 field_0x29C;
