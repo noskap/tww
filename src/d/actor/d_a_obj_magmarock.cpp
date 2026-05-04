@@ -489,7 +489,67 @@ BOOL daObjMagmarock::Method::Execute(void* param_1) {
 
 /* 00001B38-00001EC0       .text _execute__Q214daObjMagmarock5Act_cFv */
 bool daObjMagmarock::Act_c::_execute() {
-    /* Nonmatching */
+    calc_ground_quat();
+
+    if (field_0x45C == 0) {
+        if ((BOOL*)(checkProcess(&Act_c::quake_proc))) {
+        } else if ((BOOL*)!checkProcess(&Act_c::vanish_proc)) {
+            cLib_addCalc2(&field_0x430, 0.0f, 0.2f, 20.0f);
+            cLib_addCalcAngleS2(&field_0x456, 0, 4, 0x100);
+        }
+        current.pos.y += speed.y;
+        speed.y += gravity;
+    } else {
+        speed.y = 0.0f;
+    }
+
+    if (current.pos.y < home.pos.y + 100.0f) {
+        if (home.pos.y + 100.0f <= old.pos.y) {
+            dComIfGp_getVibration().StartShock(4, 1, cXyz(0.0f, 1.0f, 0.0f));
+        }
+
+        if (current.pos.y < home.pos.y) {
+            f32 min_y = home.pos.y - 30.0f;
+
+            if (current.pos.y < min_y) {
+                current.pos.y = min_y;
+            }
+            speed.y -= (g_regHIO.mChild[10].mFloatRegs[26] + 0.4f) * (current.pos.y - home.pos.y);
+        }
+        speed.y *= (0.65f - g_regHIO.mChild[10].mFloatRegs[25]);
+    }
+
+    if (field_0x45C == 0) {
+        if (checkProcess(&Act_c::stay_proc)) {
+            field_0x448--;
+            field_0x44C++;
+        }
+    }
+
+    set_mtx();
+    demo_move();
+    ControlEffect();
+
+    field_0x45C = 0;
+    field_0x45E = 0;
+    (this->*field_0x2E0)();
+
+    play_anim();
+    shape_angle.x = (s16)(int)(field_0x430 * cM_scos(field_0x454));
+    shape_angle.z = (s16)(int)(field_0x430 * cM_ssin(field_0x454));
+
+    if (field_0x29C == 0) {
+        field_0x2C0 = ZeroQuat;
+    }
+
+    C_QUATSlerp(&field_0x2B0, &field_0x2C0, &field_0x2B0, 0.25f);
+    field_0x29C = 0;
+
+    if (field_0x358->ChkUsed()) {
+        ((u32*)field_0x358)[0x1E] |= 4;
+        field_0x358->Move();
+    }
+
     return TRUE;
 }
 
