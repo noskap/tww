@@ -19,7 +19,7 @@ void dMagma_ballBoss_c::calc(f32 param_1, u8 param_2, int param_3) {
     }
 
     if (btd != NULL) {
-        f32 diff = std::fabsf(btd->m6E7C - std::sqrtf((mPos.x * mPos.x) + (mPos.z * mPos.z)));
+        f32 diff = std::fabsf(btd->m6E7C - std::sqrtf(SQUARE(mPos.x) + SQUARE(mPos.z)));
 
         if (diff < 300.0f) {
             f32 targetY = (mBaseY + (50.0f + REG0_F(5)) + 30.0f) - (diff * 0.1f);
@@ -27,7 +27,7 @@ void dMagma_ballBoss_c::calc(f32 param_1, u8 param_2, int param_3) {
             cLib_addCalc2(&mScale, 1.5f, 0.2f, 0.2f);
 
             mWave = 0x4000;
-            mWaveTimer = 1000;
+            field_0x7C = 1000;
             return;
         }
     }
@@ -37,7 +37,7 @@ void dMagma_ballBoss_c::calc(f32 param_1, u8 param_2, int param_3) {
     }
     mPos.y = mBaseY + (REG0_F(5) + 50.0f) * cM_ssin(mWave);
 
-    mWave += mWaveTimer;
+    mWave += field_0x7C;
 }
 
 /* 80076CDC-80076D50       .text update__17dMagma_ballBoss_cFv */
@@ -73,7 +73,7 @@ void dMagma_ballBoss_c::setup(f32 param_1, u8 param_2, int param_3) {
 
     if (btd != NULL) {
         if (btd->m6E88 == 1) {
-            f32 dist = std::sqrtf((mPos.x * mPos.x) + (mPos.z * mPos.z));
+            f32 dist = std::sqrtf(SQUARE(mPos.x) + SQUARE(mPos.z));
 
             f32 target_dist = REG0_F(16) + 800.0f;
 
@@ -84,11 +84,6 @@ void dMagma_ballBoss_c::setup(f32 param_1, u8 param_2, int param_3) {
         mBaseY += btd->m6E84;
     }
 
-    mWaveTimer = (cM_rndF(100.0f) + 400.0f);
+    field_0x7C = (cM_rndF(100.0f) + 400.0f);
     mWave = (cM_rndF(8.0f) * 4096.0f);
-}
-
-/* 80076FEC-80077048       .text __dt__17dMagma_ballBoss_cFv */
-dMagma_ballBoss_c::~dMagma_ballBoss_c() {
-    /* Nonmatching */
 }
