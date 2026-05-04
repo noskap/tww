@@ -504,19 +504,18 @@ cPhs_State daObjMagmarock::Method::Create(void* i_this) {
 /* 00001A90-00001B14       .text Delete__Q214daObjMagmarock6MethodFPv */
 BOOL daObjMagmarock::Method::Delete(void* param_1) {
 #if VERSION > VERSION_DEMO
-    daObjMagmarock::Act_c* i_this = (daObjMagmarock::Act_c*)param_1;
-    dComIfG_resDelete(&i_this->field_0x2EC, daObjMagmarock::Act_c::M_arcname);
+    Act_c* i_this = (Act_c*)param_1;
+    dComIfG_resDelete(&i_this->field_0x2EC, Act_c::M_arcname);
 
     if (i_this->heap != NULL) {
-        if (i_this->field_0x358->ChkUsed()) {
-            dComIfG_Bgsp()->Release((cBgW*)i_this->field_0x358);
-        }
-    }
 #else
     dRes_control_c::deleteRes(Act_c::M_arcname, (dRes_info_c*)&g_dComIfG_gameInfo.mResControl, 0x40);
     Act_c* i_this = (Act_c*)param_1;
-    if (i_this->field_0x358->ChkUsed()) {
-        g_dComIfG_gameInfo.play.mBgS.Release((cBgW*)i_this->field_0x358);
+#endif
+        if (i_this->field_0x358->ChkUsed()) {
+            dComIfG_Bgsp()->Release((cBgW*)i_this->field_0x358);
+        }
+#if VERSION > VERSION_DEMO
     }
 #endif
 
