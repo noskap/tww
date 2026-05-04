@@ -11,9 +11,11 @@
 #include "d/d_com_inf_game.h"
 #include "d/d_magma.h"
 
+#if VERSION > VERSION_DEMO
 daMagma_c::~daMagma_c() {
     dComIfG_resDelete(&mPhs, "Magma");
 }
+#endif
 
 cPhs_State daMagma_c::create() {
     fopAcM_SetupActor(this, daMagma_c);
