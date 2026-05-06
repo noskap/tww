@@ -1496,7 +1496,7 @@ config.libs = [
     ActorRel(Matching,    "d_a_tama"),
     ActorRel(MatchingFor("GZLJ01", "GZLE01", "GZLP01"),    "d_a_tbox"),
     ActorRel(Matching,    "d_a_tpota"),
-    ActorRel(Equivalent,  "d_a_tsubo"),
+    ActorRel(Matching,    "d_a_tsubo"),
     ActorRel(Matching,    "d_a_warpdm20"),
     ActorRel(Matching,    "d_a_warphr"),
     ActorRel(MatchingFor("GZLJ01", "GZLE01", "GZLP01"),    "d_a_wbird"),
