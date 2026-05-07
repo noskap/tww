@@ -242,7 +242,7 @@ void daSalvage_c::checkOrder() {
 
 /* 00000C58-00000D64       .text eventOrder__11daSalvage_cFv */
 void daSalvage_c::eventOrder() {
-    if (dComIfGp_checkPlayerStatus0(0, 0x10000)) {
+    if (dComIfGp_checkPlayerStatus0(0, daPyStts0_SHIP_RIDE_e)) {
         if (m2E9 == 2) {
             fopAcM_orderOtherEventId(this, mSalvageGetItemEventIdx, 0xff, 0xffff, 0, 1);
             eventInfo.onCondition(2);

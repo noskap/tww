@@ -1400,7 +1400,7 @@ void daBemos_c::guard_proc() {
             local_4C += local_58;
             local_4C += local_64;
 
-            if (dComIfGp_checkPlayerStatus1(0, 0x20)) {
+            if (dComIfGp_checkPlayerStatus1(0, daPyStts1_DEKU_LEAF_FLY_e)) {
                 local_4C.y -= 50.0f;
                 mCyl.SetC(local_4C);
                 mCyl.SetR(l_HIO.m44);

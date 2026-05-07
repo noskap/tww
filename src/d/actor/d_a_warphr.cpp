@@ -406,7 +406,7 @@ BOOL daWarphr_c::check_warp() {
     daPy_py_c* player = daPy_getPlayerActorClass();
     f32 abs = (player->current.pos - current.pos).absXZ();
 
-    if (dComIfGp_checkPlayerStatus0(0, 0x10000)) {
+    if (dComIfGp_checkPlayerStatus0(0, daPyStts0_SHIP_RIDE_e)) {
         daShip_c* ship = dComIfGp_getShipActor();
         if (ship != NULL) {
             f32 abs = (ship->current.pos - current.pos).absXZ();

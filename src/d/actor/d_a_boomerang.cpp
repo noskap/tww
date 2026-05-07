@@ -326,7 +326,7 @@ static BOOL daBoomerang_Draw(daBoomerang_c* i_this) {
 
 /* 800E19B8-800E1A14       .text getFlyMax__13daBoomerang_cFv */
 float daBoomerang_c::getFlyMax() {
-    if (dComIfGp_checkPlayerStatus0(0, 0x10000) != 0) {
+    if (dComIfGp_checkPlayerStatus0(0, daPyStts0_SHIP_RIDE_e)) {
         return 5000.0f;
     }
 
