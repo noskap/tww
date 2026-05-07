@@ -2082,12 +2082,12 @@ static BOOL CheckCreateHeap(fopAc_ac_c* i_this) {
 cPhs_State daNpc_Hr_c::_create() {
 
 #if VERSION > VERSION_DEMO
-    fopAcM_SetupActor(this, daNpc_Hr_c);
+    fopAcM_ct(this, daNpc_Hr_c);
 #endif
     cPhs_State state = dComIfG_resLoad(&mPhs, "Hr");
     if (state == cPhs_COMPLEATE_e) {
 #if VERSION == VERSION_DEMO
-    fopAcM_SetupActor(this, daNpc_Hr_c);
+    fopAcM_ct(this, daNpc_Hr_c);
 #endif
         switch(fopAcM_GetName(this)) {
             case PROC_NPC_HR:

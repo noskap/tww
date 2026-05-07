@@ -258,7 +258,7 @@ BOOL daMbdoor_c::CreateInit() {
 cPhs_State daMbdoor_c::create() {
     cPhs_State phase_state = dComIfG_resLoad(&mPhs, getArcName());
 #if VERSION > VERSION_DEMO
-    fopAcM_SetupActor(this, daMbdoor_c);
+    fopAcM_ct(this, daMbdoor_c);
 #endif
     
     if (phase_state != cPhs_COMPLEATE_e) {
@@ -266,7 +266,7 @@ cPhs_State daMbdoor_c::create() {
     }
 
 #if VERSION == VERSION_DEMO
-    fopAcM_SetupActor(this, daMbdoor_c);
+    fopAcM_ct(this, daMbdoor_c);
 #endif
 
     if (!fopAcM_entrySolidHeap(this, CheckCreateHeap, 0x8200)) {

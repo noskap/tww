@@ -1856,9 +1856,9 @@ cPhs_State daNpc_Tc_c::_create() {
 #if VERSION == VERSION_DEMO
     cPhs_State phase_state = dComIfG_resLoad(&mPhs, "Tc");
     if(phase_state == cPhs_COMPLEATE_e) {
-        fopAcM_SetupActor(this, daNpc_Tc_c);
+        fopAcM_ct(this, daNpc_Tc_c);
 #else
-    fopAcM_SetupActor(this, daNpc_Tc_c);
+    fopAcM_ct(this, daNpc_Tc_c);
     cPhs_State phase_state = dComIfG_resLoad(&mPhs, "Tc");
     if(phase_state == cPhs_COMPLEATE_e) {
 #endif

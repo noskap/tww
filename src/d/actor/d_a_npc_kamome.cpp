@@ -313,7 +313,7 @@ static BOOL checkCreateHeap(fopAc_ac_c* i_this) {
 /* 00000ED8-0000101C       .text create__11daNpc_kam_cFv */
 cPhs_State daNpc_kam_c::create() {
 #if VERSION > VERSION_DEMO
-    fopAcM_SetupActor(this, daNpc_kam_c);
+    fopAcM_ct(this, daNpc_kam_c);
 #endif
     
     if (l_act != NULL && l_act != this) {
@@ -327,7 +327,7 @@ cPhs_State daNpc_kam_c::create() {
     
     if (phase_state == cPhs_COMPLEATE_e) {
 #if VERSION == VERSION_DEMO
-        fopAcM_SetupActor(this, daNpc_kam_c);
+        fopAcM_ct(this, daNpc_kam_c);
 #endif
 
         if (!fopAcM_entrySolidHeap(this, checkCreateHeap, l_heap_size)) {

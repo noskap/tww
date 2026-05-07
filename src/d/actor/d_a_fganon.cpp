@@ -2735,7 +2735,7 @@ static BOOL useHeapInit(fopAc_ac_c* i_act) {
 static cPhs_State daFganon_Create(fopAc_ac_c* a_this) {
     fganon_class* i_this = (fganon_class*)a_this;
     fopEn_enemy_c* e_this = (fopEn_enemy_c*)a_this;
-    fopAcM_SetupActor(a_this, fganon_class);
+    fopAcM_ct(a_this, fganon_class);
     s32 res;
     s32 res2;
     

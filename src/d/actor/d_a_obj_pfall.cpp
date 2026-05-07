@@ -184,14 +184,14 @@ void daObj_Pfall_c::CreateInit() {
 /* 000008CC-000009E8       .text _create__13daObj_Pfall_cFv */
 cPhs_State daObj_Pfall_c::_create() {
 #if VERSION > VERSION_DEMO
-    fopAcM_SetupActor(this, daObj_Pfall_c);
+    fopAcM_ct(this, daObj_Pfall_c);
 #endif
 
     cPhs_State phase = dComIfG_resLoad(&mPhsPfall, "Pfall");
 
     if (phase == cPhs_COMPLEATE_e) {
 #if VERSION == VERSION_DEMO
-            fopAcM_SetupActor(this, daObj_Pfall_c);
+            fopAcM_ct(this, daObj_Pfall_c);
 #endif
 
         if (!fopAcM_entrySolidHeap(this, CallbackCreateHeap, 0x38E0)) {

@@ -478,14 +478,14 @@ cPhs_State daBemos_c::_create() {
     cPhs_State ret = dComIfG_resLoad(&mPhase, m_arcname);
     m6B8 = fopAcM_GetParam(this) >> 0x1C;
 #else
-    fopAcM_SetupActor(this, daBemos_c);
+    fopAcM_ct(this, daBemos_c);
     cPhs_State ret = dComIfG_resLoad(&mPhase, m_arcname);
     m6B8 = fopAcM_GetParam(this) >> 0x1C;
 #endif
 
     if (ret == cPhs_COMPLEATE_e) {
 #if VERSION == VERSION_DEMO
-        fopAcM_SetupActor(this, daBemos_c);
+        fopAcM_ct(this, daBemos_c);
 #endif
 
         static s32 SHeapSize[] = {0x1740, 0x1E00, 0xBA0};

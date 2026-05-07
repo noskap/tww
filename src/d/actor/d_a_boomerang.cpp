@@ -797,7 +797,7 @@ static dCcD_SrcCps l_at_cps_src = {
 
 /* 800E2CE8-800E2EF0       .text create__13daBoomerang_cFv */
 cPhs_State daBoomerang_c::create() {
-    fopAcM_SetupActor(this, daBoomerang_c);
+    fopAcM_ct(this, daBoomerang_c);
 
     if (!fopAcM_entrySolidHeap(this, daBoomerang_createHeap, 0xD40)) {
         return cPhs_ERROR_e;

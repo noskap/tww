@@ -249,7 +249,7 @@ BOOL daHmlif_c::Create() {
 
 /* 000007C8-00000930       .text daHmlifCreate__9daHmlif_cFv */
 cPhs_State daHmlif_c::daHmlifCreate() {
-    fopAcM_SetupActor(this, daHmlif_c);
+    fopAcM_ct(this, daHmlif_c);
     m489 = daHmlif_prm::getType(this);
     cPhs_State PVar2 = dComIfG_resLoad(&mPhase, m_arcname[m489]);
     if (PVar2 == cPhs_COMPLEATE_e) {
