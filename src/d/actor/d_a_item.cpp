@@ -978,7 +978,7 @@ BOOL daItem_c::itemActionForEmono() {
 
 /* 800F73A4-800F7898       .text itemActionForSword__8daItem_cFv */
 BOOL daItem_c::itemActionForSword() {
-    /* Nonmatching - regalloc */
+    /* Nonmatching - retail-only regalloc */
     mAcch.CrrPos(*dComIfG_Bgsp());
     
     bool isQuake = dComIfGp_getDetect().chk_quake(&current.pos);
