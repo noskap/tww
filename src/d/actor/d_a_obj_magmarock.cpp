@@ -30,7 +30,7 @@ cPhs_State daObjMagmarock::Act_c::_create() {
 #if VERSION == VERSION_DEMO
     cPhs_State phase = dComIfG_resLoad(&field_0x2EC, daObjMagmarock::Act_c::M_arcname);
 #endif
-    fopAcM_SetupActor(this, daObjMagmarock::Act_c);
+    fopAcM_ct(this, daObjMagmarock::Act_c);
 #if VERSION > VERSION_DEMO
     cPhs_State phase = dComIfG_resLoad(&field_0x2EC, daObjMagmarock::Act_c::M_arcname);
 #endif
