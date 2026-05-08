@@ -809,7 +809,7 @@ bool daNpc_Hr_c::demoProc() {
             case 10:
                 pLink->offPlayerNoDraw();
                 break;
-            case 11:
+            case 11: {
                 cXyz* pPos = dComIfGp_evmng_getMyXyzP(mStaffIdx, "Pos");
 
                 if (pPos != NULL) {
@@ -826,10 +826,11 @@ bool daNpc_Hr_c::demoProc() {
                 mAnmIdx = -1;
                 setAnm(0);
                 break;
+            }
             case 12:
                 demoInitMove();
                 break;
-            case 13:
+            case 13: {
                 mTargetAngle = fopAcM_searchActorAngleY(pLink, this);
                 int* pTimer = dComIfGp_evmng_getMyIntegerP(mStaffIdx, "Timer");
 
@@ -839,6 +840,7 @@ bool daNpc_Hr_c::demoProc() {
                     mMoveTimer = 0;
                 }
                 break;
+            }
             case 14:
                 setAnm(0);
                 demoInitWait();
@@ -2081,14 +2083,10 @@ static BOOL CheckCreateHeap(fopAc_ac_c* i_this) {
 /* 000051A8-000052C4       .text _create__10daNpc_Hr_cFv */
 cPhs_State daNpc_Hr_c::_create() {
 
-#if VERSION > VERSION_DEMO
-    fopAcM_SetupActor(this, daNpc_Hr_c);
-#endif
+    fopAcM_ct_Retail(this, daNpc_Hr_c);
     cPhs_State state = dComIfG_resLoad(&mPhs, "Hr");
     if (state == cPhs_COMPLEATE_e) {
-#if VERSION == VERSION_DEMO
-    fopAcM_SetupActor(this, daNpc_Hr_c);
-#endif
+    fopAcM_ct_Demo(this, daNpc_Hr_c);
         switch(fopAcM_GetName(this)) {
             case PROC_NPC_HR:
                 switch (getShapeType()) {
