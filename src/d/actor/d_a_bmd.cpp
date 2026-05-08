@@ -315,7 +315,6 @@ void damage(bmd_class* i_this) {
 
 /* 000010A4-00001530       .text eat__FP9bmd_class */
 void eat(bmd_class* i_this) {
-    /* Nonmatching - regalloc */
     fopAc_ac_c* actor = &i_this->actor;
     fopAc_ac_c* player_actor = dComIfGp_getPlayer(0);
     daPy_py_c* player = (daPy_py_c*)dComIfGp_getPlayer(0);
@@ -625,7 +624,6 @@ void core_damage_check(bmd_class* i_this) {
 
 /* 000021CC-00002EDC       .text core_move__FP9bmd_class */
 void core_move(bmd_class* i_this) {
-    /* Nonmatching - switch case */
     fopAc_ac_c* actor = &i_this->actor;
     JPABaseEmitter* pJVar7;
     J3DModel* pJVar11;
@@ -1093,7 +1091,7 @@ void move(bmd_class* i_this) {
     if (i_this->mMode != 3) {
         fVar1 = 0.0f;
         if (0 < i_this->m331) {
-            fVar1 = REG0_F(18) + (i_this->m331 * (REG0_F(17) + VERSION_SELECT(5.0f, 5.0f, 2.5f, 2.5f)) + VERSION_SELECT(200.0f, 200.0f, 250.0f, 250.0f));
+            fVar1 = REG0_F(18) + (i_this->m331 * (REG0_F(17) + VERSION_SELECT(5.0f, 5.0f, 2.5f, 5.0f)) + VERSION_SELECT(200.0f, 200.0f, 250.0f, 200.0f));
             if (i_this->mMode == 10) {
                 fVar1 += 100.0f;
             }
@@ -1152,7 +1150,6 @@ void ride_call_back(dBgW* bgw, fopAc_ac_c* i_ac, fopAc_ac_c* i_pt) {
 
 /* 00003E38-000054D4       .text demo_camera__FP9bmd_class */
 void demo_camera(bmd_class* i_this) {
-    /* Nonmatching - regalloc */
     fopAc_ac_c* actor = &i_this->actor;
     cXyz local_44;
     cXyz local_50;
@@ -1857,8 +1854,9 @@ BOOL useHeapInit(bmd_class* i_this) {
         return FALSE;
     }
     pBrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes("Bmd", BMD_BRK_R00_EF);
-    if (!i_this->mpR00_EFBrk->init(modelData, pBrk, true, J3DFrameCtrl::EMode_NONE, 0.0f, 0, -1, false, 0)) {
-        return FALSE;
+    if (!i_this->mpR00_EFBrk->init(modelData, pBrk, true, J3DFrameCtrl::EMode_NONE, 0.0f)) {
+        BOOL ret = FALSE;
+        return ret;
     }
     return TRUE;
 }

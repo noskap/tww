@@ -181,7 +181,8 @@ static BOOL nodeCallBack(J3DNode* node, int calcTiming) {
                 if (r28 == 0x65) {
                     cMtx_XrotM(*calc_mtx, i_this->m02FA);
                 } else {
-                    cMtx_XrotM(*calc_mtx, i_this->m02FA * -0.6818f);
+                    f32 temp = i_this->m02FA * -0.6818f;
+                    cMtx_XrotM(*calc_mtx, temp);
                 }
                 model->setAnmMtx(jntNo, *calc_mtx);
                 MTXCopy(*calc_mtx, J3DSys::mCurrentMtx);
@@ -975,11 +976,12 @@ static void end(btd_class* i_this) {
             }
         }
         break;
-    case 0x34:
+    case 0x34: {
         i_this->m6E88 = 0;
         local_2c = i_this->m6E5C - i_this->m6E50;
         fVar13 = std::sqrtf(SQUARE(local_2c.x) + SQUARE(local_2c.z));
-        local_2c.y += fVar13 * (REG0_F(14) + 3.5f);
+        f32 temp = fVar13 * (REG0_F(14) + 3.5f);
+        local_2c.y += temp;
         i_this->m6E74.y = cM_atan2s(local_2c.x, local_2c.z);
         s16 yAngle;
         yAngle = -cM_atan2s(local_2c.y, std::sqrtf(SQUARE(local_2c.x) + SQUARE(local_2c.z)));
@@ -997,33 +999,34 @@ static void end(btd_class* i_this) {
         local_2c = i_this->m6E5C - i_this->m6E50;
         if (local_2c.abs() < actor->speedF * 2.0f) {
             i_this->mGohmaState = 0x35;
-            goto block_58;
-        case 0x35:
-            i_this->m6E88 = 0;
-            cLib_addCalc2(&i_this->m6E50.x, i_this->m6E5C.x, 1.0f, std::fabsf(i_this->m6E68.x));
-            i_this->m6E50.y += i_this->m6E68.y;
-            i_this->m6E68.y -= REG0_F(3) + 5.0f;
-            if (i_this->m6E50.y <= i_this->m6E5C.y) {
-                i_this->m6E50.y = i_this->m6E5C.y;
-                if (i_this->m6E68.y < -50.0f) {
-                    i_this->m6E68.y *= REG0_F(4) + -0.3f;
-                    i_this->m6E48 = 40.0f;
-                    dComIfGp_getVibration().StartShock(REG0_S(2) + 5, -0x21, cXyz(0.0f, 1.0f, 0.0f));
-                    fopAcM_seStart(actor, JA_SE_CM_BTD_DROP_HEAD, 0);
-                    i_this->mGohmaState = 0x36;
-                    i_this->m02EC[0] = 0x32;
-                    static cXyz pos(i_this->m6E50);
-                    pos.y -= 100.0f;
-                    smoke_set_s(i_this, &pos, &i_this->m6E74);
-                    if (i_this->m6038 != NULL) {
-                        i_this->m6038->becomeInvalidEmitter();
-                        i_this->m6038 = NULL;
-                    }
+        }
+        goto block_58;
+    }
+    case 0x35:
+        i_this->m6E88 = 0;
+        cLib_addCalc2(&i_this->m6E50.x, i_this->m6E5C.x, 1.0f, std::fabsf(i_this->m6E68.x));
+        i_this->m6E50.y += i_this->m6E68.y;
+        i_this->m6E68.y -= REG0_F(3) + 5.0f;
+        if (i_this->m6E50.y <= i_this->m6E5C.y) {
+            i_this->m6E50.y = i_this->m6E5C.y;
+            if (i_this->m6E68.y < -50.0f) {
+                i_this->m6E68.y *= REG0_F(4) + -0.3f;
+                i_this->m6E48 = 40.0f;
+                dComIfGp_getVibration().StartShock(REG0_S(2) + 5, -0x21, cXyz(0.0f, 1.0f, 0.0f));
+                fopAcM_seStart(actor, JA_SE_CM_BTD_DROP_HEAD, 0);
+                i_this->mGohmaState = 0x36;
+                i_this->m02EC[0] = 0x32;
+                static cXyz pos(i_this->m6E50);
+                pos.y -= 100.0f;
+                smoke_set_s(i_this, &pos, &i_this->m6E74);
+                if (i_this->m6038 != NULL) {
+                    i_this->m6038->becomeInvalidEmitter();
+                    i_this->m6038 = NULL;
                 }
             }
-            cLib_addCalc2(&i_this->m6E50.z, i_this->m6E5C.z, 1.0f, std::fabsf(i_this->m6E68.z));
-            actor->eyePos = i_this->m6E50;
         }
+        cLib_addCalc2(&i_this->m6E50.z, i_this->m6E5C.z, 1.0f, std::fabsf(i_this->m6E68.z));
+        actor->eyePos = i_this->m6E50;
     block_58:
         i_this->m6E74.x += REG0_S(3) + 1000;
         i_this->m6E74.z += REG0_S(4) + 0x5dc;
@@ -1758,10 +1761,11 @@ static void move(btd_class* i_this) {
             sVar4 = 0;
         } else {
             sVar4 = fopAcM_searchPlayerAngleY(actor) - actor->current.angle.y;
-            if (sVar4 > 0x1388) {
-                sVar4 = 5000;
-            } else if (sVar4 < -5000) {
-                sVar4 = -5000;
+            int r0 = 5000;
+            if (sVar4 > r0) {
+                sVar4 = r0;
+            } else if (sVar4 < (s16)-r0) {
+                sVar4 = (s16)-r0;
             }
             local_28 = player->eyePos - actor->eyePos;
             uVar2 = cM_atan2s(local_28.x, local_28.z) - actor->current.angle.y;
@@ -1896,7 +1900,8 @@ static void demo_camera(btd_class* i_this) {
     cXyz local_bc;
     cXyz local_c8;
 
-    daPy_py_c* player = (daPy_py_c*)dComIfGp_getPlayer(0);
+    fopAc_ac_c* const player_actor = dComIfGp_getPlayer(0);
+    daPy_py_c* player = (daPy_py_c*)player_actor;
     camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     i_this->m6E1A++;
     i_this->m6E18++;
@@ -1929,7 +1934,7 @@ static void demo_camera(btd_class* i_this) {
         if (i_this->m6E1A >= 0x6e) {
 #endif
             local_44.x = -1373.0f;
-            local_44.y = player->current.pos.y;
+            local_44.y = player_actor->current.pos.y;
             local_44.z = 790.0f;
             player->setPlayerPosAndAngle(&local_44, actor->current.angle.y + 0x8000);
 #if VERSION == VERSION_DEMO
@@ -2060,7 +2065,7 @@ static void demo_camera(btd_class* i_this) {
         camera->mCamera.SetTrimSize(2);
         break;
     case 101:
-        player->setPlayerPosAndAngle(&player->current.pos, actor->current.angle.y + 0x8000);
+        player->setPlayerPosAndAngle(&player_actor->current.pos, actor->current.angle.y + 0x8000);
         cLib_addCalc2(&i_this->m6E3C, REG0_F(4) + 50.0f, 0.5f, 3.0f);
         cLib_addCalc2(&i_this->m6E28.x, actor->eyePos.x * 0.3f, 0.2f, 200.0f);
         fVar2 = (actor->eyePos.y + REG0_F(5) * 0.1f) - 500.0f;
@@ -2114,8 +2119,8 @@ static void demo_camera(btd_class* i_this) {
             local_38.x = REG0_F(10) * 0.1f + -50.0f;
             local_38.y = 0.0f;
             local_38.z = REG0_F(12) * 0.1f + 1650.0f;
-            MtxPosition(&local_38, &player->current.pos);
-            player->setPlayerPosAndAngle(&player->current.pos, actor->current.angle.y + -0x4000);
+            MtxPosition(&local_38, &player_actor->current.pos);
+            player->setPlayerPosAndAngle(&player_actor->current.pos, actor->current.angle.y + -0x4000);
         }
         break;
     case 103:
@@ -2163,10 +2168,10 @@ static void demo_camera(btd_class* i_this) {
         camera->mCamera.Reset(i_this->m6E28, i_this->m6E1C);
         goto block_84;
     case 151:
-        local_b0 = player->eyePos;
+        local_b0 = player_actor->eyePos;
         local_b0.x *= 0.9f;
         local_b0.z *= 0.9f;
-        camera->mCamera.Reset(player->eyePos, local_b0);
+        camera->mCamera.Reset(player_actor->eyePos, local_b0);
     block_84:
         i_this->m6E16 = 0;
         camera->mCamera.Start();
@@ -2401,7 +2406,6 @@ static void btd_kankyo(btd_class* i_this) {
 
 /* 00007950-000081B8       .text daBtd_Execute__FP9btd_class */
 static BOOL daBtd_Execute(btd_class* i_this) {
-    /* Nonmatching - regalloc */
     static f32 hand_co_pos_X[] = {630.0f, 750.0f, 700.0f, -630.0f, -750.0f, -700.0f};
     static f32 hand_co_pos_Y[] = {0.0f, 100.0f, 0.0f, 0.0f, 100.0f, 0.0f};
     static f32 hand_co_pos_Z[] = {1680.0f, 1600.0f, 1320.0f, 1680.0f, 1600.0f, 1320.0f};
