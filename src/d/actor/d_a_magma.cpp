@@ -19,7 +19,7 @@ daMagma_c::~daMagma_c() {
 
 cPhs_State daMagma_c::create() {
 #if VERSION > VERSION_DEMO
-    fopAcM_SetupActor(this, daMagma_c);
+    fopAcM_ct(this, daMagma_c);
 #endif
     cPhs_State result = dComIfG_resLoad(&mPhs, "Magma");
     if (result != cPhs_COMPLEATE_e) {
