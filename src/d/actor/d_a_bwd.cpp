@@ -90,7 +90,7 @@ static cXyz suna_gr_pos[6] = {
 };
 static csXyz suna_gr_ang[6];
 static cXyz center_pos(0.0f, 0.0f, 0.0f);
-static s32 ko_count;
+static int ko_count;
 static fopAc_ac_c* ko_ac[22];
 static cXyz set_pos;
 
@@ -163,7 +163,7 @@ void gr_draw(bwd_class* i_this) {
 
 /* 000004BC-00000564       .text suna_draw__FP9bwd_class */
 void suna_draw(bwd_class* i_this) {
-    for (s32 i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         if (i_this->m17E4[i] != 0) {
             g_env_light.setLightTevColorType(i_this->m17EC[i], &i_this->m1714);
             i_this->m17F4[i]->entry(i_this->m17EC[i]->getModelData());
@@ -193,14 +193,14 @@ static BOOL daBwd_Draw(bwd_class* i_this) {
     i_this->mpHeadMorf->entryDL();
     if (i_this->m1BB6 < 2) {
         sita_s* psVar3;
-        s32 i = 0;
+        int i = 0;
         for (psVar3 = i_this->mTongueSegments, i = 0; i < 0x1E; i++, psVar3++) {
             g_env_light.setLightTevColorType(psVar3->m00, &actor->tevStr);
             mDoExt_modelUpdateDL(psVar3->m00);
         }
     }
     if (i_this->m170C != 0) {
-        for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->mpBodyModel); i++) {
+        for (int i = 0; i < ARRAY_SSIZE(i_this->mpBodyModel); i++) {
             if (i_this->mpBodyModel[i] != NULL) {
                 model = i_this->mpBodyModel[i];
                 g_env_light.setLightTevColorType(model, &actor->tevStr);
@@ -212,7 +212,7 @@ static BOOL daBwd_Draw(bwd_class* i_this) {
     dSnap_RegistFig(DSNAP_TYPE_BWD, actor, 1.0f, 1.0f, 1.0f);
     gr_draw(i_this);
     suna_draw(i_this);
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->m3B08); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m3B08); i++) {
         if (i_this->m3B08[i] != 0) {
             i_this->mpGspBrkAnm[i]->entry(i_this->mpGspMorf[i]->getModel()->getModelData());
             i_this->mpGspBtkAnm[i]->entry(i_this->mpGspMorf[i]->getModel()->getModelData());
@@ -241,7 +241,7 @@ void fly_pos_move(bwd_class* i_this, s16 param_2, s16 param_3) {
     if (var_r4 > temp_r0) {
         var_r4 = temp_r0;
     } else {
-        s32 temp_r0_2 = -temp_r0;
+        int temp_r0_2 = -temp_r0;
         if (var_r4 < temp_r0_2) {
             var_r4 = temp_r0_2;
         }
@@ -304,7 +304,6 @@ void fly_pos_move(bwd_class* i_this, s16 param_2, s16 param_3) {
                 i_this->m3954.z = actor->current.pos.z;
                 i_this->m3B08[0] = 1;
                 i_this->m3B0C[0] = i_this->m3954;
-                ;
                 i_this->m3C15 = 2;
                 i_this->m3C14 = 0x5a;
                 dComIfGp_particle_setToon(
@@ -360,7 +359,7 @@ void damage_check(bwd_class* i_this) {
                 }
             }
         }
-        for (s32 i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             if (i_this->mBodySph[i].ChkTgHit()) {
                 def_se_set(actor, i_this->mBodySph[i].GetTgHitObj(), 0x40);
                 return;
@@ -386,7 +385,7 @@ void start(bwd_class* i_this) {
     case 1:
         if (i_this->m18AC == 0x3C) {
             i_this->m17E4[0] = 1;
-            for (s32 i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 mDoAud_seStart(JA_SE_OBJ_BWD_SANDFALL_S, &suna_gr_pos[i], 0, dComIfGp_getReverb(fopAcM_GetRoomNo(actor)));
             }
         }
@@ -550,13 +549,10 @@ void sita_hit(bwd_class* i_this) {
             i_this->m18AE = 0xc;
             i_this->m18B0 = 0;
             i_this->m1BB2 = 0x32;
+            dScnPly_ply_c::setPauseTimer(8);
+            mDoAud_bgmStop(30);
 #if VERSION == VERSION_DEMO
-            dScnPly_ply_c::setPauseTimer(8);
-            mDoAud_bgmStop(30);
             mDoAud_bgmStreamPrepare(JA_STRM_BWD_CLEAR);
-#else
-            dScnPly_ply_c::setPauseTimer(8);
-            mDoAud_bgmStop(30);
 #endif
             i_this->m1710 = 0;
             break;
@@ -642,7 +638,7 @@ void sita_hit(bwd_class* i_this) {
                     actor->current.pos.z *= 0.9f;
                 }
                 i_this->m18CC[1] = 0x28;
-                for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->m0508); i++) {
+                for (int i = 0; i < ARRAY_SSIZE(i_this->m0508); i++) {
                     i_this->m0508[i] = actor->current.pos;
                 }
                 g_eff_on(i_this);
@@ -706,7 +702,7 @@ void eat_attack(bwd_class* i_this) {
                 );
                 i_this->m3978[3].setColor(eff_col);
             }
-            for (s32 i = 0; i < 9; i++) {
+            for (int i = 0; i < 9; i++) {
                 if (i_this->mBodySph[i].ChkAtHit()) {
                     bVar2 = true;
                     break;
@@ -1081,7 +1077,7 @@ void end(bwd_class* i_this) {
 #endif
             anm_init(i_this, BWD_BCK_BWD_DEAD2, 3.0f, J3DFrameCtrl::EMode_LOOP, 1.0f, -1);
             actor->current.pos.y = -2000.0f;
-            for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->m0508); i++) {
+            for (int i = 0; i < ARRAY_SSIZE(i_this->m0508); i++) {
                 i_this->m0508[i] = actor->current.pos;
             }
             i_this->m18B0 = 2;
@@ -1207,7 +1203,7 @@ void control1(bwd_class* i_this) {
     MTXCopy(i_this->mpHeadMorf->getModel()->getAnmMtx(0x1d), *calc_mtx);
     local_104.set(REG0_F(2) + -50.0f, REG0_F(3), REG0_F(4));
     MtxPosition(&local_104, &i_this->mTongueSegments[0].m04);
-    s32 i = 1;
+    int i = 1;
     sita_s* sita_i = &i_this->mTongueSegments[1];
     cMtx_YrotS(*calc_mtx, actor->current.angle.y);
     cMtx_XrotM(*calc_mtx, actor->current.angle.x);
@@ -1388,7 +1384,7 @@ void sita_move(bwd_class* i_this) {
     control1(i_this);
     control2(i_this);
     sita_s* sita_i = i_this->mTongueSegments;
-    for (s32 i = 0; i < 30; i++, ++sita_i) {
+    for (int i = 0; i < 30; i++, ++sita_i) {
         MtxTrans(sita_i->m04.x, sita_i->m04.y, sita_i->m04.z, false);
         fVar10 = (1.0f + REG0_F(9)) + (0.2f + REG0_F(9)) * cM_scos((int)i_this->m18AC * (REG0_S(7) + 1000) + i * (REG0_S(8) + 2000));
         MtxScale(fVar10, fVar10, fVar10, true);
@@ -1400,7 +1396,7 @@ void sita_move(bwd_class* i_this) {
             i_this->mTongueSph.SetC(sita_i->m04);
             dComIfG_Ccsp()->Set(&i_this->mTongueSph);
         } else if ((((i == 0) || (i == 6)) || (i == 12)) || (i == 18 || (i == 24))) {
-            s32 r0 = i / 6;
+            int r0 = i / 6;
             i_this->mTongueCoSph[r0].SetC(sita_i->m04);
             dComIfG_Ccsp()->Set(&i_this->mTongueCoSph[r0]);
         }
@@ -1565,7 +1561,7 @@ void demo_camera(bwd_class* i_this) {
         } else {
             if (i_this->m3C20 == 0x14) {
                 i_this->m17E4[1] = 1;
-                for (s32 i = 3; i < (s32)ARRAY_SIZE(suna_gr_pos); i++) {
+                for (int i = 3; i < ARRAY_SSIZE(suna_gr_pos); i++) {
                     mDoAud_seStart(JA_SE_OBJ_BWD_SANDFALL_S, &suna_gr_pos[i], 0, dComIfGp_getReverb(fopAcM_GetRoomNo(actor)));
                 }
             }
@@ -1869,12 +1865,11 @@ void bwd_kankyo(bwd_class* i_this) {
 
 /* 000074A4-00008C24       .text daBwd_Execute__FP9bwd_class */
 static BOOL daBwd_Execute(bwd_class* i_this) {
-    /* Nonmatching - regalloc */
-    static s32 jno[] = {0x10, 0x12, 0x13, 0x17, 0x19, 0x1A, 0x04, 0x07, 0x0B};
+    static int jno[] = {0x10, 0x12, 0x13, 0x17, 0x19, 0x1A, 0x04, 0x07, 0x0B};
     static f32 jsize[] = {180.0f, 120.0f, 90.0f, 180.0f, 120.0f, 90.0f, 230.0f, 150.0f, 150.0f};
     static s16 demo_ang[] = {0x3E80, 0xBB80};
-    s32 j;
-    s32 i;
+    int i;
+    int j;
     fopAc_ac_c* actor = &i_this->actor;
     J3DAnmTextureSRTKey* pBtk;
     J3DModel* model;
@@ -1910,7 +1905,7 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
     }
     i_this->m1BB6 = 0;
     ko_count = 0;
-    for (s32 i = 0; i < l_HIO.m26; i++) {
+    for (int i = 0; i < l_HIO.m26; i++) {
         ko_ac[i] = NULL;
     }
     fpcM_Search(ko_s_sub, i_this);
@@ -1930,7 +1925,7 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
     i_this->m1BB8 = local_110.abs();
     i_this->m170C = 0;
     i_this->m18AC++;
-    for (s32 i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++) {
         if (i_this->m18CC[i] != 0) {
             i_this->m18CC[i]--;
         }
@@ -1959,15 +1954,15 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
         i_this->m0508[i_this->m1708] = actor->current.pos + cStack_11c;
         i_this->m18F0 = actor->current.pos + cStack_11c;
         if (i_this->m170C != 0) {
-            for (s32 i = 0; i < 20; i++) {
+            for (int i = 0; i < 20; i++) {
                 if (i_this->mpBodyModel[i] != 0) {
-                    s32 uVar18 = i_this->m1708 - (i + 1) * i_this->m1904;
+                    int uVar18 = i_this->m1708 - (i + 1) * i_this->m1904;
                     uVar18 = uVar18 & 0xFF;
                     mDoMtx_stack_c::transS(i_this->m0508[uVar18].x, i_this->m0508[uVar18].y, i_this->m0508[uVar18].z);
                     mDoMtx_stack_c::YrotM(i_this->m1108[uVar18].y);
                     mDoMtx_stack_c::XrotM(i_this->m1108[uVar18].x);
                     mDoMtx_stack_c::ZrotM(i_this->m1108[uVar18].z);
-                    fVar26 = (REG0_F(2) + 1.1f) - (s32)i * 0.02f;
+                    fVar26 = (REG0_F(2) + 1.1f) - (int)i * 0.02f;
                     mDoMtx_stack_c::scaleM(fVar26, fVar26, 1.0f);
                     i_this->mpBodyModel[i]->setBaseTRMtx(mDoMtx_stack_c::get());
                     MTXCopy(mDoMtx_stack_c::get(), *calc_mtx);
@@ -2003,9 +1998,9 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
     sita_move(i_this);
     damage_check(i_this);
     static cXyz joffset[] = {
-        cXyz(100.0f, 0.0f, 0.0f),
-        cXyz(100.0f, 0.0f, 0.0f),
-        cXyz(100.0f, 0.0f, 0.0f),
+        cXyz(100.0f, 0.0f, 100.0f),
+        cXyz(100.0f, 0.0f, 100.0f),
+        cXyz(100.0f, 0.0f, 100.0f),
         cXyz(100.0f, 0.0f, -100.0f),
         cXyz(100.0f, 0.0f, -100.0f),
         cXyz(100.0f, 0.0f, -100.0f),
@@ -2013,7 +2008,7 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
         cXyz(0.0f, 0.0f, 0.0f),
         cXyz(0.0f, 0.0f, 0.0f),
     };
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(joffset); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(joffset); i++) {
         MTXCopy(i_this->mpHeadMorf->getModel()->getAnmMtx(jno[i]), *calc_mtx);
         local_128 = joffset[i];
         MtxPosition(&local_128, &cStack_11c);
@@ -2051,7 +2046,7 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
     model->setBaseTRMtx(mDoMtx_stack_c::get());
     MTXCopy(mDoMtx_stack_c::get(), i_this->mBgwMtx2);
     i_this->mpBgW2->Move();
-    for (i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         if (i_this->m17E4[i] != 0) {
             i_this->mpBgW1[i]->Move();
             fVar26 = i_this->m17E0 + 50.0f + REG0_F(8);
@@ -2068,18 +2063,19 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
                 // fallthrough
             case 2:
                 if (i_this->m17E6[i] == 0x32) {
-                    for (j = 0; j < 3; j++) {
-                        //s32 idx = j + (i * 3);
-                        cXyz* pos;
-                        csXyz* ang = &suna_gr_ang[j + (i * 3)];
-                        ang->z = 0;
-                        ang->x = 0;
-                        pos = &suna_gr_pos[j + (i * 3)];
-                        ang->y = cM_atan2s(-pos->x, -pos->z);
+                    for (int j = 0; j < 3; j++) {
+                        int idx = j + (i * 3);
+                        suna_gr_ang[idx].x = suna_gr_ang[idx].z = 0;
+                        suna_gr_ang[idx].y = cM_atan2s(-suna_gr_pos[idx].x, -suna_gr_pos[idx].z);
                         dComIfGp_particle_setToon(
-                            dPa_name::ID_IT_ST_BW_SUNATAKI_SMOKEA, pos, ang, NULL, eff_col.a, &i_this->m3B54[j + (i * 3)], (s8)actor->current.roomNo
+                            dPa_name::ID_IT_ST_BW_SUNATAKI_SMOKEA,
+                            &suna_gr_pos[idx],
+                            &suna_gr_ang[idx],
+                            NULL, eff_col.a,
+                            &i_this->m3B54[idx],
+                            (s8)actor->current.roomNo
                         );
-                        i_this->m3B54[j + (i * 3)].setColor(eff_col);
+                        i_this->m3B54[idx].setColor(eff_col);
                     }
                 }
                 if (i_this->m17E6[i] == 0xb4) {
@@ -2098,7 +2094,7 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
             case 5:
                 if (i_this->m17E6[i] >= 0x3C) {
                     i_this->m17E4[i] = 0;
-                    for (s32 j = 0; j < 3; j++) {
+                    for (int j = 0; j < 3; j++) {
                         i_this->m3B54[j + (i * 3)].remove();
                     }
                 }
@@ -2119,7 +2115,7 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
             }
         }
     }
-    for (i = 0; i < (s32)ARRAY_SIZE(suna_gr_pos); i++) {
+    for (i = 0; i < ARRAY_SSIZE(suna_gr_pos); i++) {
         pos = suna_gr_pos[i];
         pos.y += (f32)(1000.0f + REG0_F(13));
         gndChk.SetPos(&pos);
@@ -2142,7 +2138,7 @@ static BOOL daBwd_Execute(bwd_class* i_this) {
             mDoAud_seStart(JA_SE_CM_BWD_SAND_MOVE, &i_this->m3954, 0, dComIfGp_getReverb(fopAcM_GetRoomNo(actor)));
         }
     }
-    for (i = 0; i < (s32)ARRAY_SIZE(i_this->m3978); i++) {
+    for (i = 0; i < ARRAY_SSIZE(i_this->m3978); i++) {
         if (i_this->m3AE0[i] != 0) {
             i_this->m3AE0[i]--;
             if (i_this->m3AE0[i] == 0) {
@@ -2216,22 +2212,22 @@ static BOOL daBwd_Delete(bwd_class* i_this) {
     dComIfG_Bgsp()->Release(i_this->mpBgW2);
     dComIfG_Bgsp()->Release(i_this->mpBgW1[0]);
     dComIfG_Bgsp()->Release(i_this->mpBgW1[1]);
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->m0418); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m0418); i++) {
         mDoAud_seDeleteObject(&i_this->m0418[i]);
     }
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(suna_gr_pos); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(suna_gr_pos); i++) {
         mDoAud_seDeleteObject(&suna_gr_pos[i]);
     }
     mDoAud_seDeleteObject(&center_pos);
     mDoAud_seDeleteObject(&i_this->m3954);
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->m3978); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m3978); i++) {
         i_this->m3978[i].remove();
         if (i < 2) {
             i_this->m3AB8[i].remove();
         }
     }
     i_this->m3AF4.remove();
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->m3B54); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m3B54); i++) {
         i_this->m3B54[i].remove();
     }
     return TRUE;
@@ -2239,11 +2235,11 @@ static BOOL daBwd_Delete(bwd_class* i_this) {
 
 /* 00008E0C-000096D8       .text useHeapInit__FP10fopAc_ac_c */
 static BOOL useHeapInit(fopAc_ac_c* a_this) {
-    static s32 taki_bdl[] = {BWD_BDL_HTAKI1, BWD_BDL_HTAKI2};
-    static s32 s_bdl[] = {BWD_BDL_GSP00, BWD_BDL_GSP01};
-    static s32 s_btk[] = {BWD_BTK_GSP00, BWD_BTK_GSP01};
-    static s32 s_brk[] = {BWD_BRK_GSP00, BWD_BRK_GSP01};
-    static s32 s_bck[] = {BWD_BCK_GSP00, BWD_BCK_GSP01};
+    static int taki_bdl[] = {BWD_BDL_HTAKI1, BWD_BDL_HTAKI2};
+    static int s_bdl[] = {BWD_BDL_GSP00, BWD_BDL_GSP01};
+    static int s_btk[] = {BWD_BTK_GSP00, BWD_BTK_GSP01};
+    static int s_brk[] = {BWD_BRK_GSP00, BWD_BRK_GSP01};
+    static int s_bck[] = {BWD_BCK_GSP00, BWD_BCK_GSP01};
     bwd_class* i_this = (bwd_class*)a_this;
     J3DModelData* modelData;
     u16 fileIndex;
@@ -2285,7 +2281,7 @@ static BOOL useHeapInit(fopAc_ac_c* a_this) {
         return FALSE;
     }
     modelData = (J3DModelData*)dComIfG_getObjectRes("Bwd", BWD_BDL_BERO);
-    for (s32 i = 0; i < 30; i++) {
+    for (int i = 0; i < 30; i++) {
         if (i == 29) {
             modelData = (J3DModelData*)dComIfG_getObjectRes("Bwd", BWD_BDL_BERO_SAKI);
         }
@@ -2296,7 +2292,7 @@ static BOOL useHeapInit(fopAc_ac_c* a_this) {
     }
     modelData = (J3DModelData*)dComIfG_getObjectRes("Bwd", BWD_BDL_BWD_SHIPPOA);
     fileIndex = BWD_BRK_BWD_SHIPPOA;
-    for (s32 i = 0; i < 20; i++) {
+    for (int i = 0; i < 20; i++) {
         if (i == 0x13) {
             modelData = (J3DModelData*)dComIfG_getObjectRes("Bwd", BWD_BDL_BWD_SHIPPOB);
             fileIndex = BWD_BRK_BWD_SHIPPOB;
@@ -2328,7 +2324,7 @@ static BOOL useHeapInit(fopAc_ac_c* a_this) {
         return FALSE;
     }
     i_this->mpBgW2->SetCrrFunc(dBgS_MoveBGProc_Typical);
-    for (s32 i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         i_this->mpBgW1[i] = new dBgW();
         if (i_this->mpBgW1[i] == 0) {
             return FALSE;
@@ -2351,7 +2347,7 @@ static BOOL useHeapInit(fopAc_ac_c* a_this) {
             return FALSE;
         }
     }
-    for (s32 i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         i_this->mpGspMorf[i] = new mDoExt_McaMorf(
             (J3DModelData*)dComIfG_getObjectRes("Bwd", s_bdl[i]),
             NULL,
@@ -2504,7 +2500,7 @@ static cPhs_State daBwd_Create(fopAc_ac_c* a_this) {
     if (dComIfG_Bgsp()->Regist(i_this->mpBgW2, a_this)) {
         return cPhs_ERROR_e;
     }
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->mpBgW1); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->mpBgW1); i++) {
         if (dComIfG_Bgsp()->Regist(i_this->mpBgW1[i], a_this)) {
             return cPhs_ERROR_e;
         }
@@ -2519,13 +2515,13 @@ static cPhs_State daBwd_Create(fopAc_ac_c* a_this) {
     a_this->health = 0xc;
     a_this->max_health = 0xc;
     i_this->mStts.Init(0xfa, 0, a_this);
-    for (s32 i = 0; i < 17; i++) {
+    for (int i = 0; i < 17; i++) {
         i_this->mBodySph[i].SetStts(&i_this->mStts);
         i_this->mBodySph[i].Set(body_sph_src);
     }
     i_this->mTongueSph.SetStts(&i_this->mStts);
     i_this->mTongueSph.Set(bero_sph_src);
-    for (s32 i = 0; i < (s32)ARRAY_SIZE(i_this->mTongueCoSph); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->mTongueCoSph); i++) {
         i_this->mTongueCoSph[i].SetStts(&i_this->mStts);
         i_this->mTongueCoSph[i].Set(bero_co_sph_src);
     }
@@ -2568,7 +2564,7 @@ static cPhs_State daBwd_Create(fopAc_ac_c* a_this) {
         }
     }
     i_this->m1B88.y = a_this->current.pos.y;
-    for (s32 i = 0; i < 30; i++) {
+    for (int i = 0; i < 30; i++) {
         fVar1 = a_this->current.pos.y;
         i_this->mTongueSegments[i].m04.x = 0;
         i_this->mTongueSegments[i].m04.y = fVar1;
