@@ -1589,7 +1589,7 @@ config.libs = [
     ActorRel(Matching,    "d_a_daiocta"),
     ActorRel(Matching,    "d_a_daiocta_eye"),
     ActorRel(Matching,    "d_a_deku_item"),
-    ActorRel(NonMatching, "d_a_dk"),
+    ActorRel(Matching,    "d_a_dk"),
     ActorRel(Matching,    "d_a_dummy"),
     ActorRel(NonMatching, "d_a_fallrock_tag"),
     ActorRel(MatchingFor("GZLJ01", "GZLE01", "GZLP01"),    "d_a_fan"),
