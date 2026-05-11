@@ -1011,7 +1011,7 @@ u32 daNpc_Bs1_c::getMsg() {
         m740 = 0;
     }
     else if(dComIfGp_event_chkTalkXY()) {
-        u8 itemNo = dComIfGp_event_getPreItemNo();
+        u8 itemNo = (u8)dComIfGp_event_getPreItemNo();
 
         if(mType == 0) {
             if(isEmono(itemNo)) {

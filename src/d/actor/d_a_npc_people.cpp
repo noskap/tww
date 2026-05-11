@@ -4411,13 +4411,13 @@ cPhs_State daNpcPeople_c::createInit() {
     u8 pathIndex = getPrmRailID();
     if(pathIndex != 0xFF) {
         mPathRun.setInf(pathIndex, fopAcM_GetRoomNo(this), true);
-        if(mPathRun.mPath == NULL) {
+        if(!mPathRun.isPath()) {
             return cPhs_ERROR_e;
         }
 
         fopAcM_OffStatus(this, fopAcStts_NOCULLEXEC_e);
 
-        cXyz point = mPathRun.getPoint(mPathRun.mCurrPointIndex);
+        cXyz point = mPathRun.getPoint(mPathRun.getIdx());
         old.pos = point;
         current.pos = old.pos;
         mPathRun.incIdxLoop();
@@ -4940,7 +4940,7 @@ s32 daNpcPeople_c::executeWaitInit() {
 /* 00002240-00002500       .text executeWait__13daNpcPeople_cFv */
 void daNpcPeople_c::executeWait() {
     if(!executeCommon()) {
-        if(mPathRun.mPath != NULL && m76E != 0 && m789 == 0 && m78A == 0) {
+        if(mPathRun.isPath() && m76E != 0 && m789 == 0 && m78A == 0) {
             m76E--;
             if(m76E == 0) {
                 executeSetMode(3);
@@ -5090,8 +5090,8 @@ s32 daNpcPeople_c::executeWalkInit() {
 void daNpcPeople_c::executeWalk() {
     if(!executeCommon()) {
         bool temp = false;
-        if(mPathRun.chkPointPass(current.pos, mPathRun.mbGoingForwards)) {
-            if(mPathRun.pointArg(mPathRun.mCurrPointIndex) == 0) {
+        if(mPathRun.chkPointPass(current.pos, mPathRun.getDir())) {
+            if(mPathRun.pointArg(mPathRun.getIdx()) == 0) {
                 executeSetMode(8);
             }
 
@@ -5106,7 +5106,7 @@ void daNpcPeople_c::executeWalk() {
         else {
             if(!temp)  {
                 if(m78F != 8) {
-                    cXyz point = mPathRun.getPoint(mPathRun.mCurrPointIndex);
+                    cXyz point = mPathRun.getPoint(mPathRun.getIdx());
                     s16 angle;
                     dNpc_calc_DisXZ_AngY(current.pos, point, NULL, &angle);
                     m786 = m77A = angle;
@@ -5123,9 +5123,9 @@ void daNpcPeople_c::executeWalk() {
                     }
                 }
             }
-            else if(mNpcType != 2 || !mPathRun.mbGoingForwards) {
+            else if(mNpcType != 2 || mPathRun.getDir() == 0) {
                 mEtcFlag |= 4;
-                mPathRun.mbGoingForwards ^= 1;
+                mPathRun.turnDir();
                 executeSetMode(0);
             }
             else {
@@ -5138,7 +5138,7 @@ void daNpcPeople_c::executeWalk() {
 
 /* 000029E8-00002B1C       .text executeTurnInit__13daNpcPeople_cFv */
 s32 daNpcPeople_c::executeTurnInit() {
-    cXyz point = mPathRun.getPoint(mPathRun.mCurrPointIndex);
+    cXyz point = mPathRun.getPoint(mPathRun.getIdx());
     s16 angle;
     dNpc_calc_DisXZ_AngY(current.pos, point, NULL, &angle);
     if(angle == current.angle.y && (mEtcFlag & 8) == 0) {
@@ -5159,7 +5159,7 @@ void daNpcPeople_c::executeTurn() {
             temp = m77A;
         }
         else {
-            cXyz point = mPathRun.getPoint(mPathRun.mCurrPointIndex);
+            cXyz point = mPathRun.getPoint(mPathRun.getIdx());
             dNpc_calc_DisXZ_AngY(current.pos, point, 0, &temp);
         }
 
@@ -5309,7 +5309,7 @@ void daNpcPeople_c::executeLetter() {
             mEtcFlag &= ~0x8;
             m79D = 1;
             m79E = 1;
-            mPathRun.mbGoingForwards ^= 0x1;
+            mPathRun.turnDir();
 
             executeSetMode(6);
         }
@@ -7641,7 +7641,7 @@ void daNpcPeople_c::chkAttention() {
             }
             else {
                 m799 = 0;
-                if(mPathRun.mPath == NULL) {
+                if(!mPathRun.isPath()) {
                     if(m770 != 0) {
                         m770--;
                         if(m770 == 0 && mNpcType == 0x5) {
@@ -8335,9 +8335,9 @@ cXyz daNpcPeople_c::getDirDistToPos(s16 angle, f32 mag) {
 void daNpcPeople_c::warp() {
     if(fopAcM_GetParam(this) & 0x80000000) {
         fopAcM_SetParam(this, fopAcM_GetParam(this) & ~0x80000000);
-        if(mPathRun.mPath != NULL) {
-            mPathRun.mbGoingForwards = true;
-            mPathRun.mCurrPointIndex = 0;
+        if(mPathRun.isPath()) {
+            mPathRun.setDir(true);
+            mPathRun.setIdx(0);
             old.pos = mPathRun.getPoint(0);
             current.pos = old.pos;
             mPathRun.incIdxLoop();

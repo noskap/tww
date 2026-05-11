@@ -3306,7 +3306,7 @@ inline void dComIfGp_event_reset() {
     g_dComIfG_gameInfo.play.getEvent()->reset();
 }
 
-inline u32 dComIfGp_event_getPreItemNo() {
+inline u8 dComIfGp_event_getPreItemNo() {
     return g_dComIfG_gameInfo.play.getEvent()->getPreItemNo();
 }
 
