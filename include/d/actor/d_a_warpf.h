@@ -64,14 +64,14 @@ public:
     /* 0x2B8 */ mDoExt_brkAnm* m2B8;
     /* 0x2BC */ mDoExt_brkAnm* m2BC;
     /* 0x2C0 */ J3DModel* m2C0;
-    /* 0x2C4 */ int m2C4;
-    /* 0x2C8 */ int m2C8;
+    /* 0x2C4 */ int mStaffID;
+    /* 0x2C8 */ int mWarpTimer;
     /* 0x2CC */ u8 m2CC[0x2D0 - 0x2CC];
     /* 0x2D0 */ s32 m2D0;
     /* 0x2D4 */ u8 m2D4[0x2D6 - 0x2D4];
     /* 0x2D6 */ s16 m2D6;
     /* 0x2D8 */ s32 m2D8;
-    /* 0x2DC */ s32 m2DC;
+    /* 0x2DC */ s32 mStageNo;
     /* 0x2E0 */ s32 m2E0;
     /* 0x2E4 */ s32 m2E4;
     /* 0x2E8 */ dLevelSe_c* m2E8;

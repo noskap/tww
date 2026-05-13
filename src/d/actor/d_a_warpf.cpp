@@ -17,42 +17,46 @@
 #include "d/res/res_ysbwp00.h"
 #include "d/res/res_gtfglow.h"
 
+namespace daWarpf_prm {
+    static inline u32 getSetType(daWarpf_c* i_this) { return fopAcM_GetParam(i_this) >> 0x1C; }
+}
+
 const char* daWarpf_c::m_arcname[] = {
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    "Ysbwp00",
-    "Gtfglow",
-    "Gtfglow",
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    /* STAGE_SEA            */ NULL,
+    /* STAGE_SEA2           */ NULL,
+    /* STAGE_FF             */ NULL,
+    /* STAGE_DRC            */ NULL,
+    /* STAGE_FW             */ NULL,
+    /* STAGE_TOTG           */ "Ysbwp00",
+    /* STAGE_ET             */ "Gtfglow",
+    /* STAGE_WT             */ "Gtfglow",
+    /* STAGE_GT             */ NULL,
+    /* STAGE_HYRULE         */ NULL,
+    /* STAGE_SHIP           */ NULL,
+    /* STAGE_MISC           */ NULL,
+    /* STAGE_SUBDUNGEON     */ NULL,
+    /* STAGE_SUBDUNGEON_NEW */ NULL,
+    /* STAGE_BLUE_CHU_JELLY */ NULL,
+    /* STAGE_TEST           */ NULL,
 };
 
 const f32 daWarpf_c::m_warp_size[] = {
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    200.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
-    100.0f,
+    /* STAGE_SEA            */ 100.0f,
+    /* STAGE_SEA2           */ 100.0f,
+    /* STAGE_FF             */ 100.0f,
+    /* STAGE_DRC            */ 100.0f,
+    /* STAGE_FW             */ 100.0f,
+    /* STAGE_TOTG           */ 200.0f,
+    /* STAGE_ET             */ 100.0f,
+    /* STAGE_WT             */ 100.0f,
+    /* STAGE_GT             */ 100.0f,
+    /* STAGE_HYRULE         */ 100.0f,
+    /* STAGE_SHIP           */ 100.0f,
+    /* STAGE_MISC           */ 100.0f,
+    /* STAGE_SUBDUNGEON     */ 100.0f,
+    /* STAGE_SUBDUNGEON_NEW */ 100.0f,
+    /* STAGE_BLUE_CHU_JELLY */ 100.0f,
+    /* STAGE_TEST           */ 100.0f,
 };
 
 /* 00000078-00000098       .text CheckCreateHeap__FP10fopAc_ac_c */
@@ -67,9 +71,9 @@ BOOL daWarpf_c::CreateHeap() {
     J3DAnmTransform* pbck;
     J3DAnmTextureSRTKey* pbtk;
 
-    switch (m2DC) {
-        case 5:
-            modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[m2DC], YSBWP00_BDL_YSBWP00);
+    switch (mStageNo) {
+        case dSv_save_c::STAGE_TOTG:
+            modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[mStageNo], YSBWP00_BDL_YSBWP00);
             JUT_ASSERT(343, modelData != NULL);
 
             m2A8 = mDoExt_J3DModel__create(modelData, 0x80000, 0x11000222);
@@ -77,7 +81,7 @@ BOOL daWarpf_c::CreateHeap() {
                 return FALSE;
             }
 
-            pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[m2DC], YSBWP00_BRK_YSBWP00);
+            pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[mStageNo], YSBWP00_BRK_YSBWP00);
             JUT_ASSERT(358, pbrk != NULL);
 
             m2AC = new mDoExt_brkAnm();
@@ -85,7 +89,7 @@ BOOL daWarpf_c::CreateHeap() {
                 return FALSE;
             }
 
-            pbck = (J3DAnmTransform*)dComIfG_getObjectRes(m_arcname[m2DC], YSBWP00_BCK_YSBWP00);
+            pbck = (J3DAnmTransform*)dComIfG_getObjectRes(m_arcname[mStageNo], YSBWP00_BCK_YSBWP00);
             JUT_ASSERT(374, pbck != NULL);
 
             m2B0 = new mDoExt_bckAnm();
@@ -93,7 +97,7 @@ BOOL daWarpf_c::CreateHeap() {
                 return FALSE;
             }
 
-            pbtk = (J3DAnmTextureSRTKey*)dComIfG_getObjectRes(m_arcname[m2DC], YSBWP00_BTK_YSBWP00);
+            pbtk = (J3DAnmTextureSRTKey*)dComIfG_getObjectRes(m_arcname[mStageNo], YSBWP00_BTK_YSBWP00);
             JUT_ASSERT(391, pbtk != NULL);
 
             m2B4 = new mDoExt_btkAnm();
@@ -102,12 +106,12 @@ BOOL daWarpf_c::CreateHeap() {
             }
             break;
 
-        case 6:
-        case 7:
+        case dSv_save_c::STAGE_ET:
+        case dSv_save_c::STAGE_WT:
             if (!checkEndDemo()) {
                 m2C0 = NULL;
 
-                modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[m2DC], GTFGLOW_BDL_GTFGLOW00);
+                modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[mStageNo], GTFGLOW_BDL_GTFGLOW00);
                 JUT_ASSERT(411, modelData != NULL);
 
                 m2A8 = mDoExt_J3DModel__create(modelData, 0x80000, 0x11000022);
@@ -115,7 +119,7 @@ BOOL daWarpf_c::CreateHeap() {
                     return FALSE;
                 }
 
-                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[m2DC], GTFGLOW_BRK_GTFGLOW00);
+                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[mStageNo], GTFGLOW_BRK_GTFGLOW00);
                 JUT_ASSERT(424, pbrk != NULL);
 
                 m2AC = new mDoExt_brkAnm();
@@ -124,7 +128,7 @@ BOOL daWarpf_c::CreateHeap() {
                 }
                 m2AC->setPlaySpeed(1.0f);
 
-                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[m2DC], GTFGLOW_BRK_GTFGLOW01);
+                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[mStageNo], GTFGLOW_BRK_GTFGLOW01);
                 JUT_ASSERT(441, pbrk != NULL);
 
                 m2B8 = new mDoExt_brkAnm();
@@ -133,7 +137,7 @@ BOOL daWarpf_c::CreateHeap() {
                 }
                 m2B8->setPlaySpeed(0.0f);
 
-                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[m2DC], GTFGLOW_BRK_GTFGLOW02);
+                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[mStageNo], GTFGLOW_BRK_GTFGLOW02);
                 JUT_ASSERT(457, pbrk != NULL);
 
                 m2BC = new mDoExt_brkAnm();
@@ -142,7 +146,7 @@ BOOL daWarpf_c::CreateHeap() {
                 }
                 m2BC->setPlaySpeed(0.0f);
             } else {
-                modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[m2DC], GTFGLOW_BDL_GDEMO29_A00);
+                modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[mStageNo], GTFGLOW_BDL_GDEMO29_A00);
                 JUT_ASSERT(474, modelData != NULL);
 
                 m2A8 = mDoExt_J3DModel__create(modelData, 0x80000, 0x11000022);
@@ -150,7 +154,7 @@ BOOL daWarpf_c::CreateHeap() {
                     return FALSE;
                 }
 
-                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[m2DC], DEMO_SELECT(GTFGLOW_BRK_GDEMO29_A00, GTFGLOW_BRK_GDEMO29_A01));
+                pbrk = (J3DAnmTevRegKey*)dComIfG_getObjectRes(m_arcname[mStageNo], DEMO_SELECT(GTFGLOW_BRK_GDEMO29_A00, GTFGLOW_BRK_GDEMO29_A01));
                 JUT_ASSERT(488, pbrk != NULL);
 
                 m2AC = new mDoExt_brkAnm();
@@ -159,7 +163,7 @@ BOOL daWarpf_c::CreateHeap() {
                 }
                 m2AC->setPlaySpeed(1.0f);
 
-                modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[m2DC], GTFGLOW_BDL_GDEMO29_B00);
+                modelData = (J3DModelData*)dComIfG_getObjectRes(m_arcname[mStageNo], GTFGLOW_BDL_GDEMO29_B00);
                 JUT_ASSERT(504, modelData != NULL);
 
                 m2C0 = mDoExt_J3DModel__create(modelData, 0x80000, 0x11000022);
@@ -197,61 +201,61 @@ bool daWarpf_c::_delete() {
         m29C = NULL;
     }
 
-    if (m_arcname[m2DC] != NULL) {
-        dComIfG_resDelete(&mPhase, m_arcname[m2DC]);
+    if (m_arcname[mStageNo] != NULL) {
+        dComIfG_resDelete(&mPhase, m_arcname[mStageNo]);
     }
     return true;
 }
 
 /* 00000B58-00000C34       .text checkEndDemo__9daWarpf_cFv */
 BOOL daWarpf_c::checkEndDemo() {
-    BOOL uVar3 = 0;
+    BOOL ret = 0;
 
-    switch (m2DC) {
-        case 0:
-        case 1:
-        case 2:
+    switch (mStageNo) {
+        case dSv_save_c::STAGE_SEA:
+        case dSv_save_c::STAGE_SEA2:
+        case dSv_save_c::STAGE_FF:
             break;
 
-        case 3:
-            if (checkItemGet(dItem_PEARL_DIN_e, 1)) {
-                uVar3 = 1;
+        case dSv_save_c::STAGE_DRC:
+            if (checkItemGet(dItem_PEARL_DIN_e, TRUE)) {
+                ret = TRUE;
             }
             break;
 
-        case 4:
-            if (checkItemGet(dItem_PEARL_FARORE_e, 1)) {
-                uVar3 = 1;
+        case dSv_save_c::STAGE_FW:
+            if (checkItemGet(dItem_PEARL_FARORE_e, TRUE)) {
+                ret = TRUE;
             }
             break;
 
-        case 5:
+        case dSv_save_c::STAGE_TOTG:
             if (dComIfGs_isEventBit(dSv_event_flag_c::UNK_2D10)) {
-                uVar3 = 1;
+                ret = TRUE;
             }
             break;
 
-        case 6:
+        case dSv_save_c::STAGE_ET:
 #if VERSION == VERSION_DEMO
             if (dComIfGs_checkGetItem(dItem_MASTER_SWORD_2_e)) {
 #else
-            if (checkItemGet(dItem_MASTER_SWORD_2_e, 1)) {
+            if (checkItemGet(dItem_MASTER_SWORD_2_e, TRUE)) {
 #endif
-                uVar3 = 1;
+                ret = TRUE;
             }
             break;
 
-        case 7:
+        case dSv_save_c::STAGE_WT:
             if (dComIfGs_checkGetItem(dItem_MASTER_SWORD_3_e)) {
-                uVar3 = 1;
+                ret = TRUE;
             }
             break;
 
-        case 13:
+        case dSv_save_c::STAGE_SUBDUNGEON_NEW:
             break;
     }
 
-    return uVar3;
+    return ret;
 }
 
 /* 00000C34-00000C38       .text onEndDemo__9daWarpf_cFv */
@@ -280,37 +284,37 @@ cPhs_State daWarpf_c::CreateInit() {
 cPhs_State daWarpf_c::_create() {
     fopAcM_ct(this, daWarpf_c);
 
-    m2DC = (dComIfGp_getStageStagInfo()->mProp >> 1) & 0x7F;
-    cPhs_State PVar6 = cPhs_COMPLEATE_e;
+    mStageNo = dStage_stagInfo_GetSaveTbl(dComIfGp_getStageStagInfo());
+    cPhs_State phase = cPhs_COMPLEATE_e;
 
-    if (m_arcname[m2DC] != NULL) {
-        PVar6 = dComIfG_resLoad(&mPhase, m_arcname[m2DC]);
-        if (PVar6 == cPhs_COMPLEATE_e) {
+    if (m_arcname[mStageNo] != NULL) {
+        phase = dComIfG_resLoad(&mPhase, m_arcname[mStageNo]);
+        if (phase == cPhs_COMPLEATE_e) {
             if (!fopAcM_entrySolidHeap(this, CheckCreateHeap, 0x5000)) {
                 return cPhs_ERROR_e;
             }
         }
     }
 
-    if (PVar6 == cPhs_COMPLEATE_e) {
+    if (phase == cPhs_COMPLEATE_e) {
         if (CreateInit() == cPhs_ERROR_e) {
             return cPhs_ERROR_e;
         }
 
-        u32 uVar5 = 0x704A;
-        if (m2DC == 5) {
-            uVar5 = 0x7025;
-        } else if ((m2DC == 6) || (m2DC == 7)) {
-            uVar5 = 0x7059;
+        u32 seNum = JA_SE_OBJ_BOSS_WARP_LV;
+        if (mStageNo == dSv_save_c::STAGE_TOTG) {
+            seNum = JA_SE_OBJ_WARP_EFF_SUS;
+        } else if ((mStageNo == dSv_save_c::STAGE_ET) || (mStageNo == dSv_save_c::STAGE_WT)) {
+            seNum = JA_SE_OBJ_BOSS_TF_WARP_SUS;
         }
 
-        m2E8 = (dLevelSe_c*)fopKyM_fastCreate(PROC_LEVEL_SE, uVar5, &current.pos, NULL, NULL);
+        m2E8 = (dLevelSe_c*)fopKyM_fastCreate(PROC_LEVEL_SE, seNum, &current.pos, NULL, NULL);
         if (m2E8 != NULL) {
             m2E8->seStop();
             m2E8->setReverb(0, dComIfGp_getReverb(fopAcM_GetRoomNo(this)));
         }
     }
-    return PVar6;
+    return phase;
 }
 
 /* 00000E74-00000ED0       .text _execute__9daWarpf_cFv */
@@ -371,8 +375,8 @@ static daWarpf_c::ActionFunc event_action_tbl[] = {
 
 /* 00000FF0-0000110C       .text demo_proc__9daWarpf_cFv */
 void daWarpf_c::demo_proc() {
-    m2C4 = dComIfGp_evmng_getMyStaffId("Warpf");
-    if (dComIfGp_event_runCheck() && !eventInfo.checkCommandTalk() && m2C4 != -1) {
+    mStaffID = dComIfGp_evmng_getMyStaffId("Warpf");
+    if (dComIfGp_event_runCheck() && !eventInfo.checkCommandTalk() && mStaffID != -1) {
         static char* action_table[] = {
             "WAIT",
             "WARP_START",
@@ -382,18 +386,18 @@ void daWarpf_c::demo_proc() {
             "END_WAIT",
         };
 
-        s32 actIdx = dComIfGp_evmng_getMyActIdx(m2C4, action_table, ARRAY_SIZE(action_table), 0, 0);
+        s32 actIdx = dComIfGp_evmng_getMyActIdx(mStaffID, action_table, ARRAY_SIZE(action_table), 0, 0);
 
         if (actIdx == -1) {
-            dComIfGp_evmng_cutEnd(m2C4);
+            dComIfGp_evmng_cutEnd(mStaffID);
         } else {
-            if (dComIfGp_evmng_getIsAddvance(m2C4)) {
-                (this->*event_init_tbl[actIdx])(m2C4);
+            if (dComIfGp_evmng_getIsAddvance(mStaffID)) {
+                (this->*event_init_tbl[actIdx])(mStaffID);
             }
 
-            BOOL ret = (this->*event_action_tbl[actIdx])(m2C4);
+            BOOL ret = (this->*event_action_tbl[actIdx])(mStaffID);
             if (ret) {
-                dComIfGp_evmng_cutEnd(m2C4);
+                dComIfGp_evmng_cutEnd(mStaffID);
             }
         }
     }
@@ -445,13 +449,13 @@ BOOL daWarpf_c::actWarpStart(int) {
 
 /* 00001254-00001260       .text initWarpMode_1__9daWarpf_cFi */
 void daWarpf_c::initWarpMode_1(int) {
-    m2C8 = 0xb4;
+    mWarpTimer = 180;
 }
 
 /* 00001260-00001384       .text actWarpMode_1__9daWarpf_cFi */
 BOOL daWarpf_c::actWarpMode_1(int) {
-    if (cLib_calcTimer(&m2C8) == 0) {
-        if (m2DC != 5 && m2DC != 6 && m2DC != 7) {
+    if (cLib_calcTimer(&mWarpTimer) == 0) {
+        if (mStageNo != dSv_save_c::STAGE_TOTG && mStageNo != dSv_save_c::STAGE_ET && mStageNo != dSv_save_c::STAGE_WT) {
             cXyz local_18 = current.pos;
             csXyz local_20 = get_angle_wind01();
             local_18.y = m2EC.y + 100.0f;
@@ -461,7 +465,7 @@ BOOL daWarpf_c::actWarpMode_1(int) {
         return TRUE;
     }
 
-    if (m2C8 == 0x50) {
+    if (mWarpTimer == 80) {
         for (s32 i = 0; i < 6; i++) {
             set_effect_wind00();
         }
@@ -473,13 +477,13 @@ BOOL daWarpf_c::actWarpMode_1(int) {
 
 /* 00001384-00001390       .text initWarpMode_2__9daWarpf_cFi */
 void daWarpf_c::initWarpMode_2(int) {
-    m2C8 = 5;
+    mWarpTimer = 5;
 }
 
 /* 00001390-0000148C       .text actWarpMode_2__9daWarpf_cFi */
 BOOL daWarpf_c::actWarpMode_2(int) {
-    if (cLib_calcTimer(&m2C8) == 0) {
-        if (m2DC != 5 && m2DC != 6 && m2DC != 7) {
+    if (cLib_calcTimer(&mWarpTimer) == 0) {
+        if (mStageNo != dSv_save_c::STAGE_TOTG && mStageNo != dSv_save_c::STAGE_ET && mStageNo != dSv_save_c::STAGE_WT) {
             cXyz local_18 = current.pos;
             csXyz local_20 = get_angle_wind01();
             local_18.y = m2EC.y + 120.0f;
@@ -494,13 +498,13 @@ BOOL daWarpf_c::actWarpMode_2(int) {
 
 /* 0000148C-00001498       .text initWarpMode_3__9daWarpf_cFi */
 void daWarpf_c::initWarpMode_3(int) {
-    m2C8 = 5;
+    mWarpTimer = 5;
 }
 
 /* 00001498-000015E8       .text actWarpMode_3__9daWarpf_cFi */
 BOOL daWarpf_c::actWarpMode_3(int) {
-    if (cLib_calcTimer(&m2C8) == 0) {
-        if (m2DC != 5 && m2DC != 6 && m2DC != 7) {
+    if (cLib_calcTimer(&mWarpTimer) == 0) {
+        if (mStageNo != dSv_save_c::STAGE_TOTG && mStageNo != dSv_save_c::STAGE_ET && mStageNo != dSv_save_c::STAGE_WT) {
             cXyz local_18 = current.pos;
             csXyz local_20 = get_angle_wind01();
             local_18.y = m2EC.y + 140.0f;
@@ -538,68 +542,68 @@ BOOL daWarpf_c::check_warp_event() {
 
 /* 0000171C-00001788       .text get_distance__9daWarpf_cFv */
 f32 daWarpf_c::get_distance() {
-    if ((m2DC == 6 || m2DC == 7) && checkEndDemo()) {
+    if ((mStageNo == dSv_save_c::STAGE_ET || mStageNo == dSv_save_c::STAGE_WT) && checkEndDemo()) {
         return 190.0f;
     }
-    return m_warp_size[m2DC];
+    return m_warp_size[mStageNo];
 }
 
 /* 00001788-00001808       .text get_earth_pos__9daWarpf_cFv */
 f32 daWarpf_c::get_earth_pos() {
     static const f32 l_earth_pos[] = {
-        0.0f,
-        0.0f,
-        0.0f,
-        -100.0f,
-        100.0f,
-        0.0f,
-        0.0f,
-        300.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
+        /* STAGE_SEA            */ 0.0f,
+        /* STAGE_SEA2           */ 0.0f,
+        /* STAGE_FF             */ 0.0f,
+        /* STAGE_DRC            */ -100.0f,
+        /* STAGE_FW             */ 100.0f,
+        /* STAGE_TOTG           */ 0.0f,
+        /* STAGE_ET             */ 0.0f,
+        /* STAGE_WT             */ 300.0f,
+        /* STAGE_GT             */ 0.0f,
+        /* STAGE_HYRULE         */ 0.0f,
+        /* STAGE_SHIP           */ 0.0f,
+        /* STAGE_MISC           */ 0.0f,
+        /* STAGE_SUBDUNGEON     */ 0.0f,
+        /* STAGE_SUBDUNGEON_NEW */ 0.0f,
+        /* STAGE_BLUE_CHU_JELLY */ 0.0f,
+        /* STAGE_TEST           */ 0.0f,
     };
     static const f32 l_earth_pos_2nd[] = {
-        0.0f,
-        0.0f,
-        0.0f,
-        -100.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        300.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
+        /* STAGE_SEA            */ 0.0f,
+        /* STAGE_SEA2           */ 0.0f,
+        /* STAGE_FF             */ 0.0f,
+        /* STAGE_DRC            */ -100.0f,
+        /* STAGE_FW             */ 0.0f,
+        /* STAGE_TOTG           */ 0.0f,
+        /* STAGE_ET             */ 0.0f,
+        /* STAGE_WT             */ 300.0f,
+        /* STAGE_GT             */ 0.0f,
+        /* STAGE_HYRULE         */ 0.0f,
+        /* STAGE_SHIP           */ 0.0f,
+        /* STAGE_MISC           */ 0.0f,
+        /* STAGE_SUBDUNGEON     */ 0.0f,
+        /* STAGE_SUBDUNGEON_NEW */ 0.0f,
+        /* STAGE_BLUE_CHU_JELLY */ 0.0f,
+        /* STAGE_TEST           */ 0.0f,
     };
 
 #if VERSION == VERSION_DEMO
     f32 earthPos;
     if (!checkEndDemo()) {
-        earthPos = l_earth_pos[m2DC];
+        earthPos = l_earth_pos[mStageNo];
     } else {
-        earthPos = l_earth_pos_2nd[m2DC];
+        earthPos = l_earth_pos_2nd[mStageNo];
     }
     return earthPos;
 #else
     if (!checkEndDemo()) {
-        f32 earthPos = l_earth_pos[m2DC];
-        if (m2DC == 4 && fopAcM_GetParam(this) >> 0x1C) {
+        f32 earthPos = l_earth_pos[mStageNo];
+        if (mStageNo == dSv_save_c::STAGE_FW && daWarpf_prm::getSetType(this)) {
             earthPos = 0.0f;
         }
         return earthPos;
     }
-    return l_earth_pos_2nd[m2DC];
+    return l_earth_pos_2nd[mStageNo];
 #endif
 }
 
@@ -619,10 +623,10 @@ void daWarpf_c::set_effect() {
         }
     }
 
-    switch (m2DC) {
-        case 5:
+    switch (mStageNo) {
+        case dSv_save_c::STAGE_TOTG:
             if (m290 == NULL) {
-                if (fopAcM_GetParam(this) >> 0x1C == 0) {
+                if (daWarpf_prm::getSetType(this) == 0) {
                     dComIfGp_particle_set(dPa_name::ID_AK_SN_BSTWARP00, &current.pos);
                     dComIfGp_particle_set(dPa_name::ID_AK_SN_BSTWARP01, &current.pos);
                     dComIfGp_particle_set(dPa_name::ID_AK_SN_BSTWARP02, &current.pos);
@@ -631,11 +635,11 @@ void daWarpf_c::set_effect() {
             }
             break;
 
-        case 6:
-        case 7:
+        case dSv_save_c::STAGE_ET:
+        case dSv_save_c::STAGE_WT:
             if (m298 == NULL) {
                 if (!checkEndDemo()) {
-                    if (fopAcM_GetParam(this) >> 0x1C && m2B8 != NULL) {
+                    if (daWarpf_prm::getSetType(this) && m2B8 != NULL) {
                         m2B8->setPlaySpeed(1.0f);
                     }
 
@@ -661,7 +665,7 @@ void daWarpf_c::set_effect() {
 
 /* 00001C44-00001D0C       .text set_effect_wind00__9daWarpf_cFv */
 void daWarpf_c::set_effect_wind00() {
-    if (m2DC == 5 || m2DC == 7 || m2DC == 6) {
+    if (mStageNo == dSv_save_c::STAGE_TOTG || mStageNo == dSv_save_c::STAGE_WT || mStageNo == dSv_save_c::STAGE_ET) {
         return;
     }
 
@@ -684,7 +688,7 @@ csXyz daWarpf_c::get_angle_wind01() {
 
 /* 00001D88-00001E44       .text anim_play__9daWarpf_cFv */
 void daWarpf_c::anim_play() {
-    if (m2DC == 5) {
+    if (mStageNo == dSv_save_c::STAGE_TOTG) {
         if (m2AC != NULL) {
             m2AC->play();
         }
@@ -696,13 +700,13 @@ void daWarpf_c::anim_play() {
         if (m2B0 != NULL) {
             m2B4->play();
         }
-    } else if (m2DC == 6 || m2DC == 7) {
+    } else if (mStageNo == dSv_save_c::STAGE_ET || mStageNo == dSv_save_c::STAGE_WT) {
         if (m2AC != NULL) {
             m2AC->play();
         }
 
         if (m2B8 != NULL) {
-            if (m2E4 >= 0x78) {
+            if (m2E4 >= 120) {
                 m2B8->setPlaySpeed(1.0f);
             }
             m2B8->play();
@@ -712,8 +716,8 @@ void daWarpf_c::anim_play() {
 
 /* 00001E44-00001F78       .text setEndAnim__9daWarpf_cFv */
 void daWarpf_c::setEndAnim() {
-    switch (m2DC) {
-        case 5:
+    switch (mStageNo) {
+        case dSv_save_c::STAGE_TOTG:
             if (m2AC != NULL) {
                 m2AC->setFrame(m2AC->getEndFrame());
             }
@@ -727,8 +731,8 @@ void daWarpf_c::setEndAnim() {
             }
             break;
 
-        case 6:
-        case 7:
+        case dSv_save_c::STAGE_ET:
+        case dSv_save_c::STAGE_WT:
             if (!checkEndDemo() && m2AC != NULL) {
                 m2AC->setFrame(m2AC->getEndFrame());
             }
@@ -745,12 +749,12 @@ void daWarpf_c::set_se() {
 
     switch (m2D8) {
         case 0:
-            if (fopAcM_GetParam(this) >> 0x1C == 0) {
-                if (m2DC == 5) {
+            if (daWarpf_prm::getSetType(this) == 0) {
+                if (mStageNo == dSv_save_c::STAGE_TOTG) {
                     fopAcM_seStart(this, JA_SE_CM_BST_WARP_BEAM, 0);
                 } else {
 #if VERSION > VERSION_DEMO
-                    if (m2DC != 7 && m2DC != 6)
+                    if (mStageNo != dSv_save_c::STAGE_WT && mStageNo != dSv_save_c::STAGE_ET)
 #endif
                     {
                         fopAcM_seStart(this, JA_SE_OBJ_BOSS_WARP_APPEAR, 0);
@@ -764,8 +768,8 @@ void daWarpf_c::set_se() {
             break;
     }
 
-    if (m2DC == 5) {
-        if (m2E0 >= 0x2D && m2E8 != NULL) {
+    if (mStageNo == dSv_save_c::STAGE_TOTG) {
+        if (m2E0 >= 45 && m2E8 != NULL) {
             m2E8->seStart();
         }
     } else if (m2E8 != NULL) {
@@ -789,8 +793,8 @@ void daWarpf_c::set_mtx() {
 
 /* 0000219C-00002340       .text _draw__9daWarpf_cFv */
 bool daWarpf_c::_draw() {
-    switch (m2DC) {
-        case 5:
+    switch (mStageNo) {
+        case dSv_save_c::STAGE_TOTG:
             set_mtx();
             g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &tevStr);
             g_env_light.setLightTevColorType(m2A8, &tevStr);
@@ -810,8 +814,8 @@ bool daWarpf_c::_draw() {
             mDoExt_modelUpdateDL(m2A8);
             break;
 
-        case 6:
-        case 7:
+        case dSv_save_c::STAGE_ET:
+        case dSv_save_c::STAGE_WT:
             set_mtx();
             g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &current.pos, &tevStr);
 
@@ -833,6 +837,7 @@ bool daWarpf_c::_draw() {
                 g_env_light.setLightTevColorType(m2C0, &tevStr);
                 mDoExt_modelUpdateDL(m2C0);
             }
+            break;
     }
     return true;
 }

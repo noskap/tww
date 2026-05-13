@@ -706,7 +706,7 @@ u32 daNpc_Rsh1_c::getMsg() {
         msg_no = m780;
         m780 = 0;
     } else {
-        if (!checkItemGet(0x2A, TRUE) && daNpc_Rsh1_countShop() >= 3) {
+        if (!checkItemGet(dItem_MAGIC_ARMOR_e, TRUE) && daNpc_Rsh1_countShop() >= 3) {
             return 0x285D;
         }
 
