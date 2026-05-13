@@ -6,6 +6,26 @@
 #include "d/d_cc_d.h"
 #include "d/d_particle.h"
 
+extern J3DDrawBuffer* dComIfGd_getOpaListSky();
+
+// This class seems like it would be defined in m_Do_ext.h, but the weak function ordering indicates it's from a different header.
+// Strangely, mDoExt_J3DModelPacketS::setMaterial is defined inside of the d_a_bgn.cpp REL, indicating the class may be from this header.
+// It's unclear why the developers would do it this way.
+class mDoExt_J3DModelPacketS : public J3DPacket {
+public:
+    mDoExt_J3DModelPacketS() {}
+    ~mDoExt_J3DModelPacketS() {}
+
+    void setModel(J3DModel* model) { mpModel = model; }
+    void update() { dComIfGd_getOpaListSky()->entryImm(this, 0); }
+    
+    void draw();
+    void setMaterial();
+
+public:
+    /* 0x10 */ J3DModel* mpModel;
+}; // Size: 0x14
+
 struct part_s {
     /* 0x000 */ J3DModel* mpPartModel;
     /* 0x004 */ mDoExt_J3DModelPacketS m004;
@@ -30,11 +50,12 @@ struct part_s {
 #endif
 }; // Size: 0x23C
 
+struct bgn_himo_s {
+    /* 0x000 */ cXyz m000[60];
+};
+
 struct move_s {
-    struct bgn_himo_s {
-        /* 0x000 */ cXyz m000[60];
-    };
-    bgn_himo_s mHimo;
+    /* 0x000 */ bgn_himo_s mHimo;
     /* 0x2D0 */ u8 m2D0;
     /* 0x2D1 */ u8 m2D1[0x2D4 - 0x2D1];
     /* 0x2D4 */ cXyz m2D4;

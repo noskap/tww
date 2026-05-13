@@ -183,7 +183,7 @@ static void asi_hamon_set(bgn2_class* i_this) {
 
 /* 00000D88-00000FA8       .text attack_eff_set__FP10bgn2_class4cXyz */
 static void attack_eff_set(bgn2_class* i_this, cXyz param_2) {
-    /* Nonmatching */
+    /* Nonmatching - retail-only regalloc */
 #if VERSION == VERSION_DEMO
     fopAc_ac_c* actor = &i_this->actor;
 #endif
@@ -191,7 +191,7 @@ static void attack_eff_set(bgn2_class* i_this, cXyz param_2) {
     J3DModel* model;
     cXyz local_28;
 
-    daPy_py_c* player = daPy_getPlayerActorClass();
+    fopAc_ac_c* player = dComIfGp_getPlayer(0);
     if (!gr_check(i_this, &param_2)) {
         model = i_this->mpBodyMorf->getModel();
         emitter = dComIfGp_particle_set(dPa_name::ID_AK_SN_KGTT2CHESTSPLASH00, &param_2);
@@ -682,7 +682,7 @@ static void damage_check(bgn2_class* i_this) {
     cXyz local_58;
     CcAtInfo atInfo;
 #if VERSION == VERSION_DEMO
-    daPy_py_c* player = daPy_getPlayerActorClass();
+    fopAc_ac_c* player = dComIfGp_getPlayer(0);
 #endif
 
     if (i_this->m033A == 0) {

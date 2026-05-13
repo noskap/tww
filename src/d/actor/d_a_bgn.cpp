@@ -1468,7 +1468,6 @@ static void part_mtx_set(bgn_class* i_this, int param_2, part_s* param_3, int pa
 
 /* 00003FD0-000044DC       .text damage_check__FP9bgn_class */
 static void damage_check(bgn_class* i_this) {
-    /* Nonmatching - retail-only regalloc */
     fopAc_ac_c* actor = &i_this->actor;
     JPABaseEmitter* emitter;
     char cVar5;
@@ -1539,9 +1538,11 @@ static void damage_check(bgn_class* i_this) {
             atInfo.mpObj = i_this->mHeadParts[0].mPartSph.GetTgHitObj();
             cVar5 = 2;
         }
-        if (i_this->mPelvisParts[0].mPartSph.ChkTgHit()) {
-            atInfo.mpObj = i_this->mPelvisParts[0].mPartSph.GetTgHitObj();
-            cVar5 = 3;
+        for (int i = 0; i < 1; i++) {
+            if (i_this->mPelvisParts[i].mPartSph.ChkTgHit()) {
+                atInfo.mpObj = i_this->mPelvisParts[i].mPartSph.GetTgHitObj();
+                cVar5 = 3;
+            }
         }
         for (s32 i = 0; i < 20; i++) {
             if (i_this->mLeftArmParts[i].mPartSph.ChkTgHit()) {
@@ -3552,7 +3553,6 @@ static BOOL useHeapInit(fopAc_ac_c* a_this) {
 
 /* 0000B9DC-0000CA80       .text daBgn_Create__FP10fopAc_ac_c */
 static cPhs_State daBgn_Create(fopAc_ac_c* a_this) {
-    /* Nonmatching */
     static dCcD_SrcSph cc_sph_src = {
         // dCcD_SrcGObjInf
         {

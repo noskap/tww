@@ -2,6 +2,7 @@
 #define D_A_KI_H
 
 #include "f_op/f_op_actor.h"
+#include "d/actor/d_a_bgn.h"
 #include "c/c_damagereaction.h"
 #include "d/d_particle.h"
 
