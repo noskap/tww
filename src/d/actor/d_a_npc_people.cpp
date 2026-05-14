@@ -3826,7 +3826,7 @@ static u32 l_msg_ug2_out_area[] = {
 };
 
 static int l_get_item_no[] = {
-#if VERSION == VERSION_DEMO
+#if VERSION <= VERSION_JPN
     dItem_ORANGE_RUPEE_e,
 #else
     dItem_HEART_PIECE_e,
@@ -4364,9 +4364,9 @@ BOOL daNpcPeople_c::createHeap() {
     }
 
     m_jnt.setHeadJntNum(bodyModelData->getJointName()->getIndex("head"));
-    JUT_ASSERT(DEMO_SELECT(4695, 4700), m_jnt.getHeadJntNum() >= 0);
+    JUT_ASSERT(VERSION_SELECT(4695, 4696, 4700, 4700), m_jnt.getHeadJntNum() >= 0);
     m_jnt.setBackboneJntNum(bodyModelData->getJointName()->getIndex("backbone"));
-    JUT_ASSERT(DEMO_SELECT(4699, 4704), m_jnt.getBackboneJntNum() >= 0);
+    JUT_ASSERT(VERSION_SELECT(4699, 4700, 4704, 4704), m_jnt.getBackboneJntNum() >= 0);
 
     if(!initTexPatternAnm(false)) {
         return false;
@@ -4998,7 +4998,16 @@ void daNpcPeople_c::executeWait() {
                             mOrderEventNum = 2;
                         }
                         else if(dComIfGp_checkPlayerStatus0(0, daPyStts0_TELESCOPE_LOOK_e)) {
+#if VERSION == VERSION_PAL
+                            if (dComIfGp_getMesgStatus() == 0) {
+                                dComIfGp_setScopeType(1);
+                            }
+                            if (dComIfGp_getScopeType() != 1) {
+                                break;
+                            }
+#else
                             dComIfGp_setScopeType(1);
+#endif
                             if(dKy_moon_look_chk() && !(mEtcFlag & 0x100)) {
                                 dComIfGs_onEventBit(dSv_event_flag_c::UNK_2308);
                                 mEtcFlag |= 0x100;
@@ -5983,6 +5992,11 @@ bool daNpcPeople_c::eventMesSet() {
 
 /* 000049C4-000049F8       .text eventMesSet2__13daNpcPeople_cFv */
 bool daNpcPeople_c::eventMesSet2() {
+#if VERSION == VERSION_PAL
+    if (dComIfGp_getScopeType() == 0) {
+        return true;
+    }
+#endif
     return talk3(1) == fopMsgStts_BOX_CLOSED_e;
 }
 
@@ -6739,7 +6753,7 @@ u32 daNpcPeople_c::getMsg() {
                 }
                 else if(!dComIfGs_checkGetItem(dItem_COLLECT_MAP_16_e)) {
                     m734 = l_msg_xy_ub4_get_item;
-#if VERSION > VERSION_DEMO
+#if VERSION > VERSION_JPN
                     dComIfGs_onEventBit(dSv_event_flag_c::UNK_2504);
 #endif
                 }
@@ -6786,7 +6800,7 @@ u32 daNpcPeople_c::getMsg() {
                 }
 
                 break;
-#if VERSION > VERSION_DEMO
+#if VERSION > VERSION_JPN
             case 0x10:
                 m734 = l_msg_xy_sa5_no_skull_necklace;
                 break;
@@ -7775,7 +7789,7 @@ BOOL daNpcPeople_c::initTexPatternAnm(bool param_1) {
         }
 
         m_head_tex_pattern = (J3DAnmTexPattern*)dComIfG_getObjectIDRes(l_arcname_tbl[mNpcType], l_btp_ix_tbl[mNpcType]);
-        JUT_ASSERT(DEMO_SELECT(8951, 8989), m_head_tex_pattern != NULL);
+        JUT_ASSERT(VERSION_SELECT(8951, 8977, 8989, 9009), m_head_tex_pattern != NULL);
 
         if(!mBtpAnm.init(modelData, m_head_tex_pattern, TRUE, J3DFrameCtrl::EMode_LOOP, 1.0f, 0, -1, param_1, FALSE)) {
             return false;
@@ -7970,7 +7984,7 @@ s16 daNpcPeople_c::XyCheckCB(int i_itemBtn) {
 
             break;
         case 0x10:
-#if VERSION > VERSION_DEMO
+#if VERSION > VERSION_JPN
             if(isPhoto(itemNo)) {
                 return false;
             }

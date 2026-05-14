@@ -354,7 +354,10 @@ def MatchingFor(*versions):
     return config.version in versions
 
 def EquivalentFor(*versions):
-    return False
+    if config.non_matching:
+        return config.version in versions
+    else:
+        return False
 
 config.warn_missing_config = True
 config.warn_missing_source = False
@@ -1659,7 +1662,7 @@ config.libs = [
     ActorRel(MatchingFor("GZLJ01", "GZLE01", "GZLP01"),  "d_a_npc_os"),
     ActorRel(NonMatching, "d_a_npc_p1"),
     ActorRel(NonMatching, "d_a_npc_p2"),
-    ActorRel(MatchingFor("D44J01"), "d_a_npc_people"), # regalloc
+    ActorRel(EquivalentFor("GZLJ01", "GZLE01", "GZLP01") or MatchingFor("D44J01"), "d_a_npc_people"), # regalloc 
     ActorRel(NonMatching, "d_a_npc_pf1"),
     ActorRel(MatchingFor("GZLJ01", "GZLE01", "GZLP01"),    "d_a_npc_photo"),
     ActorRel(NonMatching, "d_a_npc_pm1"),
