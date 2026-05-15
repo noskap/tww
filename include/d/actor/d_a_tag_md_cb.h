@@ -27,7 +27,7 @@ public:
     BOOL messageAction(void*);
     BOOL talk_init();
     BOOL talk();
-    u16 next_msgStatus(unsigned long*);
+    u16 next_msgStatus(u32*);
     BOOL eventProc();
     void eventEnd();
     s32 getMyStaffId();
@@ -77,24 +77,28 @@ public:
 
 class daTag_MdCb_HIO_c : public JORReflexible {
 public:
+    struct hio_prm_c {
+        /* 0x00 */ f32 m00;
+        /* 0x04 */ f32 m04;
+        /* 0x08 */ s16 m08;
+        /* 0x0A */ s16 m0A;
+        /* 0x0C */ u8 m0C;
+        /* 0x0D */ u8 m0D;
+        /* 0x0E */ u8 m0E;
+        /* 0x0F */ u8 m0F;
+        /* 0x10 */ u8 m10;
+        /* 0x11 */ u8 m11;
+        /* 0x12 */ u8 m12;
+    };  // Size: 0x14
+
     daTag_MdCb_HIO_c();
 
     virtual ~daTag_MdCb_HIO_c() {}
 
 public:
     /* 0x04 */ s8 mNo;
-    /* 0x08 */ f32 m08;
-    /* 0x0C */ f32 m0C;
-    /* 0x10 */ s16 m10;
-    /* 0x12 */ s16 m12;
-    /* 0x14 */ u8 m14;
-    /* 0x15 */ u8 m15;
-    /* 0x16 */ u8 m16;
-    /* 0x17 */ u8 m17;
-    /* 0x18 */ u8 m18;
-    /* 0x19 */ u8 m19;
-    /* 0x1A */ u8 m1A;
-    /* 0x1C */ daTag_MdCb_c* m1C;
+    /* 0x08 */ hio_prm_c mPrm;
+    /* 0x1C */ daTag_MdCb_c* mpActor;
 }; // size = 0x20
 
 #endif /* D_A_TAG_MD_CB_H */

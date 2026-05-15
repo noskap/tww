@@ -29,34 +29,22 @@ static const char* event_name_tbl[] = {
 
 /* 000000EC-00000160       .text __ct__16daTag_MdCb_HIO_cFv */
 daTag_MdCb_HIO_c::daTag_MdCb_HIO_c() {
-    struct InitData {
-        /* 0x00 */ f32 m00;
-        /* 0x04 */ f32 m04;
-        /* 0x08 */ s16 m08;
-        /* 0x0A */ s16 m0A;
-        /* 0x0C */ u8 m0C;
-        /* 0x0D */ u8 m0D;
-        /* 0x0E */ u8 m0E;
-        /* 0x0F */ u8 m0F;
-        /* 0x10 */ u8 m10;
-        /* 0x11 */ u8 m11;
-        /* 0x12 */ u8 m12;
-    }; // size = 0x14
-
-    static const InitData init_data = {200.0f, 200.0f, DEMO_SELECT(0x258, 0x384), 150, 0, 0, 0, 0, 0, 0, 0};
+    static const hio_prm_c init_data = {
+        /* 0x00 */ 200.0f,
+        /* 0x04 */ 200.0f,
+        /* 0x08 */ DEMO_SELECT(600, 900),
+        /* 0x0A */ 150,
+        /* 0x0C */ 0,
+        /* 0x0D */ 0,
+        /* 0x0E */ 0,
+        /* 0x0F */ 0,
+        /* 0x10 */ 0,
+        /* 0x11 */ 0,
+        /* 0x12 */ 0,
+    };
 
     mNo = -1;
-    m08 = init_data.m00;
-    m0C = init_data.m04;
-    m10 = init_data.m08;
-    m12 = init_data.m0A;
-    m14 = init_data.m0C;
-    m15 = init_data.m0D;
-    m16 = init_data.m0E;
-    m17 = init_data.m0F;
-    m18 = init_data.m10;
-    m19 = init_data.m11;
-    m1A = init_data.m12;
+    mPrm = init_data;
 }
 
 static const u16 event_bit[] = {0x2920, 0x2910};
@@ -85,7 +73,7 @@ cPhs_State daTag_MdCb_c::create() {
 
     if (l_HIO.mNo < 0) {
         l_HIO.mNo = mDoHIO_createChild("メドリ・マコレタグ", &l_HIO);
-        l_HIO.m1C = this;
+        l_HIO.mpActor = this;
         l_HIO_counter = 1;
     } else {
         l_HIO_counter++;
@@ -130,7 +118,7 @@ BOOL daTag_MdCb_c::init() {
         setTimer(60);
         scale.x = 2250.0f;
     } else {
-        setTimer(l_HIO.m12);
+        setTimer(l_HIO.mPrm.m0A);
     }
     return TRUE;
 }
@@ -270,65 +258,63 @@ BOOL daTag_MdCb_c::talk_init() {
 /* 000009A0-00000A9C       .text talk__12daTag_MdCb_cFv */
 BOOL daTag_MdCb_c::talk() {
     u16 status = l_msg->mStatus;
-    const u8 msg = dComIfGp_getMesgAnimeAttrInfo();
+    const u8 msgAnmAtr = dComIfGp_getMesgAnimeAttrInfo();
 
-    if (status == 0xe) {
+    if (status == fopMsgStts_MSG_DISPLAYED_e) {
         l_msg->mStatus = next_msgStatus(&m2A8);
-        if (l_msg->mStatus == 0xf) {
+        if (l_msg->mStatus == fopMsgStts_MSG_CONTINUES_e) {
             fopMsgM_messageSet(m2A8);
         }
-    } else {
-        if (status != 0x15) {
-            if (status == 6) {
-                if (m2B5 == 0 || m2B5 == 2 || m2B5 == 3 || m2B5 == 5 || m2B5 == 6) {
-                    daPy_npc_c* npc = (daPy_npc_c*)dComIfGp_getCb1Player();
-                    if (npc != NULL) {
-                        npc->setMessageAnimation(DEMO_SELECT(msg, dComIfGp_getMesgAnimeAttrInfo()));
-                    }
+    } else if (status != fopMsgStts_INPUT_e) {
+        if (status == fopMsgStts_MSG_TYPING_e) {
+            if (m2B5 == 0 || m2B5 == 2 || m2B5 == 3 || m2B5 == 5 || m2B5 == 6) {
+                daPy_npc_c* npc = (daPy_npc_c*)dComIfGp_getCb1Player();
+                if (npc != NULL) {
+                    npc->setMessageAnimation(DEMO_SELECT(msgAnmAtr, dComIfGp_getMesgAnimeAttrInfo()));
                 }
-            } else if (status == 0x12) {
-                l_msg->mStatus = 0x13;
-                return TRUE;
             }
+        } else if (status == fopMsgStts_BOX_CLOSED_e) {
+            l_msg->mStatus = fopMsgStts_MSG_DESTROYED_e;
+            return TRUE;
         }
     }
     return FALSE;
 }
 
 /* 00000A9C-00000C54       .text next_msgStatus__12daTag_MdCb_cFPUl */
-u16 daTag_MdCb_c::next_msgStatus(unsigned long* arg1) {
-    u16 uVar2 = 0x10;
+u16 daTag_MdCb_c::next_msgStatus(u32* pMsgNo) {
+    u16 status = fopMsgStts_MSG_ENDS_e;
 
-    if (*arg1 == 0x19f0) {
+    if (*pMsgNo == 0x19f0) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3320);
-        setTimer(l_HIO.m10);
-    } else if (*arg1 == 0x19f1) {
+        setTimer(l_HIO.mPrm.m08);
+    } else if (*pMsgNo == 0x19f1) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3310);
 #if VERSION > VERSION_DEMO
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_4001);
 #endif
-        setTimer(l_HIO.m10);
-    } else if (*arg1 == 0x19f2) {
-        setTimer(l_HIO.m10);
-    } else if (*arg1 == 0x19f3) {
+        setTimer(l_HIO.mPrm.m08);
+    } else if (*pMsgNo == 0x19f2) {
+        setTimer(l_HIO.mPrm.m08);
+    } else if (*pMsgNo == 0x19f3) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3304);
-    } else if (*arg1 == 0x19f4) {
-        setTimer(l_HIO.m10);
-    } else if (*arg1 == 0x19f5) {
+    } else if (*pMsgNo == 0x19f4) {
+        setTimer(l_HIO.mPrm.m08);
+    } else if (*pMsgNo == 0x19f5) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3301);
-    } else if (*arg1 == 0x1530) {
+    } else if (*pMsgNo == 0x1530) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3480);
-    } else if (*arg1 == 0x1531) {
+    } else if (*pMsgNo == 0x1531) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3440);
-    } else if (*arg1 == 0x1533) {
-        *arg1 = 0x1535;
-        uVar2 = 0xf;
-    } else if (*arg1 == 0x1534) {
+    } else if (*pMsgNo == 0x1533) {
+        *pMsgNo = 0x1535;
+        status = fopMsgStts_MSG_CONTINUES_e;
+    } else if (*pMsgNo == 0x1534) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3420);
-    } else if (*arg1 == 0x1535) {
+    } else if (*pMsgNo == 0x1535) {
         dComIfGs_onEventBit(dSv_event_flag_c::UNK_3410);
     }
-    return uVar2;
+    return status;
 }
 
 static daTag_MdCb_c::EventInitFunc event_init_tbl[] = {
@@ -662,8 +648,8 @@ BOOL daTag_MdCb_c::execute() {
     m2B9 = 0x0;
 
     if (argument <= 1) {
-        scale.x = l_HIO.m0C;
-        scale.y = l_HIO.m08;
+        scale.x = l_HIO.mPrm.m04;
+        scale.y = l_HIO.mPrm.m00;
     }
 
     if (!eventProc()) {
