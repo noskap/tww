@@ -34,9 +34,7 @@ struct bpw_class {
     /* 0x3B8 */ cXyz m3B8;
     /* 0x3C4 */ cXyz m3C4;
     /* 0x3D0 */ csXyz mKanteraDousaRot;
-    /* 0x3D6 */ s16 m3D6;
-    /* 0x3D8 */ s16 m3D8;
-    /* 0x3DA */ u16 m3DA;
+    /* 0x3D6 */ csXyz m3D6;
     /* 0x3DC */ u8 mType;
     /* 0x3DD */ u8 mUnknownParam2;
     /* 0x3DE */ u8 mLightState;

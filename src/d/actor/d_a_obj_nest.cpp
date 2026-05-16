@@ -81,11 +81,7 @@ cPhs_State daObjNest::Act_c::Mthd_Create() {
             M_arcname,
             MTORISU_DZB_MTORISU,
             NULL,
-#if VERSION == VERSION_DEMO
-            0x1820
-#else
-            0xAA0
-#endif
+            DEMO_SELECT(0x1820, 0xAA0)
         );
         JUT_ASSERT(329, (phase_state == cPhs_COMPLEATE_e) || (phase_state == cPhs_ERROR_e));
     }

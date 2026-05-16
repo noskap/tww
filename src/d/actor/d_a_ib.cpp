@@ -297,7 +297,7 @@ void daIball_c::damage() {
         if (hitObj) {
             if (hitObj->ChkAtType(AT_TYPE_SWORD)         || hitObj->ChkAtType(AT_TYPE_BOKO_STICK)   ||
                 hitObj->ChkAtType(AT_TYPE_MACHETE)       || hitObj->ChkAtType(AT_TYPE_SKULL_HAMMER) ||
-                hitObj->ChkAtType(AT_TYPE_UNK2000000)    || hitObj->ChkAtType(AT_TYPE_STALFOS_MACE) ||
+                hitObj->ChkAtType(AT_TYPE_FAN_SWING)     || hitObj->ChkAtType(AT_TYPE_STALFOS_MACE) ||
                 hitObj->ChkAtType(AT_TYPE_DARKNUT_SWORD) || hitObj->ChkAtType(AT_TYPE_HOOKSHOT)     ||
                 hitObj->ChkAtType(AT_TYPE_BOOMERANG)     || hitObj->ChkAtType(AT_TYPE_NORMAL_ARROW) ||
                 hitObj->ChkAtType(AT_TYPE_FIRE_ARROW)    || hitObj->ChkAtType(AT_TYPE_ICE_ARROW)    ||

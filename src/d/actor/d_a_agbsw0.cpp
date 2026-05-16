@@ -768,7 +768,7 @@ BOOL daAgbsw0_c::ExeSubM() {
     }
 }
 
-/* 00001198-00001368       .text ExeSubM3__10daAgbsw0_cFv */
+/* 00000FE4-00001198       .text ExeSubM2__10daAgbsw0_cFv */
 BOOL daAgbsw0_c::ExeSubM2() {
     if(dComIfGs_isEventBit(dSv_event_flag_c::UNK_2D01)) {
         if(field_0x298 == 1) {
@@ -1126,7 +1126,7 @@ BOOL daAgbsw0_c::ExeSubMW() {
     return true;
 }
 
-/* 00000344-0000066C       .text ExeSubAT__10daAgbsw0_cFv */
+/* 00001AD0-00001CC8       .text ExeSubT__10daAgbsw0_cFv */
 BOOL daAgbsw0_c::ExeSubT() {
     u8 sw0 = getSw0();
 

@@ -172,7 +172,7 @@ static BOOL daKamome_Draw(kamome_class* i_this) {
         &i_this->actor.tevStr
     );
 
-    dSnap_RegistFig(0x55, &i_this->actor, 1.0f, 1.0f, 1.0f);
+    dSnap_RegistFig(DSNAP_TYPE_KAMOME, &i_this->actor, 1.0f, 1.0f, 1.0f);
     return TRUE;
 }
 
@@ -709,6 +709,7 @@ void kamome_path_move(kamome_class* i_this) {
 /* 00002740-00003628       .text kamome_auto_move__FP12kamome_class */
 void kamome_auto_move(kamome_class* i_this) {
     fopAc_ac_c* a_this = (fopAc_ac_c*)&i_this->actor;
+    fopAc_ac_c* player = (fopAc_ac_c*)dComIfGp_getPlayer(0);
     fopAc_ac_c* pfVar4;
     s8 moveType = 0;
     s32 frame;

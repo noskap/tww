@@ -337,7 +337,7 @@ bool daObjApzl_c::move_piece() {
     if (swapped == true) {
         swap_piece(mBlankIdx, mSwappedPieceIdx);
         if (check_clear()) {
-            mMoveTimer = 0x28;
+            mMoveTimer = 40;
         } else {
             mMoveTimer = 5;
         }
@@ -639,7 +639,7 @@ void daObjApzl_c::privateCut() {
                         break;
                     case ACT_GETITEM:
                         mGaveReward = true;
-                        mRewardTimer = 0x96;
+                        mRewardTimer = 150;
                         break;
                     case ACT_SOUND:
                         mDoAud_seStart(JA_SE_15PUZZLE_COMPLETE);
@@ -731,7 +731,7 @@ void daObjApzl_c::privateCut() {
                             mRupeeIds[mGivenRupeeCount] = fopAcM_GetID(item);
                             mGivenRupeeCount++;
                             mGaveReward = true; 
-                            mRewardTimer = 0x3C;
+                            mRewardTimer = 60;
                         }
                     }
                     break;

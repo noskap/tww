@@ -42,7 +42,7 @@ static daBmdfoot_HIO_c l_HIO;
 static BOOL nodeCallBack(J3DNode* node, int calcTiming) {
     if (calcTiming == J3DNodeCBCalcTiming_In) {
         J3DJoint* joint = (J3DJoint*)node;
-        s32 jntNo = joint->getJntNo();
+        int jntNo = joint->getJntNo();
         J3DModel* model = j3dSys.getModel();
         bmdfoot_class* i_this = (bmdfoot_class*)model->getUserArea();
         if (i_this != NULL) {
@@ -89,7 +89,7 @@ void anm_init(bmdfoot_class* i_this, int bckFileIdx, f32 morf, unsigned char loo
 
 /* 000003D8-00000440       .text housi_off__FP13bmdfoot_class */
 void housi_off(bmdfoot_class* i_this) {
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->mAsiWaitFollowCB); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->mAsiWaitFollowCB); i++) {
         if (i_this->mAsiWaitFollowCB[i].getEmitter() != NULL) {
             i_this->mAsiWaitFollowCB[i].getEmitter()->stopCreateParticle();
         }
@@ -103,12 +103,12 @@ void housi_off(bmdfoot_class* i_this) {
 void wait(bmdfoot_class* i_this) {
     fopAc_ac_c* actor = (fopAc_ac_c*)&i_this->actor;
     cXyz local_98;
-    static s32 eff_id[] = {0x0A, 0x0C, 0x11};
+    static int eff_id[] = {0x0A, 0x0C, 0x11};
 
     int frame = i_this->mpBodyVineMorf->getFrame();
     local_98.setall(0.0f);
 
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->m3F8); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m3F8); i++) {
         MTXCopy(i_this->mpBodyVineMorf->getModel()->getAnmMtx(eff_id[i]), *calc_mtx);
         MtxPosition(&local_98, &i_this->m3F8[i]);
         if (i_this->m3F4 == 0) {
@@ -127,8 +127,8 @@ void wait(bmdfoot_class* i_this) {
 
     switch (i_this->m2BC) {
     case -1:
-        for (s32 i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
-            cLib_addCalc2(&i_this->m2CC[i].x, (s32)(0x10 - i) * (0.003f + REG12_F(3)), 0.1f, 0.008f + REG12_F(4));
+        for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+            cLib_addCalc2(&i_this->m2CC[i].x, (int)(0x10 - i) * (0.003f + REG12_F(3)), 0.1f, 0.008f + REG12_F(4));
             i_this->m3A4[i] = 0.0f;
         }
         if (i_this->m2C0[2] == 0) {
@@ -142,7 +142,7 @@ void wait(bmdfoot_class* i_this) {
         anm_init(i_this, BMDFOOT_BCK_ASI_WAIT, 50.0f, J3DFrameCtrl::EMode_LOOP, cM_rndF(0.2f) + 0.9f, -1);
         i_this->m2C0[0] = cM_rndF(150.0f) + 100.0f;
         i_this->m3EC = cM_rndFX(32768.0f);
-        for (s32 i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+        for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
             i_this->m3A4[i] = REG14_F(13) + (0.2f + cM_rndFX(0.1f));
         }
         break;
@@ -175,11 +175,10 @@ void wait(bmdfoot_class* i_this) {
 void attack_1(bmdfoot_class* i_this) {
     /* Nonmatching - retail-only regalloc */
     fopAc_ac_c* actor = (fopAc_ac_c*)&i_this->actor;
-    s32 i;
     cXyz local_5c;
     cXyz cStack_68;
-    static s32 jno[] = {0x0A, 0x0C, 0x11};
-    static s32 col_joint[] = {0x01, 0x03, 0x05, 0x07, 0x09};
+    static int jno[] = {0x0A, 0x0C, 0x11};
+    static int col_joint[] = {0x01, 0x03, 0x05, 0x07, 0x09};
 
     bool bVar2 = false;
     local_5c.setall(0.0f);
@@ -210,7 +209,7 @@ void attack_1(bmdfoot_class* i_this) {
         if (i_this->mBD0 == 0) {
             i_this->mBD0 = 0x1e;
         }
-        for (i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+        for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
             i_this->m3A4[i] = 0.0f;
             cLib_addCalc0(&i_this->m2CC[i].z, 0.1f, 0.05f);
         }
@@ -225,7 +224,7 @@ void attack_1(bmdfoot_class* i_this) {
         bVar2 = true;
         if (i_this->m2C0[0] == 1) {
             mDoAud_seStart(JA_SE_CM_BKM_ATKVINE_ATTACK, &i_this->mAE8, 0, dComIfGp_getReverb(fopAcM_GetRoomNo(actor)));
-            for (s32 i = 0; i < ARRAY_SSIZE(jno); i++) {
+            for (int i = 0; i < ARRAY_SSIZE(jno); i++) {
                 MTXCopy(i_this->mpBodyVineMorf->getModel()->getAnmMtx(jno[i]), *calc_mtx);
                 MtxPosition(&local_5c, &cStack_68);
                 dComIfGp_particle_setSimple(dPa_name::ID_AK_SN_O_BKMSATTACKHOUSHI00, &cStack_68, 0xFF, g_whiteColor, g_whiteColor, 0);
@@ -254,7 +253,7 @@ void attack_1(bmdfoot_class* i_this) {
 
     if (bVar2) {
         J3DModel* model = i_this->mpBodyVineMorf->getModel();
-        for (i = 0; i < ARRAY_SSIZE(i_this->mSph); i++) {
+        for (int i = 0; i < ARRAY_SSIZE(i_this->mSph); i++) {
             MTXCopy(model->getAnmMtx((i_this->m2B8 & 7U) + col_joint[i]), *calc_mtx);
             MtxPosition(&local_5c, &cStack_68);
             i_this->mSph[i].SetC(cStack_68);
@@ -267,7 +266,7 @@ void attack_1(bmdfoot_class* i_this) {
 }
 
 /* 00000D8C-00001180       .text ug_move__FP13bmdfoot_class */
-s32 ug_move(bmdfoot_class* i_this) {
+int ug_move(bmdfoot_class* i_this) {
     fopAc_ac_c* actor = (fopAc_ac_c*)&i_this->actor;
     cXyz local_4c;
     cXyz cStack_58;
@@ -332,7 +331,7 @@ void attack_2(bmdfoot_class* i_this) {
     J3DAnmTransform* pBck;
     cXyz local_3c;
     cXyz local_48;
-    static s32 col_joint[] = {0x11, 0x0F, 0x0C, 0x09};
+    static int col_joint[] = {0x11, 0x0F, 0x0C, 0x09};
 
     local_3c.z = 0.0f;
     local_3c.y = 0.0f;
@@ -352,7 +351,7 @@ void attack_2(bmdfoot_class* i_this) {
         }
         break;
     case 2:
-        if ((s32)i_this->mpBodyVineMorf->getFrame() == 49) {
+        if ((int)i_this->mpBodyVineMorf->getFrame() == 49) {
             MTXCopy(i_this->mpBodyVineMorf->getModel()->getAnmMtx(0x11), *calc_mtx);
             MtxPosition(&local_3c, &local_48);
             dComIfGp_particle_setSimple(dPa_name::ID_AK_SN_O_BKMSATTACKHOUSHI00, &local_48, 0xFF, g_whiteColor, g_whiteColor, 0);
@@ -375,7 +374,7 @@ void attack_2(bmdfoot_class* i_this) {
         }
         break;
     case 4:
-        if ((s32)i_this->mpFloorVineMorf->getFrame() == 2) {
+        if ((int)i_this->mpFloorVineMorf->getFrame() == 2) {
             local_48 = i_this->mBAC;
             dComIfGp_particle_setSimple(dPa_name::ID_AK_SN_O_BKMSATTACKHOUSHI00, &local_48, 0xFF, g_whiteColor, g_whiteColor, 0);
             dComIfGp_particle_setSimple(dPa_name::ID_AK_SN_O_BKMSATTACKSOIL00, &local_48, 0xFF, g_whiteColor, g_whiteColor, 0);
@@ -393,7 +392,7 @@ void attack_2(bmdfoot_class* i_this) {
     case 5:
         ug_move(i_this);
         mDoAud_seStart(JA_SE_CM_BKM_ATKVINE_L_ATK, &i_this->mBAC, 0, dComIfGp_getReverb(fopAcM_GetRoomNo(actor)));
-        for (s32 i = 0; i < ARRAY_SSIZE(col_joint); i++) {
+        for (int i = 0; i < ARRAY_SSIZE(col_joint); i++) {
             MTXCopy(i_this->mpFloorVineMorf->getModel()->getAnmMtx(col_joint[i]), *calc_mtx);
             MtxPosition(&local_3c, &local_48);
             i_this->mSph[i].SetC(local_48);
@@ -408,7 +407,7 @@ void attack_2(bmdfoot_class* i_this) {
         break;
     case 6:
         ug_move(i_this);
-        if ((s32)i_this->mpFloorVineMorf->getFrame() == 12) {
+        if ((int)i_this->mpFloorVineMorf->getFrame() == 12) {
             dComIfGp_particle_set(dPa_name::ID_AK_SN_BKMLATTACKHOUSHI00, &i_this->mBAC);
             dComIfGp_particle_set(dPa_name::ID_AK_SN_BKMLATTACKSOIL00, &i_this->mBAC);
             i_this->m498[0].x = i_this->mBAC.x;
@@ -427,7 +426,7 @@ void attack_2(bmdfoot_class* i_this) {
         }
         break;
     case 7:
-        if ((s32)i_this->mpBodyVineMorf->getFrame() == 13) {
+        if ((int)i_this->mpBodyVineMorf->getFrame() == 13) {
             local_48 = actor->current.pos;
             local_48.y = i_this->mBAC.y;
             dComIfGp_particle_set(dPa_name::ID_AK_SN_BKMLATTACKHOUSHI00, &local_48);
@@ -464,13 +463,13 @@ void damage(bmdfoot_class* i_this) {
         i_this->m2BC++;
         i_this->m2C0[0] = 0x1e;
         i_this->m3EC = cM_rndFX(32768.0f);
-        for (s32 i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+        for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
             i_this->m3A4[i] = (0.3f + cM_rndFX(0.2f));
         }
     case 1:
         if (i_this->m2C0[0] != 0) {
             dVar5 = ((fopAcM_GetParam(actor) & 0xf) * 0.01f);
-            for (s32 i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+            for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
                 cLib_addCalc2(&i_this->m2CC[i].x, -(dVar5 + (0.05f + ((i) * (0.03f + REG14_F(3))))), 0.1f, REG14_F(4) + 0.1f);
             }
         }
@@ -487,7 +486,7 @@ void damage(bmdfoot_class* i_this) {
 void start(bmdfoot_class* i_this) {
     fopAc_ac_c* actor = (fopAc_ac_c*)&i_this->actor;
 
-    for (s32 i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+    for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
         i_this->m2CC[i].z = 0;
         i_this->m3A4[i] = 0;
     }
@@ -513,7 +512,7 @@ void start(bmdfoot_class* i_this) {
         }
         break;
     case 3:
-        if ((s32)i_this->mpBodyVineMorf->getFrame() == 2) {
+        if ((int)i_this->mpBodyVineMorf->getFrame() == 2) {
             mDoAud_seStart(JA_SE_CM_BKM_ATKVINE_MOVE_1, &i_this->mAE8, 0, dComIfGp_getReverb(fopAcM_GetRoomNo(actor)));
         }
         if (boss->m332 == 7) {
@@ -526,7 +525,7 @@ void start(bmdfoot_class* i_this) {
 
 /* 00001ED8-00001FB8       .text end__FP13bmdfoot_class */
 void end(bmdfoot_class* i_this) {
-    for (s32 i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+    for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
         i_this->m2CC[i].z = 0;
         i_this->m3A4[i] = 0;
     }
@@ -602,13 +601,12 @@ void* s_a_d_sub(void* search, void* param_2) {
 static BOOL daBmdfoot_Execute(bmdfoot_class* i_this) {
     fopAc_ac_c* actor = (fopAc_ac_c*)&i_this->actor;
     cXyz local_68;
-    s32 i;
 
     if (boss == NULL) {
         boss = (bmd_class*)fpcM_Search(s_a_d_sub, i_this);
     }
     i_this->m2B8++;
-    for (i = 0; i < ARRAY_SSIZE(i_this->m2C0); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m2C0); i++) {
         if (i_this->m2C0[i] != 0) {
             i_this->m2C0[i]--;
         }
@@ -621,8 +619,8 @@ static BOOL daBmdfoot_Execute(bmdfoot_class* i_this) {
     cMtx_YrotM(*calc_mtx, actor->current.angle.y + i_this->m2BE);
     cMtx_XrotM(*calc_mtx, actor->current.angle.x);
     cMtx_ZrotM(*calc_mtx, actor->current.angle.z + i_this->m2BE * 2);
-    J3DModel* pJVar5 = i_this->mpBodyVineMorf->getModel();
-    pJVar5->setBaseTRMtx(*calc_mtx);
+    J3DModel* model = i_this->mpBodyVineMorf->getModel();
+    model->setBaseTRMtx(*calc_mtx);
     i_this->mpBodyVineMorf->play(NULL, 0, 0);
     i_this->mpBodyVineMorf->calc();
     if (i_this->mBD0 != 0) {
@@ -636,7 +634,7 @@ static BOOL daBmdfoot_Execute(bmdfoot_class* i_this) {
         sVar1 = sVar1 % 30;
     }
     i_this->btk->setFrame(sVar1);
-    MTXCopy(pJVar5->getAnmMtx(REG14_S(6) + 0x10), *calc_mtx);
+    MTXCopy(model->getAnmMtx(REG14_S(6) + 0x10), *calc_mtx);
     local_68.z = 0.0f;
     local_68.y = 0.0f;
     local_68.x = 0.0f;
@@ -652,7 +650,7 @@ static BOOL daBmdfoot_Execute(bmdfoot_class* i_this) {
         sVar1_2 = REG0_S(4);
     }
     cLib_addCalcAngleS2(&actor->current.angle.x, sVar1_2, 0x10, 0x80);
-    for (i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
+    for (int i = 2; i <= ARRAY_SSIZE(i_this->m3A4); i++) {
         f32 f1 = i_this->m3A4[i] * cM_ssin(i_this->m3EC + i * (REG0_S(6) + 9000));
         cLib_addCalc2(&i_this->m2CC[i].z, f1, 0.05f, 0.01f + REG14_F(5));
         cLib_addCalc0(&i_this->m2CC[i].x, 0.05f, 0.005f + REG14_F(5));
@@ -674,7 +672,7 @@ static BOOL daBmdfoot_Delete(bmdfoot_class* i_this) {
     }
     mDoAud_seDeleteObject(&i_this->mAE8);
     mDoAud_seDeleteObject(&i_this->mBAC);
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->mAsiWaitFollowCB); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->mAsiWaitFollowCB); i++) {
         i_this->mAsiWaitFollowCB[i].remove();
     }
     i_this->mLAttackSmoke00CB[0].remove();
@@ -685,7 +683,7 @@ static BOOL daBmdfoot_Delete(bmdfoot_class* i_this) {
 }
 
 /* 000026B0-000029B4       .text useHeapInit__FP13bmdfoot_class */
-s32 useHeapInit(bmdfoot_class* i_this) {
+int useHeapInit(bmdfoot_class* i_this) {
     i_this->mpBodyVineMorf = new mDoExt_McaMorf(
         (J3DModelData*)dComIfG_getObjectRes("Bmdfoot", BMDFOOT_BMD_ASI),
         NULL,
@@ -769,7 +767,7 @@ static cPhs_State daBmdfoot_Create(fopAc_ac_c* a_this) {
             /* SrcGObjAt Spl     */ dCcG_At_Spl_UNK0,
             /* SrcGObjAt Mtrl    */ 0,
             /* SrcGObjAt SPrm    */ dCcG_AtSPrm_NoConHit_e,
-            /* SrcGObjTg Se      */ dCcG_SE_UNK5,
+            /* SrcGObjTg Se      */ dCcG_SE_METAL,
             /* SrcGObjTg HitMark */ dCcg_TgHitMark_Purple_e,
             /* SrcGObjTg Spl     */ dCcG_Tg_Spl_UNK0,
             /* SrcGObjTg Mtrl    */ 0,
@@ -805,7 +803,7 @@ static cPhs_State daBmdfoot_Create(fopAc_ac_c* a_this) {
     i_this->m2B8 = cM_rndF(10000.0f);
     boss = NULL;
     i_this->mStts.Init(0xFF, 0, a_this);
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->mSph); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->mSph); i++) {
         i_this->mSph[i].SetStts(&i_this->mStts);
         i_this->mSph[i].Set(cc_sph_src);
     }

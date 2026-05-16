@@ -182,7 +182,7 @@ BOOL daObjVfan::Act_c::Execute(Mtx** mtx) {
         break;
 
     case 2:
-        if (mBreakTimer == 0x96) {
+        if (mBreakTimer == 150) {
             mIsAlive = false;
             fopAcM_seStartCurrent(this, JA_SE_OBJ_GN_SW_DR_BREAK, 0);
         }

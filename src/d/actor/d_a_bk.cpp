@@ -1731,7 +1731,7 @@ static void attack_set(bk_class* i_this, u8 r28) {
         i_this->m1040.SetAtSe(dCcG_SE_UNK2);
     } else {
         i_this->m1040.SetAtType(AT_TYPE_UNK2000);
-        i_this->m1040.SetAtSe(dCcG_SE_UNK4);
+        i_this->m1040.SetAtSe(dCcG_SE_WOOD);
     }
     
     if (r28 == 0) {
@@ -2826,7 +2826,7 @@ static void wepon_search(bk_class* i_this) {
                 if (fopAcM_GetParam(boko) == daBoko_c::Type_BOKO_STICK_e) {
                     i_this->m02D5 = 0;
                     i_this->m1040.SetAtType(AT_TYPE_UNK2000);
-                    i_this->m1040.SetAtSe(dCcG_SE_UNK4);
+                    i_this->m1040.SetAtSe(dCcG_SE_WOOD);
                 } else {
                     i_this->m02D5 = 1;
                     i_this->m1040.SetAtType(AT_TYPE_UNK800);
@@ -4808,7 +4808,7 @@ static cPhs_State daBk_Create(fopAc_ac_c* i_actor) {
         
         J3DModel* model = i_this->mpMorf->getModel();
         for (u16 i = 0; i < model->getModelData()->getJointNum(); i++) {
-            s32 r3 = joint_check[i];
+            s32 r3 = (s8)joint_check[i];
             if (r3 < 0) {
                 continue;
             }

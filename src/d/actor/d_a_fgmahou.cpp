@@ -34,7 +34,7 @@ static void* boss_s_sub(void* param_1, void*) {
 
 /* 00000130-00000C14       .text move__FP13fgmahou_class */
 static void move(fgmahou_class* i_this) {
-    static float spdd[] = {
+    static f32 spdd[] = {
         0.65f,
         0.3f,
         0.1f,
@@ -119,9 +119,9 @@ static void move(fgmahou_class* i_this) {
             }
 
             dComIfGp_particle_set(dPa_name::ID_AK_SN_BPGSMASHDARKSHOT00, &i_this->current.pos, &i_this->home.angle);
-        #if VERSION > VERSION_DEMO
+#if VERSION == VERSION_USA
             fopAcM_seStartCurrent(i_this, JA_SE_LK_PG_BOMB_STRIKE, 0);
-        #endif
+#endif
 
             i_this->mState = 5;
         case 5:

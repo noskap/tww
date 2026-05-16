@@ -46,7 +46,7 @@ enum daPy__PlayerStatus0 {
     daPyStts0_UNK400_e         = 0x00000400,
     daPyStts0_UNK800_e         = 0x00000800,
     daPyStts0_BOW_AIM_e        = 0x00001000,
-    daPyStts0_UNK2000_e        = 0x00002000,
+    daPyStts0_SUBJECT_e        = 0x00002000, // First person
     daPyStts0_HOOKSHOT_AIM_e   = 0x00004000,
     daPyStts0_SWORD_SWING_e    = 0x00008000,
     daPyStts0_SHIP_RIDE_e      = 0x00010000,
@@ -69,7 +69,7 @@ enum daPy__PlayerStatus0 {
     // This is some combination of flags which is seemingly related to "judgement", used in dAttention_c
     daPyStts0_UNK37a02371_e    = daPyStts0_UNK1_e | daPyStts0_UNK10_e | daPyStts0_UNK20_e
                                  | daPyStts0_UNK40_e | daPyStts0_UNK100_e | daPyStts0_UNK200_e
-                                 | daPyStts0_UNK2000_e| daPyStts0_TELESCOPE_LOOK_e
+                                 | daPyStts0_SUBJECT_e| daPyStts0_TELESCOPE_LOOK_e
                                  | daPyStts0_UNK800000_e | daPyStts0_UNK1000000_e
                                  | daPyStts0_UNK2000000_e | daPyStts0_UNK4000000_e
                                  | daPyStts0_UNK10000000_e | daPyStts0_UNK20000000_e
@@ -96,6 +96,23 @@ enum daPy__PlayerStatus1 {
     daPyStts1_UNK20000_e           = 0x00020000,
     daPyStts1_UNK40000_e           = 0x00040000,
     daPyStts1_UNK80000_e           = 0x00080000,
+};
+
+enum dCamera__AttentionStatus {
+    dCamAttnStts_00000001_e = 0x00000001, // just locked on?
+    dCamAttnStts_SUBJECT_e = 0x00000002, // First person
+    dCamAttnStts_00000004_e = 0x00000004,
+    dCamAttnStts_TELESCOPE_LOOK_e = 0x00000008,
+    dCamAttnStts_00000010_e = 0x00000010,
+    dCamAttnStts_00000020_e = 0x00000020,
+    dCamAttnStts_PICTO_BOX_AIM_e = 0x00000040,
+    dCamAttnStts_00000080_e = 0x00000080,
+    dCamAttnStts_00000100_e = 0x00000100,
+    // dCamAttnStts_00000200_e = 0x00000200,
+    dCamAttnStts_00000400_e = 0x00000400, // manual camera control, as opposed to free camera control?
+    // dCamAttnStts_00000800_e = 0x00000800,
+    dCamAttnStts_00001000_e = 0x00001000, // just pressed c-stick up to enter first person?
+    dCamAttnStts_00002000_e = 0x00002000,
 };
 
 class __d_timer_info_c {
@@ -408,6 +425,9 @@ public:
     int getItemArrowNumCount() { return mItemArrowNumCount; }
     void setItemArrowNumCount(s16 num) { mItemArrowNumCount += num; }
     void clearItemArrowNumCount() { mItemArrowNumCount = 0; }
+
+    int getItemNowMagic() { return mItemNowMagicCount; }
+    void setItemNowMagic(s16 num) { mItemNowMagicCount = num; }
 
     void setNpcNameMessageID(u32 id) { mNpcNameMessageID = id; }
     void setItemNameMessageID(u32 id) { mItemNameMessageID = id; }
@@ -739,7 +759,7 @@ public:
     /* 0x48D4 */ s16 mItemKeyNumCount;
     /* 0x48D6 */ s16 mItemMaxLifeCount;
     /* 0x48D8 */ s16 mItemMagicCount;
-    /* 0x48DA */ s16 field_0x48da;
+    /* 0x48DA */ s16 mItemNowMagicCount;
     /* 0x48DC */ s16 mItemMaxMagicCount;
     /* 0x48DE */ s16 mItemPictureNumCount;
     /* 0x48E0 */ s16 mItemArrowNumCount;
@@ -1211,12 +1231,25 @@ inline void dComIfGs_setPictureNum(u8 num) {
     g_dComIfG_gameInfo.save.getPlayer().getItemRecord().setPictureNum(num);
 }
 
-inline u8 dComIfGs_getBeastNum(int i_idx) {
-    return g_dComIfG_gameInfo.save.getPlayer().getBagItemRecord().getBeastNum(i_idx);
+// The index into the Spoils Bag for each type of spoil.
+enum dBeastIndex_e {
+    /* 0x0 */ dBeastIdx_SKULL_NECKLACE_e,
+    /* 0x1 */ dBeastIdx_BOKOBABA_SEED_e,
+    /* 0x2 */ dBeastIdx_GOLDEN_FEATHER_e,
+    /* 0x3 */ dBeastIdx_KNIGHTS_CREST_e,
+    /* 0x4 */ dBeastIdx_RED_JELLY_e,
+    /* 0x5 */ dBeastIdx_GREEN_JELLY_e,
+    /* 0x6 */ dBeastIdx_BLUE_JELLY_e,
+    /* 0x7 */ dBeastIdx_JOY_PENDANT_e,
+    /* 0x8 */ dBeastIdx_COUNT_e,
+};
+
+inline u8 dComIfGs_getBeastNum(int i_beastIdx) {
+    return g_dComIfG_gameInfo.save.getPlayer().getBagItemRecord().getBeastNum(i_beastIdx);
 }
 
-inline void dComIfGs_setBeastNum(int i_idx, u8 num) {
-    g_dComIfG_gameInfo.save.getPlayer().getBagItemRecord().setBeastNum(i_idx, num);
+inline void dComIfGs_setBeastNum(int i_beastIdx, u8 num) {
+    g_dComIfG_gameInfo.save.getPlayer().getBagItemRecord().setBeastNum(i_beastIdx, num);
 }
 
 inline u8 dComIfGs_getBaitNum(int i_idx) {
@@ -1768,12 +1801,12 @@ inline void dComIfGs_onGetItem(int i_field, u8 i_item) {
     return g_dComIfG_gameInfo.save.getPlayer().getGetItem().onItem(i_field, i_item);
 }
 
-inline BOOL dComIfGs_isGetItemBeast(u8 i_beast) {
-    return g_dComIfG_gameInfo.save.getPlayer().getGetBagItem().isBeast(i_beast);
+inline BOOL dComIfGs_isGetItemBeast(u8 i_beastIdx) {
+    return g_dComIfG_gameInfo.save.getPlayer().getGetBagItem().isBeast(i_beastIdx);
 }
 
-inline void dComIfGs_onGetItemBeast(u8 i_beast) {
-    g_dComIfG_gameInfo.save.getPlayer().getGetBagItem().onBeast(i_beast);
+inline void dComIfGs_onGetItemBeast(u8 i_beastIdx) {
+    g_dComIfG_gameInfo.save.getPlayer().getGetBagItem().onBeast(i_beastIdx);
 }
 
 inline BOOL dComIfGs_isGetItemBait(u8 i_bait) {
@@ -2514,6 +2547,14 @@ inline void dComIfGp_setItemMaxLifeCount(s16 num) {
     g_dComIfG_gameInfo.play.setItemMaxLifeCount(num);
 }
 
+inline s16 dComIfGp_getItemNowMagic() {
+    return g_dComIfG_gameInfo.play.getItemNowMagic();
+}
+
+inline void dComIfGp_setItemNowMagic(s16 num) {
+    g_dComIfG_gameInfo.play.setItemNowMagic(num);
+}
+
 inline void dComIfGp_setNpcNameMessageID(u32 id) {
     g_dComIfG_gameInfo.play.setNpcNameMessageID(id);
 }
@@ -2622,16 +2663,16 @@ inline void dComIfGp_clearItemArrowNumCount() {
     g_dComIfG_gameInfo.play.clearItemArrowNumCount();
 }
 
-inline void dComIfGp_setItemBeastNumCount(int i_idx, s16 num) {
-    g_dComIfG_gameInfo.play.setItemBeastNumCount(i_idx, num);
+inline s16 dComIfGp_getItemBeastNumCount(int i_beastIdx) {
+    return g_dComIfG_gameInfo.play.getItemBeastNumCount(i_beastIdx);
 }
 
-inline s16 dComIfGp_getItemBeastNumCount(int i_idx) {
-    return g_dComIfG_gameInfo.play.getItemBeastNumCount(i_idx);
+inline void dComIfGp_setItemBeastNumCount(int i_beastIdx, s16 num) {
+    g_dComIfG_gameInfo.play.setItemBeastNumCount(i_beastIdx, num);
 }
 
-inline void dComIfGp_clearItemBeastNumCount(int i_idx) {
-    g_dComIfG_gameInfo.play.clearItemBeastNumCount(i_idx);
+inline void dComIfGp_clearItemBeastNumCount(int i_beastIdx) {
+    g_dComIfG_gameInfo.play.clearItemBeastNumCount(i_beastIdx);
 }
 
 inline u8 dComIfGp_getScopeType() {
@@ -3295,7 +3336,7 @@ inline void dComIfGp_event_reset() {
     g_dComIfG_gameInfo.play.getEvent()->reset();
 }
 
-inline int dComIfGp_event_getPreItemNo() {
+inline u8 dComIfGp_event_getPreItemNo() {
     return g_dComIfG_gameInfo.play.getEvent()->getPreItemNo();
 }
 

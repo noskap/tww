@@ -144,7 +144,7 @@ bool daObjEff::Act_c::create_heap_woodBox_smoke() {
 
 /* 00000790-00000898       .text create_heap__Q28daObjEff5Act_cFv */
 bool daObjEff::Act_c::create_heap() {
-    static HeapProc proc[] = {
+    static CreateHeapProc proc[] = {
         &Act_c::create_heap_barrel_smoke,
         &Act_c::create_heap_stool_smoke,
         &Act_c::create_heap_skull_smoke,
@@ -260,7 +260,7 @@ BOOL daObjEff::Act_c::eff_set_woodBox_smoke() {
 
 /* 00000E80-00000F6C       .text eff_set__Q28daObjEff5Act_cFv */
 BOOL daObjEff::Act_c::eff_set() {
-    static Proc proc[] = {
+    static SetProc proc[] = {
         &Act_c::eff_set_barrel_smoke,
         &Act_c::eff_set_stool_smoke,
         &Act_c::eff_set_skull_smoke,
@@ -343,7 +343,7 @@ void daObjEff::Act_c::remove_woodBox_smoke() {
 
 /* 00001180-0000126C       .text remove__Q28daObjEff5Act_cFv */
 void daObjEff::Act_c::remove() {
-    static voidProc proc[] = {
+    static RemoveProc proc[] = {
         &Act_c::remove_barrel_smoke,
         &Act_c::remove_stool_smoke,
         &Act_c::remove_skull_smoke,
@@ -404,7 +404,7 @@ void daObjEff::Act_c::die_woodBox_smoke() {
 
 /* 000013B0-0000149C       .text die__Q28daObjEff5Act_cFv */
 void daObjEff::Act_c::die() {
-    static voidProc proc[] = {
+    static DieProc proc[] = {
         &Act_c::die_barrel_smoke,
         &Act_c::die_stool_smoke,
         &Act_c::die_skull_smoke,
