@@ -86,7 +86,7 @@ BOOL daShutter_c::Create() {
         mcXyz[0].x = mcXyz[0].x - m_move_len[mType];
         mcXyz[1].x = mcXyz[1].x + m_move_len[mType];
     }
-    mFrameTimer = 0x1e;
+    mFrameTimer = 30;
     set_mtx();
     for (int i = 0; i < (int)ARRAY_SIZE(mMtx); i++) {
         dComIfG_Bgsp()->Regist(mdBgW[i], this);

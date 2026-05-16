@@ -2398,7 +2398,7 @@ static cPhs_State daBwd_Create(fopAc_ac_c* a_this) {
             /* SrcGObjAt Spl     */ dCcG_At_Spl_UNK9,
             /* SrcGObjAt Mtrl    */ 0,
             /* SrcGObjAt SPrm    */ dCcG_AtSPrm_NoConHit_e,
-            /* SrcGObjTg Se      */ dCcG_SE_UNK5,
+            /* SrcGObjTg Se      */ dCcG_SE_METAL,
             /* SrcGObjTg HitMark */ dCcg_TgHitMark_Purple_e,
             /* SrcGObjTg Spl     */ dCcG_Tg_Spl_UNK0,
             /* SrcGObjTg Mtrl    */ 0,
@@ -2472,27 +2472,24 @@ static cPhs_State daBwd_Create(fopAc_ac_c* a_this) {
     fopAcM_ct_Retail(a_this, bwd_class);
     bwd_class* i_this = (bwd_class*)a_this;
     cPhs_State res = dComIfG_resLoad(&i_this->mPhaseBwd, "Bwd");
-#if VERSION == VERSION_DEMO
+#if VERSION > VERSION_DEMO
+    if (res != cPhs_COMPLEATE_e) {
+        return res;
+    }
+#endif
     cPhs_State res2 = dComIfG_resLoad(&i_this->mPhaseBwds, "Bwds");
+#if VERSION == VERSION_DEMO
     if (res == cPhs_ERROR_e || res2 == cPhs_ERROR_e) {
         return cPhs_ERROR_e;
     }
     if (res != cPhs_COMPLEATE_e) {
         return res;
     }
-    if (res2 != cPhs_COMPLEATE_e) {
-        return res2;
-    }
-    fopAcM_SetupActor(a_this, bwd_class);
-#else
-    if (res != cPhs_COMPLEATE_e) {
-        return res;
-    }
-    cPhs_State res2 = dComIfG_resLoad(&i_this->mPhaseBwds, "Bwds");
-    if (res2 != cPhs_COMPLEATE_e) {
-        return res2;
-    }
 #endif
+    if (res2 != cPhs_COMPLEATE_e) {
+        return res2;
+    }
+    fopAcM_ct_Demo(a_this, bwd_class);
     i_this->m02BC = fopAcM_GetParam(a_this) & 0xFF;
     if (!fopAcM_entrySolidHeap(a_this, useHeapInit, 0x96000)) {
         return cPhs_ERROR_e;

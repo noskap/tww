@@ -71,7 +71,7 @@ static BOOL daKN_Draw(kn_class* i_this) {
     g_env_light.settingTevStruct(TEV_TYPE_ACTOR, &a_this->current.pos, &a_this->tevStr);
     g_env_light.setLightTevColorType(pJVar1, &a_this->tevStr);
     i_this->mpMorf->updateDL();
-    dSnap_RegistFig(0x56, a_this, 1.0f, 1.0f, 1.0f);
+    dSnap_RegistFig(DSNAP_TYPE_KN, a_this, 1.0f, 1.0f, 1.0f);
     return TRUE;
 }
 

@@ -125,7 +125,7 @@ static BOOL daCC_Draw(cc_class* i_this) {
         return TRUE;
     }
 
-    dSnap_RegistFig(0xac, a_this, 1.0f, 1.0f, 1.0f);
+    dSnap_RegistFig(DSNAP_TYPE_CC, a_this, 1.0f, 1.0f, 1.0f);
 
     if (i_this->m2F5 != 0x35) {
         i_this->m2B8->entry(pJVar3->getModelData());
@@ -328,15 +328,9 @@ void naraku_check(cc_class* i_this) {
                 fopAcM_seStart(&i_this->actor, JA_SE_OBJ_FALL_WATER_M, 0);
                 i_this->m300 = true;
                 cXyz sp18(0.5f, 0.5f, 0.5f);
-#if VERSION == VERSION_DEMO
-                i_this->m368.remove();
-                dComIfGp_particle_setShipTail(dPa_name::ID_AK_JN_HAMON00, &i_this->actor.current.pos, NULL, &sp18, 0xff, &i_this->m368);
-                i_this->m368.setRate(0.0f);
-#else
-                i_this->m390.remove();
-                dComIfGp_particle_setShipTail(dPa_name::ID_AK_JN_HAMON00, &i_this->actor.current.pos, NULL, &sp18, 0xff, &i_this->m390);
-                i_this->m390.setRate(0.0f);
-#endif
+                DEMO_SELECT(i_this->m368, i_this->m390).remove();
+                dComIfGp_particle_setShipTail(dPa_name::ID_AK_JN_HAMON00, &i_this->actor.current.pos, NULL, &sp18, 0xff, &DEMO_SELECT(i_this->m368, i_this->m390));
+                DEMO_SELECT(i_this->m368, i_this->m390).setRate(0.0f);
             }
 
             f32 fVar1 = 40.0f + REG12_F(0);
@@ -368,11 +362,7 @@ void naraku_check(cc_class* i_this) {
     } else if (i_this->m300) {
         i_this->m2F8 = 0;
         i_this->m300 = false;
-#if VERSION == VERSION_DEMO
-        i_this->m368.remove();
-#else
-        i_this->m390.remove();
-#endif
+        DEMO_SELECT(i_this->m368, i_this->m390).remove();
     }
 }
 
@@ -535,11 +525,7 @@ BOOL body_atari_check(cc_class* i_this) {
 
             if (i_this->m2F5 == 0x15) {
                 fopAcM_seStart(a_this, JA_SE_LK_MS_WEP_HIT, 0x36);
-#if VERSION == VERSION_DEMO
-                a_this->gravity = -(REG12_F(19) + 10.0f);
-#else
-                a_this->gravity = -(REG12_F(19) + 3.0f);
-#endif
+                a_this->gravity = -(REG12_F(19) + DEMO_SELECT(10.0f, 3.0f));
                 i_this->m324 = 0.0f;
                 i_this->m2F8 = 0;
                 return FALSE;
@@ -603,11 +589,7 @@ BOOL body_atari_check(cc_class* i_this) {
             bVar4 = true;
             if (i_this->m2F5 == 0x15) {
                 fopAcM_seStart(a_this, JA_SE_LK_W_WEP_HIT, 0x36);
-#if VERSION == VERSION_DEMO
-                a_this->gravity = -(REG12_F(19) + 10.0f);
-#else
-                a_this->gravity = -(REG12_F(19) + 3.0f);
-#endif
+                a_this->gravity = -(REG12_F(19) + DEMO_SELECT(10.0f, 3.0f));
                 i_this->m324 = 0.0f;
                 i_this->m2F8 = 0;
                 return FALSE;
@@ -1704,11 +1686,7 @@ void action_noboru(cc_class* i_this) {
         i_this->m310.y = 0;
         i_this->m310.z = 0;
         i_this->m2F9 = 1;
-#if VERSION == VERSION_DEMO
-        i_this->m368.remove();
-#else
-        i_this->m390.remove();
-#endif
+        DEMO_SELECT(i_this->m368, i_this->m390).remove();
         a_this->attention_info.flags = 0;
 
         if (i_this->m320 != CC_BCK_TACHI_WALK) {

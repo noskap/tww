@@ -3291,7 +3291,7 @@ bool daFm_c::_draw() {
 
     if(isBodyAppear()) {
         bodyDraw();
-        dSnap_RegistFig(DSNAP_TYPE_UNKB5, this, field_0x61C, shape_angle.y, 1.0f, 1.0f, 1.0f);
+        dSnap_RegistFig(DSNAP_TYPE_FM, this, field_0x61C, shape_angle.y, 1.0f, 1.0f, 1.0f);
     }
     return true;
 }

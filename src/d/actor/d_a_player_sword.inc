@@ -58,8 +58,7 @@ void daPy_lk_c::setSwordModel(BOOL r28)
 
     u8* buffer;
 
-    J3DAnmTransform* bck =
-        checkNormalSwordEquip() ? getItemAnimeResource(LKANM_BCK_CUTAA) : getItemAnimeResource(LKANM_BCK_CUTAMS);
+    J3DAnmTransform* bck = checkNormalSwordEquip() ? getItemAnimeResource(LKANM_BCK_CUTAA) : getItemAnimeResource(LKANM_BCK_CUTAMS);
 
     mEquipItem = daPyItem_SWORD_e;
     JKRHeap* oldHeap = setItemHeap();
@@ -376,7 +375,7 @@ void daPy_lk_c::setJumpCutAtParam() {
         }
         setAtParam(AT_TYPE_SWORD, atp, dCcG_At_Spl_UNK1, dCcG_SE_UNK1, dCcG_AtHitMark_Big_e, CUT_TYPE_JUMPCUT_SWORD, radius);
     } else if (mEquipItem == dItem_SKULL_HAMMER_e) {
-        setAtParam(AT_TYPE_SKULL_HAMMER, 4, dCcG_At_Spl_UNK1, dCcG_SE_UNK5, dCcG_AtHitMark_Nrm_e, CUT_TYPE_JUMPCUT_HAMMER, 50.0f);
+        setAtParam(AT_TYPE_SKULL_HAMMER, 4, dCcG_At_Spl_UNK1, dCcG_SE_METAL, dCcG_AtHitMark_Nrm_e, CUT_TYPE_JUMPCUT_HAMMER, 50.0f);
     } else if (mActorKeepEquip.getActor()) {
         setEnemyWeaponAtParam(TRUE);
     } else {
@@ -1385,7 +1384,7 @@ BOOL daPy_lk_c::procCutTurn_init(int param_0) {
     voiceStart(1);
     dComIfGp_setPlayerStatus0(0, daPyStts0_SWORD_SWING_e);
     mCutType = CUT_TYPE_CUT_TURN;
-    offResetFlg0(daPyRFlg0_UNK8000000);
+    offResetFlg0(daPyRFlg0_NOT_ATTACKING);
     mAtCyl.SetR(m35A4 * 0.5f);
     if (!checkNoResetFlg0(daPyFlg0_UNK80000000)) {
         m32E4.makeEmitter(dPa_name::ID_AK_JN_ROUNDATTACKTOE, mpCLModel->getAnmMtx(0x28), &current.pos, NULL);
@@ -1506,26 +1505,34 @@ BOOL daPy_lk_c::procCutRoll_init() {
     dComIfGp_setItemMagicCount(-2);
     mCutType = CUT_TYPE_CUT_ROLL;
     mCutCount = 0;
-    offResetFlg0(daPyRFlg0_UNK8000000);
+    offResetFlg0(daPyRFlg0_NOT_ATTACKING);
     if (checkNormalSwordEquip()) {
         m35A4 = m_HIO->mCut.mCutRoll.m.field_0x20;
+#if VERSION == VERSION_DEMO
+        mAtCyl.SetAtAtp(2);
+#else
         if (checkNoResetFlg1(daPyFlg1_SOUP_POWER_UP)) {
             mAtCyl.SetAtAtp(4);
         } else {
             mAtCyl.SetAtAtp(2);
         }
+#endif
     } else {
         m35A4 = m_HIO->mCut.mCutRoll.m.field_0x24;
+#if VERSION == VERSION_DEMO
+        mAtCyl.SetAtAtp(4);
+#else
         if (checkNoResetFlg1(daPyFlg1_SOUP_POWER_UP)) {
             mAtCyl.SetAtAtp(8);
         } else {
             mAtCyl.SetAtAtp(4);
         }
+#endif
     }
     mAtCyl.SetR(m35A4 * 0.5f);
     m34D0 = m_HIO->mCut.mCutRoll.m.field_0x2;
     current.angle.y = shape_angle.y;
-    m34BE = 4;
+    setFootEffectPosType(4);
     dComIfGp_setPlayerStatus0(0, daPyStts0_SPIN_ATTACK_e);
     endFlameDamageEmitter();
     return true;
@@ -1774,8 +1781,7 @@ BOOL daPy_lk_c::procCutTurnMove() {
             offModeFlg(ModeFlg_00000001);
             m3598 = 1.0f;
         }
-        if (mEquipItem == daPyItem_BOKO_e && (mAnmRatioUpper[UPPER_MOVE0_e].getAnmTransform() != (J3DAnmTransform*)0x0))
-        {
+        if (mEquipItem == daPyItem_BOKO_e && (mAnmRatioUpper[UPPER_MOVE0_e].getAnmTransform() != NULL)) {
             mFrameCtrlUpper[UPPER_MOVE0_e].setFrame(mFrameCtrlUpper[UPPER_MOVE0_e].getEnd() - 0.001f);
             mAnmRatioUpper[UPPER_MOVE0_e].getAnmTransform()->setFrame(mFrameCtrlUpper[UPPER_MOVE0_e].getFrame());
         }
@@ -1958,7 +1964,7 @@ BOOL daPy_lk_c::procJumpCutLand_init() {
     }
     m34D0 = m_HIO->mCut.mCutJump.m.field_0x4;
     current.angle.y = shape_angle.y + 0x8000;
-    m34BE = 3;
+    setFootEffectPosType(3);
     onResetFlg0(daPyRFlg0_RIGHT_FOOT_ON_GROUND);
     onResetFlg0(daPyRFlg0_LEFT_FOOT_ON_GROUND);
     if (mEquipItem == dItem_SKULL_HAMMER_e) {

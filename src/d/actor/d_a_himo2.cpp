@@ -1824,7 +1824,7 @@ static cPhs_State daHimo2_Create(fopAc_ac_c* i_this) {
                 /* SrcObjTg  Type    */ 0,
                 /* SrcObjTg  SPrm    */ 0,
                 /* SrcObjCo  SPrm    */ 0,
-                /* SrcGObjAt Se      */ dCcG_SE_UNK5,
+                /* SrcGObjAt Se      */ dCcG_SE_METAL,
                 /* SrcGObjAt HitMark */ dCcG_AtHitMark_Unk1_e,
                 /* SrcGObjAt Spl     */ dCcG_At_Spl_UNK0,
                 /* SrcGObjAt Mtrl    */ 0,

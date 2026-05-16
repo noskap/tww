@@ -36,7 +36,7 @@ static bmd_class* boss;
 static bool hio_set;
 static daBmdhand_HIO_c l_HIO;
 
-static s32 boss_joint_d[] = {0x1C, 0x1C, 0x1C, 0x1C, 0x25, 0x25, 0x25, 0x25, 0x2E, 0x2E, 0x2E, 0x2E, 0x40, 0x40, 0x40, 0x40, 0x37, 0x37, 0x37, 0x37};
+static int boss_joint_d[] = {0x1C, 0x1C, 0x1C, 0x1C, 0x25, 0x25, 0x25, 0x25, 0x2E, 0x2E, 0x2E, 0x2E, 0x40, 0x40, 0x40, 0x40, 0x37, 0x37, 0x37, 0x37};
 static f32 boss_joint_xad[] = {60.0f, 20.0f, -20.0f, -60.0f};
 
 /* 00000118-000001CC       .text hand_draw__FP13bmdhand_class */
@@ -83,11 +83,11 @@ void hand_mtx_set(bmdhand_class* i_this) {
 /* 00000310-00000388       .text control3__FP13bmdhand_class */
 void control3(bmdhand_class* i_this) {
     hand_s* hand_i = &i_this->m324[0];
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++) {
         if (i < 10) {
             hand_i->m18 = 10.5f;
         } else {
-            hand_i->m18 = (15.0f - (s32)(i - 10)) * 0.7f;
+            hand_i->m18 = (15.0f - (int)(i - 10)) * 0.7f;
         }
     }
 }
@@ -100,7 +100,7 @@ void control1(bmdhand_class* i_this) {
     f32 dVar7;
 
     i_this->m324[0].m00 = actor->current.pos;
-    s32 i = 1;
+    int i = 1;
     hand_s* hand_i = &i_this->m324[1];
     cMtx_YrotS(*calc_mtx, actor->current.angle.y);
     cXyz local_94;
@@ -144,7 +144,7 @@ void control2(bmdhand_class* i_this) {
     cLib_addCalc2(&i_this->m324[0x13].m00.y, (i_this->m2D8).y, 1.0f, i_this->m30C * 50.0f);
     cLib_addCalc2(&i_this->m324[0x13].m00.z, (i_this->m2D8).z, 1.0f, i_this->m30C * 50.0f);
     cLib_addCalc2(&i_this->m30C, 1.0f, 1.0f, 0.01f);
-    s32 i = 0x12;
+    int i = 0x12;
     s16 iVar4;
     int iVar3;
     hand_s* hand_i = &i_this->m324[0x12];
@@ -173,10 +173,10 @@ void control2(bmdhand_class* i_this) {
 
 /* 00000A1C-00000EFC       .text cut_control__FP13bmdhand_class */
 void cut_control(bmdhand_class* i_this) {
-    /* Nonmatching  - retail-only regalloc */
     fopAc_ac_c* actor = &i_this->actor;
 
     i_this->m324[0].m00 = actor->current.pos;
+    int i;
     hand_s* hand_i = &i_this->m324[1];
     cXyz local_e8;
     cXyz cStack_f4;
@@ -196,7 +196,7 @@ void cut_control(bmdhand_class* i_this) {
     dVar9 = (REG7_F(10) + 0.5f);
     cXyz local_100_scaled;
     cXyz local_124;
-    for (s32 i = 1; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++) {
+    for (i = 1; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++) {
         local_124.x = i_this->m31C * cM_ssin(i_this->m2B8 * (REG0_S(4) + 0xdac) + i * (REG0_S(5) + 4000));
         local_124.y = i_this->m31C * cM_scos(i_this->m2B8 * (REG0_S(6) + 4000) + i * (REG0_S(7) + 4000));
         local_124.z = i_this->m31C * cM_scos(i_this->m2B8 * (REG0_S(8) + 0xed8) + i * (REG0_S(9) + 4000));
@@ -233,11 +233,11 @@ void cut_control(bmdhand_class* i_this) {
 void cut_control3(bmdhand_class* i_this) {
     hand_s* hand_i = &i_this->m324[0];
 
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++) {
         if (i < 10) {
             hand_i->m18 = 10.5f;
         } else {
-            hand_i->m18 = (15.0f - (s32)(i - 10)) * 0.7f;
+            hand_i->m18 = (15.0f - (int)(i - 10)) * 0.7f;
         }
     }
     cLib_addCalc2(&i_this->m2F0.y, i_this->m2CC.y, 1.0f, 10.0f);
@@ -256,7 +256,7 @@ void start_control1(bmdhand_class* i_this) {
     cXyz local_c4;
 
     i_this->m324[0].m00 = actor->current.pos;
-    s32 i = 1;
+    int i = 1;
     hand_s* hand_i = &i_this->m324[1];
     cMtx_YrotS(*calc_mtx, actor->current.angle.y);
     local_94.x = 0.0f;
@@ -293,7 +293,7 @@ void start_control2(bmdhand_class* i_this) {
     local_7c.y = 0.0f;
     local_7c.z = i_this->m310;
     i_this->m324[0x13].m00 = (i_this->m2D8);
-    s32 i = 0x12;
+    int i = 0x12;
     s16 iVar4;
     int iVar3;
     hand_s* hand_i = &i_this->m324[0x12];
@@ -629,7 +629,7 @@ void hand_move(bmdhand_class* i_this) {
     }
     cXyz* line_data = i_this->mLineMat.getPos(0);
     u8* line_size = i_this->mLineMat.getSize(0);
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++, line_data++, line_size++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m324); i++, hand_i++, line_data++, line_size++) {
         *line_data = hand_i->m00;
         *line_size = hand_i->m18;
 
@@ -639,7 +639,7 @@ void hand_move(bmdhand_class* i_this) {
             i_this->m5CC.SetC(actor->eyePos);
             dComIfG_Ccsp()->Set(&i_this->m5CC);
         } else {
-            s32 r0 = ((i_this->m2B8 & 3) * 4) + 3;
+            int r0 = ((i_this->m2B8 & 3) * 4) + 3;
             if (r0 == i) {
                 i_this->m6F8.SetC(hand_i->m00);
                 dComIfG_Ccsp()->Set(&i_this->m6F8);
@@ -675,7 +675,7 @@ static BOOL daBmdhand_Execute(bmdhand_class* i_this) {
         boss = (bmd_class*)fpcM_Search(s_a_d_sub, i_this);
     }
     i_this->m2B8++;
-    for (s32 i = 0; i < ARRAY_SSIZE(i_this->m2C0); i++) {
+    for (int i = 0; i < ARRAY_SSIZE(i_this->m2C0); i++) {
         if (i_this->m2C0[i] != 0) {
             i_this->m2C0[i]--;
         }
@@ -723,7 +723,7 @@ static BOOL daBmdhand_Delete(bmdhand_class* i_this) {
 }
 
 /* 000030C4-00003210       .text useHeapInit__FP13bmdhand_class */
-s32 useHeapInit(bmdhand_class* i_this) {
+static BOOL useHeapInit(bmdhand_class* i_this) {
     i_this->mpMorf = new mDoExt_McaMorf(
         (J3DModelData*)dComIfG_getObjectRes("Bmdhand", BMDHAND_BMD_BKM_FOOK),
         NULL,

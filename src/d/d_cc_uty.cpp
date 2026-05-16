@@ -43,9 +43,9 @@ u32 at_se_get(cCcD_Obj* obj) {
     dCcD_GObjInf* gObjInf = dCcD_GetGObjInf(obj);
     if (gObjInf->ChkAtType(AT_TYPE_SKULL_HAMMER | AT_TYPE_STALFOS_MACE)) {
         return JA_SE_LK_HAMMER_HIT;
-    } else if (gObjInf->GetAtSe() == dCcG_SE_UNK4) {
+    } else if (gObjInf->GetAtSe() == dCcG_SE_WOOD) {
         return JA_SE_LK_W_WEP_HIT;
-    } else if (gObjInf->GetAtSe() == dCcG_SE_UNK5) {
+    } else if (gObjInf->GetAtSe() == dCcG_SE_METAL) {
         return JA_SE_LK_MS_WEP_HIT;
     } else if (gObjInf->GetAtSe() == dCcG_SE_ARROW) {
         return JA_SE_LK_ARROW_HIT;
@@ -61,9 +61,9 @@ u32 at_se_getC(cCcD_Obj* obj) {
     dCcD_GObjInf* gObjInf = dCcD_GetGObjInf(obj);
     if (gObjInf->ChkAtType(AT_TYPE_SKULL_HAMMER | AT_TYPE_STALFOS_MACE)) {
         return JA_SE_LK_HAMMER_HIT;
-    } else if (gObjInf->GetAtSe() == dCcG_SE_UNK4) {
+    } else if (gObjInf->GetAtSe() == dCcG_SE_WOOD) {
         return JA_SE_LK_W_WEP_CRT_HIT;
-    } else if (gObjInf->GetAtSe() == dCcG_SE_UNK5) {
+    } else if (gObjInf->GetAtSe() == dCcG_SE_METAL) {
         return JA_SE_LK_MS_WEP_CRT_HIT;
     } else if (gObjInf->GetAtSe() == dCcG_SE_ARROW) {
         return JA_SE_LK_ARROW_HIT;

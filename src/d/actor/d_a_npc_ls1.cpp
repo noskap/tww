@@ -2107,7 +2107,7 @@ BOOL daNpc_Ls1_c::_draw() {
     }
 
     shadowDraw();
-    dSnap_RegistFig(DSNAP_TYPE_UNK49, this, 1.0f, 1.0f, 1.0f);
+    dSnap_RegistFig(DSNAP_TYPE_LS1, this, 1.0f, 1.0f, 1.0f);
 
     // Does nothing
     if (l_HIO.mPrm.m18) {

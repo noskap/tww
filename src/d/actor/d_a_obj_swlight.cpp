@@ -198,12 +198,9 @@ void Act_c::init_cc() {
 
 /* 00000E04-00000FC4       .text set_cc_pos__Q212daObjSwlight5Act_cFv */
 void Act_c::set_cc_pos() {
-    /* Nonmatching */
     f32 tmp0C;
     f32 tmp04;
     f32 tmp08;
-    f32 fVar1;
-    f32 fVar2;
     Vec local_08;
     Vec local_14;
     Vec local_20;
@@ -212,8 +209,8 @@ void Act_c::set_cc_pos() {
     tmp08 = attr().m08;
     tmp0C = attr().m0C;
 
-    fVar1 = tmp04 * cM_ssin(0x2000);
-    fVar2 = tmp04 * cM_scos(0x2000);
+    f32 fVar1 = tmp04 * cM_ssin(0x2000);
+    f32 fVar2 = tmp04 * cM_scos(0x2000);
 
     Vec _4319[] = {
         {0.0f, 0.0f, 0.0f},
@@ -228,10 +225,10 @@ void Act_c::set_cc_pos() {
 
     _4319[2].x = fVar1;
     _4319[2].y = fVar2;
-    _4319[2].z = tmp0C;
+    _4319[2].z = attr().m0C;
 
     for (s32 i = 0; i < ARRAY_SSIZE(m2C4); i++) {
-        s16 z = (i * 0x10000) / 8;
+        const s16 z = (i * 0x10000) / 8;
         mDoMtx_stack_c::copy(m298->getBaseTRMtx());
         mDoMtx_stack_c::ZrotM(z);
 

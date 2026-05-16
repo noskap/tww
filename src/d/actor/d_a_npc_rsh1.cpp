@@ -706,7 +706,7 @@ u32 daNpc_Rsh1_c::getMsg() {
         msg_no = m780;
         m780 = 0;
     } else {
-        if (!checkItemGet(0x2A, TRUE) && daNpc_Rsh1_countShop() >= 3) {
+        if (!checkItemGet(dItem_MAGIC_ARMOR_e, TRUE) && daNpc_Rsh1_countShop() >= 3) {
             return 0x285D;
         }
 
@@ -1524,7 +1524,7 @@ BOOL daNpc_Rsh1_c::evn_talk() {
                 l_msgId = -1;
                 return true;
             }
-            if ((l_msg->mStatus == 2 || l_msg->mStatus == 6) && m778 == m784) {
+            if ((l_msg->mStatus == fopMsgStts_BOX_OPENING_e || l_msg->mStatus == fopMsgStts_MSG_TYPING_e) && m778 == m784) {
                 m784 = 0;
                 return true;
             } 
@@ -1683,7 +1683,7 @@ BOOL daNpc_Rsh1_c::_draw() {
         mpShopCursor->draw();
     }
 
-    dSnap_RegistFig(DSNAP_TYPE_UNK5F, this, current.pos, current.angle.y, 1.0f, 1.0f, 1.0f);
+    dSnap_RegistFig(DSNAP_TYPE_RSH1, this, current.pos, current.angle.y, 1.0f, 1.0f, 1.0f);
 
     return TRUE;
 }

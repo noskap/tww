@@ -1202,7 +1202,7 @@ void daDaiocta_c::modeDemo() {
             mDoAud_subBgmStop();
 #endif
             if (m575 == 0xFF) {
-                daPy_getPlayerLinkActorClass()->startRestartRoom(6, 0xC9, -1.0f, 1);
+                daPy_getPlayerLinkActorClass()->setDaiokutaEnd();
             } else {
                 dComIfGp_setNextStage(
                     dComIfGp_getStartStageName(), 
@@ -1544,7 +1544,7 @@ bool daDaiocta_c::_draw() {
 
     mBrkAnm1.remove(morf_model_p->getModelData());
 
-    dSnap_RegistFig(DSNAP_TYPE_UNKC6, this, 1.0f, 1.0f, 1.0f);
+    dSnap_RegistFig(DSNAP_TYPE_DAIOCTA, this, 1.0f, 1.0f, 1.0f);
 
     return true;
 }

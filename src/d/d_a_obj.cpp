@@ -294,9 +294,9 @@ void HitSeStart(const cXyz* i_sePos, int i_roomNo, const dCcD_GObjInf* i_CcObj, 
                     }
                 }
 
-                if (hit_se == dCcG_SE_UNK4) {
+                if (hit_se == dCcG_SE_WOOD) {
                     sfx = JA_SE_LK_W_WEP_HIT;
-                } else if (hit_se == dCcG_SE_UNK5) {
+                } else if (hit_se == dCcG_SE_METAL) {
                     sfx = JA_SE_LK_MS_WEP_HIT;
                 } else if (master_sword_hit) {
                     sfx = JA_SE_LK_SW_HIT_M;
